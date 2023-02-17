@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj": {}
+    "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj": {}
   },
   "projects": {
-    "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj": {
+    "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj",
+        "projectUniqueName": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj",
         "projectName": "Aluguel",
-        "projectPath": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj",
+        "projectPath": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj",
         "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\obj\\",
+        "outputPath": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -37,8 +37,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "imports": [
             "net461",
             "net462",
