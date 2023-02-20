@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj": {}
+    "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj": {}
   },
   "projects": {
-    "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj": {
+    "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj",
+        "projectUniqueName": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj",
         "projectName": "Aluguel",
-        "projectPath": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\Aluguel.csproj",
+        "projectPath": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\Aluguel.csproj",
         "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "E:\\Dev\\Desafio4iUUL\\Aluguel\\Aluguel\\obj\\",
+        "outputPath": "E:\\Dev\\Desafio4iUUL\\aluguel\\Aluguel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
