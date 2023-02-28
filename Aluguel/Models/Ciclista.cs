@@ -14,5 +14,7 @@
         public DateTime DataHoraConfirmacao { get; set; }
         public IList<CartaoDeCredito> Cartoes { get; set; }
         public IList<Emprestimo> Emprestimos { get; set; }
+        public int PassaporteId { get; set; }
+        public string Cpf { get; set; }
     }
 }
