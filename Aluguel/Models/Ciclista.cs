@@ -12,7 +12,7 @@
         public ENacionalidade Nacionalidade { get; set; }
         public DateTime DataHoraCadastro { get; set; }
         public DateTime DataHoraConfirmacao { get; set; }
-        public IList<CartaoCredito> Cartoes { get; set; }
+        public IList<CartaoDeCredito> Cartoes { get; set; }
         public IList<Emprestimo> Emprestimos { get; set; }
     }
 }
