@@ -8,6 +8,6 @@
         public DateTime DataHoraPagamento { get; set; }
         public int EmprestimoId { get; set; }
         public int TrancaId { get; set; }
-        public int CartaoCreditoId { get; set; }
+        public int CartaoDeCreditoId { get; set; }
     }
 }
