@@ -35,8 +35,8 @@ namespace Aluguel.Models
         //[ForeignKey]
         //public IList<Emprestimo> Emprestimos { get; set; }
 
-        //[Required]
-        //[ForeignKey]
-        //public IList<Devolucao> Devolucoes { get; set; }
+        [Required]
+        [ForeignKey("Devolucao")]
+        public IList<Devolucao> Devolucoes { get; set; }
     }
 }
