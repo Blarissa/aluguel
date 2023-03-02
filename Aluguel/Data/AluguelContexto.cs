@@ -16,5 +16,10 @@ namespace Aluguel.Data
         public AluguelContexto(DbContextOptions options) : base(options)
         {            
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
+        }
     }
 }

@@ -12,9 +12,14 @@
         public ENacionalidade Nacionalidade { get; set; }
         public DateTime DataHoraCadastro { get; set; }
         public DateTime DataHoraConfirmacao { get; set; }
-        public IList<CartaoDeCredito> Cartoes { get; set; }
-        public IList<Emprestimo> Emprestimos { get; set; }
+        public virtual IList<CartaoDeCredito> Cartoes { get; set; }
+        public virtual IList<Emprestimo> Emprestimos { get; set; }
         public int PassaporteId { get; set; }
         public string Cpf { get; set; }
+
+        public Ciclista()
+        {
+            Emprestimos = new List<Emprestimo>();
+        }
     }
 }
