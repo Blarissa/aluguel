@@ -2,7 +2,8 @@
 {
     public class Bicicleta
     {
-        public IList<Emprestimo> Emprestimos { get; set; }
+        public int Id { get; set; }
+        public virtual IList<Emprestimo> Emprestimos { get; set; }
 
         public Bicicleta()
         {
