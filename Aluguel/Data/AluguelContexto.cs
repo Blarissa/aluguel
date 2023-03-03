@@ -1,4 +1,5 @@
-﻿using Aluguel.Models;
+﻿using Aluguel.Data.Configuracoes;
+using Aluguel.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Data
@@ -20,6 +21,10 @@ namespace Aluguel.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
+            modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());
+
+            
+
         }
     }
 }
