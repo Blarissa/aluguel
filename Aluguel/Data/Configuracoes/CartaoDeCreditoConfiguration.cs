@@ -8,35 +8,44 @@ public class CartaoDeCreditoConfiguration : IEntityTypeConfiguration<CartaoDeCre
 {
     public void Configure(EntityTypeBuilder<CartaoDeCredito> builder)
     {
+        //definindo primary key com valor autogerado
         builder.Property(cc => cc.Id).ValueGeneratedOnAdd();
         builder.HasKey(cc =>cc.Id);
 
+        //definindo propriedade nome not null
         builder.Property(cc => cc.Nome)
             .IsRequired();
 
+        //definindo propriedade numero not null
         builder.Property(cc => cc.Numero)
             .IsRequired();
 
+        //definindo propriedade mesvalidade not null
         builder.Property(cc => cc.MesValidade)
             .IsRequired();
 
+        //definindo propriedade anovalidade not null
         builder.Property(cc => cc.AnoValidade)
             .IsRequired();
 
+        //definindo propriedade codigoseguranca not null
         builder.Property(cc => cc.CodigoSeguranca)
             .IsRequired();
 
         builder.Property(cc => cc.Status)
             .IsRequired();
-        
+
+        //definindo relacionamento ciclista x cartaodecredito
         builder.HasOne(cc => cc.Ciclista)
             .WithMany(c => c.Cartoes)
             .HasForeignKey(cc => cc.CiclistaId);
 
+        //definindo relacionamento emprestimo x cartaodecredito
         builder.HasMany(cc => cc.Emprestimos)
             .WithOne(e => e.CartaoDeCredito)
-            .HasForeignKey(e => e.CartaoDeCreditoId);               
+            .HasForeignKey(e => e.CartaoDeCreditoId);
 
+        //definindo relacionamento devolucao x cartaodecredito
         builder.HasMany(cc => cc.Devolucoes)
             .WithOne(d => d.CartaoDeCredito)
             .HasForeignKey(d => d.CartaoDeCreditoId);
