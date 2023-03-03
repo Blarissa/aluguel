@@ -9,8 +9,16 @@
         public int AnoValidade { get; set; }
         public int CodigoSeguranca { get; set; }
         public EStatusCartao Status { get; set; }
-        public int IdCiclista { get; set; }
-        //public IList<Emprestimo> Emprestimos { get; set; }
-        public IList<Devolucao> Devolucoes { get; set; }
+        
+        public int CiclistaId { get; set; }
+        
+        public virtual Ciclista Ciclista { get; set; }
+        public virtual IList<Emprestimo> Emprestimos { get; set; }
+        public virtual IList<Devolucao> Devolucoes { get; set; }
+
+        public CartaoDeCredito()
+        {
+            Emprestimos = new List<Emprestimo>();           
+        }
     }
 }
