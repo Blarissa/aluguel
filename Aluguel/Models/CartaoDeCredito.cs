@@ -18,7 +18,8 @@
 
         public CartaoDeCredito()
         {
-            Emprestimos = new List<Emprestimo>();           
+            Emprestimos = new List<Emprestimo>(); 
+            Devolucoes = new List<Devolucao>();
         }
     }
 }

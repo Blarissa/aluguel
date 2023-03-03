@@ -1,8 +1,6 @@
 ﻿using Aluguel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.Emit;
 
 namespace Aluguel.Data;
 
@@ -41,6 +39,6 @@ public class EmprestimoConfiguration : IEntityTypeConfiguration<Emprestimo>
 
         builder.HasOne(e => e.Devolucao)
             .WithOne(d => d.Emprestimo)
-            .HasForeignKey<Emprestimo>(e => e.DevolucaoId);
+            .HasForeignKey<Devolucao>(d => d.EmprestimoId);
     }
 }

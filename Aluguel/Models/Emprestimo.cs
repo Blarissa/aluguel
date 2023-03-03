@@ -10,8 +10,7 @@
         public int CartaoDeCreditoId { get; set; }
         public int CiclistaId { get; set; }
         public int BicicletaId { get; set; }        
-        public int TrancaId { get; set; }
-        public int? DevolucaoId { get; set; }
+        public int TrancaId { get; set; }        
         
         public virtual CartaoDeCredito CartaoDeCredito { get; set; }
         public virtual Ciclista Ciclista { get; set; }        
