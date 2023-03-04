@@ -2,7 +2,7 @@
 {
     public class Ciclista
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Email { get; set; }
@@ -14,7 +14,7 @@
         public DateTime DataHoraConfirmacao { get; set; }
         public virtual IList<CartaoDeCredito> Cartoes { get; set; }
         public virtual IList<Emprestimo> Emprestimos { get; set; }
-        public int PassaporteId { get; set; }
+        public Guid PassaporteId { get; set; }
         public string Cpf { get; set; }
 
         public Ciclista()

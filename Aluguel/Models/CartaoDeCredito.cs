@@ -2,7 +2,7 @@
 {
     public class CartaoDeCredito
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Numero { get; set; }
         public int MesValidade { get; set; }
@@ -10,7 +10,7 @@
         public int CodigoSeguranca { get; set; }
         public EStatusCartao Status { get; set; }
         
-        public int CiclistaId { get; set; }
+        public Guid CiclistaId { get; set; }
         
         public virtual Ciclista Ciclista { get; set; }
         public virtual IList<Emprestimo> Emprestimos { get; set; }

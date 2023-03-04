@@ -3,7 +3,7 @@
     public class Tranca
     {
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public virtual IList<Emprestimo> Emprestimos { get; set; }
         public virtual IList<Devolucao> Devolucoes { get; set; }
 
