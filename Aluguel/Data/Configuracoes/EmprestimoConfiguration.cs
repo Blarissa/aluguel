@@ -13,27 +13,34 @@ public class EmprestimoConfiguration : IEntityTypeConfiguration<Emprestimo>
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.Valor)            
+        builder.Property(e => e.Valor)
             .IsRequired();
 
-        builder.Property<DateTime>(e => e.DataHora)
+        builder.Property(e => e.DataHora)
             .HasColumnType("Timestamp without Time Zone")
-            .HasComputedColumnSql("now()");
+            .HasDefaultValueSql("now()");          
 
-        builder.Property<DateTime?>(e => e.DataHoraPagamento)
+        builder.Property(e => e.DataHoraPagamento)
             .HasColumnType("Timestamp without Time Zone");
-
-        //builder.Property(e => e.CiclistaId);
-        //builder.Property(e => e.BicicletaId);
-        //builder.Property(e => e.TrancaId);
           
         builder.HasOne(e => e.Ciclista)
-            .WithMany(c => c.Emprestimos);
-        
+            .WithMany(c => c.Emprestimos)
+            .HasForeignKey(e => e.CiclistaId);
+
+        builder.HasOne(e => e.CartaoDeCredito)
+            .WithMany(cc => cc.Emprestimos)
+            .HasForeignKey(e => e.CartaoDeCreditoId);
+
         builder.HasOne(e => e.Bicicleta)
-            .WithMany(b => b.Emprestimos);
+            .WithMany(b => b.Emprestimos)
+            .HasForeignKey(e => e.BicicletaId);
         
         builder.HasOne(e => e.Tranca)
-            .WithMany(t => t.Emprestimos);
+            .WithMany(t => t.Emprestimos)
+            .HasForeignKey(e => e.TrancaId);
+
+        builder.HasOne(e => e.Devolucao)
+            .WithOne(d => d.Emprestimo)
+            .HasForeignKey<Emprestimo>(e => e.DevolucaoId);
     }
 }
