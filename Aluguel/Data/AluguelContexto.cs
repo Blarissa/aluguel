@@ -18,12 +18,11 @@ namespace Aluguel.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {            
             modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
             modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());
             modelBuilder.ApplyConfiguration(new DevolucaoConfiguration());
-
-
+            modelBuilder.ApplyConfiguration(new PaisConfiguration());
         }
     }
 }
