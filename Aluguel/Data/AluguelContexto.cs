@@ -24,12 +24,13 @@ namespace Aluguel.Data
             modelBuilder.Ignore<CartaoDeCredito>();
             modelBuilder.Ignore<Emprestimo>();
             modelBuilder.Ignore<Devolucao>();
-           // modelBuilder.Ignore<Passaporte>();
-            
+            // modelBuilder.Ignore<Passaporte>();
+
 
             //modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
             //modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());
             //modelBuilder.ApplyConfiguration(new DevolucaoConfiguration());
+            //modelBuilder.ApplyConfiguration(new CiclistaConfiguration());
             modelBuilder.ApplyConfiguration(new PaisConfiguration());
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
             modelBuilder.ApplyConfiguration(new PassaporteConfiguration());
