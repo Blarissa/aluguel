@@ -6,5 +6,6 @@
         public string Numero { get; set; }
         public DateTime DataValidade { get; set; }
         public Guid PaisId { get; set; }
+        public Pais Pais { get; set; }
     }
 }
