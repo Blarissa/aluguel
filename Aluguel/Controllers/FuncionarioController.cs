@@ -1,51 +1,94 @@
 ﻿using Aluguel.Data;
+using Aluguel.Data.Dtos;
+using Aluguel.Migrations;
+using Aluguel.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Aluguel.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class FuncionarioController : ControllerBase
     {
         private AluguelContexto contexto;
+        private IMapper mapper;
 
-        public FuncionarioController(AluguelContexto contexto)
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
         {
             this.contexto = contexto;
+            this.mapper = mapper;
         }
 
-        // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> RecuperaFuncionarios()
-        {
-            return new string[] { "value1", "value2" };
+        public IEnumerable<ReadFuncionarioDto> RecuperaFuncionarios()
+        {            
+            return mapper.Map<List<ReadFuncionarioDto>>(contexto.Funcionarios.ToList());
         }
-
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string RecuperaFuncionarioPorId(int id)
+        
+        [HttpGet("{idFuncionario}")]
+        public IActionResult RecuperaFuncionarioPorId(Guid idFuncionario)
         {
-            return "value";
+            var funcionario = contexto
+                .Funcionarios
+                .FirstOrDefault(f => f.Id == idFuncionario);
+
+            if (funcionario == null)
+                return NotFound();
+
+            var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
+
+            return Ok(funcionarioDto);
         }
+        
+        [HttpPost]        
+        public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
+        {            
+            var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void AdicionaFuncionario([FromBody] string value)
-        {
+            contexto.Funcionarios.Add(funcionario);
+            Console.WriteLine(funcionario);
+
+            contexto.SaveChanges();
+
+            return CreatedAtAction(
+                nameof(ReadFuncionarioDto), 
+                new {id = funcionario.Id}, funcionario);
         }
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void AtualizaFuncionario(int id, [FromBody] string value)
+        
+        [HttpPut("{idFuncionario}")]
+        public IActionResult AtualizaFuncionario(Guid idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
+            var funcionario = contexto
+                .Funcionarios
+                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+
+            if (funcionario == null)
+                return NotFound();
+
+            mapper.Map(funcionarioDto, funcionario);
+            contexto.SaveChanges();
+
+            return NoContent();
         }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void DeletaFuncionario(int id)
+        
+        [HttpDelete("{idFuncionario}")]
+        public IActionResult DeletaFuncionario(Guid idFuncionario)
         {
+            var funcionario = contexto
+                .Funcionarios
+                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+
+            if (funcionario == null) 
+                return NotFound();
+
+            contexto.Funcionarios.Remove(funcionario);
+            contexto.SaveChanges();
+
+            return NoContent();
         }
     }
 }
