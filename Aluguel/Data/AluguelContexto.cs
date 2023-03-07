@@ -24,7 +24,7 @@ namespace Aluguel.Data
             modelBuilder.Ignore<CartaoDeCredito>();
             modelBuilder.Ignore<Emprestimo>();
             modelBuilder.Ignore<Devolucao>();
-            modelBuilder.Ignore<Passaporte>();
+           // modelBuilder.Ignore<Passaporte>();
             
 
             //modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
@@ -32,6 +32,7 @@ namespace Aluguel.Data
             //modelBuilder.ApplyConfiguration(new DevolucaoConfiguration());
             modelBuilder.ApplyConfiguration(new PaisConfiguration());
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
+            modelBuilder.ApplyConfiguration(new PassaporteConfiguration());
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Aluguel.Data.Configuracoes
 
             builder.HasOne(p => p.Pais)
                 .WithOne(p => p.Passaporte)
-                .HasForeignKey("PaisId");
+                .HasForeignKey<Passaporte>(p => p.PaisId);
         }
     }
 }
