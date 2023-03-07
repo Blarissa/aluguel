@@ -1,39 +1,53 @@
 ﻿using Aluguel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.Emit;
 
 namespace Aluguel.Data;
 
 public class EmprestimoConfiguration : IEntityTypeConfiguration<Emprestimo>
 {
     public void Configure(EntityTypeBuilder<Emprestimo> builder)
-    {       
+    {
+        //definindo primary key com valor autogerado
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.Valor)            
+        //definindo propriedade valor not null
+        builder.Property(e => e.Valor)
             .IsRequired();
 
-        builder.Property<DateTime>(e => e.DataHora)
+        //definindo propriedade datahora com atribuição de valor quando é adicionado na tabela
+        builder.Property(e => e.DataHora)
             .HasColumnType("Timestamp without Time Zone")
-            .HasComputedColumnSql("now()");
+            .HasDefaultValueSql("now()");
 
-        builder.Property<DateTime?>(e => e.DataHoraPagamento)
+        //definindo propriedade datahorapagamento
+        builder.Property(e => e.DataHoraPagamento)
             .HasColumnType("Timestamp without Time Zone");
 
-        //builder.Property(e => e.CiclistaId);
-        //builder.Property(e => e.BicicletaId);
-        //builder.Property(e => e.TrancaId);
-          
+        //definindo relacionamento ciclista x emprestimo
         builder.HasOne(e => e.Ciclista)
-            .WithMany(c => c.Emprestimos);
-        
+            .WithMany(c => c.Emprestimos)
+            .HasForeignKey(e => e.CiclistaId);
+
+        //definindo relacionamento cartaodecredito x emprestimo
+        builder.HasOne(e => e.CartaoDeCredito)
+            .WithMany(cc => cc.Emprestimos)
+            .HasForeignKey(e => e.CartaoDeCreditoId);
+
+        //definindo relacionamento bicicleta x emprestimo
         builder.HasOne(e => e.Bicicleta)
-            .WithMany(b => b.Emprestimos);
-        
+            .WithMany(b => b.Emprestimos)
+            .HasForeignKey(e => e.BicicletaId);
+
+        //definindo relacionamento tranca x emprestimo
         builder.HasOne(e => e.Tranca)
-            .WithMany(t => t.Emprestimos);
+            .WithMany(t => t.Emprestimos)
+            .HasForeignKey(e => e.TrancaId);
+
+        //definindo relacionamento devolucao x emprestimo
+        builder.HasOne(e => e.Devolucao)
+            .WithOne(d => d.Emprestimo)
+            .HasForeignKey<Devolucao>(d => d.EmprestimoId);
     }
 }
