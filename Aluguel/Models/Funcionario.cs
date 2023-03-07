@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Aluguel.Models
+﻿namespace Aluguel.Models
 {
     public class Funcionario
     {
