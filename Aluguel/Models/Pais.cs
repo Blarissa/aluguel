@@ -7,5 +7,6 @@ namespace Aluguel.Models
         public Guid Id { get; set; }
         public string Codigo { get; set; }
         public string Nome { get; set; }
+        public Passaporte Passaporte { get; set; }
     }
 }
