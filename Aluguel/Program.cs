@@ -10,6 +10,8 @@ var connectionString = builder.Configuration.GetConnectionString("AluguelConnect
 builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -32,7 +34,7 @@ builder.Services.AddSwaggerGen(a =>
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+//app.MapGet("/", () => "Hello World!");
 
 if (app.Environment.IsDevelopment())
 {
