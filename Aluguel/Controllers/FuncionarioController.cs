@@ -1,6 +1,5 @@
 ﻿using Aluguel.Data;
 using Aluguel.Data.Dtos;
-using Aluguel.Migrations;
 using Aluguel.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
