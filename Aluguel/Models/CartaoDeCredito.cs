@@ -8,7 +8,7 @@
         public int MesValidade { get; set; }
         public int AnoValidade { get; set; }
         public int CodigoSeguranca { get; set; }
-        public EStatusCartao Status { get; set; }
+        public int Status { get; set; }
         
         public Guid CiclistaId { get; set; }
         
