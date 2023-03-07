@@ -30,10 +30,10 @@ public class DevolucaoConfiguration : IEntityTypeConfiguration<Devolucao>
             .WithMany(cc => cc.Devolucoes)
             .HasForeignKey(d => d.CartaoDeCreditoId);
 
-        //definindo relacionamento tranca x devolucao
-        builder.HasOne(d => d.Tranca)
-            .WithMany(t => t.Devolucoes)
-            .HasForeignKey(d => d.TrancaId);
+        ////definindo relacionamento tranca x devolucao
+        //builder.HasOne(d => d.Tranca)
+        //    .WithMany(t => t.Devolucoes)
+        //    .HasForeignKey(d => d.TrancaId);
 
         //definindo relacionamento emprestimo x devolucao
         builder.HasOne(d => d.Emprestimo)

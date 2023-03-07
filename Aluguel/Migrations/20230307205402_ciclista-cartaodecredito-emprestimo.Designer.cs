@@ -3,6 +3,7 @@ using System;
 using Aluguel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aluguel.Migrations
 {
     [DbContext(typeof(AluguelContexto))]
-    partial class AluguelContextoModelSnapshot : ModelSnapshot
+    [Migration("20230307205402_ciclista-cartaodecredito-emprestimo")]
+    partial class ciclistacartaodecreditoemprestimo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,52 +134,6 @@ namespace Aluguel.Migrations
                         .HasDatabaseName("ix_ciclistas_passaporte_id");
 
                     b.ToTable("ciclistas", (string)null);
-                });
-
-            modelBuilder.Entity("Aluguel.Models.Devolucao", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("CartaoDeCreditoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cartao_de_credito_id");
-
-                    b.Property<DateTime>("DataHora")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("Timestamp without Time Zone")
-                        .HasColumnName("data_hora")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime>("DataHoraPagamento")
-                        .HasColumnType("Timestamp without Time Zone")
-                        .HasColumnName("data_hora_pagamento");
-
-                    b.Property<Guid>("EmprestimoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("emprestimo_id");
-
-                    b.Property<Guid>("TrancaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("tranca_id");
-
-                    b.Property<float>("Valor")
-                        .HasColumnType("real")
-                        .HasColumnName("valor");
-
-                    b.HasKey("Id")
-                        .HasName("pk_devolucoes");
-
-                    b.HasIndex("CartaoDeCreditoId")
-                        .HasDatabaseName("ix_devolucoes_cartao_de_credito_id");
-
-                    b.HasIndex("EmprestimoId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_devolucoes_emprestimo_id");
-
-                    b.ToTable("devolucoes", (string)null);
                 });
 
             modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
@@ -350,27 +306,6 @@ namespace Aluguel.Migrations
                     b.Navigation("Passaporte");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Devolucao", b =>
-                {
-                    b.HasOne("Aluguel.Models.CartaoDeCredito", "CartaoDeCredito")
-                        .WithMany("Devolucoes")
-                        .HasForeignKey("CartaoDeCreditoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_devolucoes_cartoes_de_credito_cartao_de_credito_id");
-
-                    b.HasOne("Aluguel.Models.Emprestimo", "Emprestimo")
-                        .WithOne("Devolucao")
-                        .HasForeignKey("Aluguel.Models.Devolucao", "EmprestimoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_devolucoes_emprestimos_emprestimo_id");
-
-                    b.Navigation("CartaoDeCredito");
-
-                    b.Navigation("Emprestimo");
-                });
-
             modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
                 {
                     b.HasOne("Aluguel.Models.CartaoDeCredito", "CartaoDeCredito")
@@ -406,8 +341,6 @@ namespace Aluguel.Migrations
 
             modelBuilder.Entity("Aluguel.Models.CartaoDeCredito", b =>
                 {
-                    b.Navigation("Devolucoes");
-
                     b.Navigation("Emprestimos");
                 });
 
@@ -416,11 +349,6 @@ namespace Aluguel.Migrations
                     b.Navigation("Cartoes");
 
                     b.Navigation("Emprestimos");
-                });
-
-            modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
-                {
-                    b.Navigation("Devolucao");
                 });
 
             modelBuilder.Entity("Aluguel.Models.Pais", b =>

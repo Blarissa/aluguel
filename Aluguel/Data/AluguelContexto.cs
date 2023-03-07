@@ -20,17 +20,14 @@ namespace Aluguel.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Ignore<Ciclista>();
-            modelBuilder.Ignore<CartaoDeCredito>();
-            modelBuilder.Ignore<Emprestimo>();
-            modelBuilder.Ignore<Devolucao>();
-            // modelBuilder.Ignore<Passaporte>();
+            modelBuilder.Ignore<Bicicleta>();
+            modelBuilder.Ignore<Tranca>();
+            
 
-
-            //modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
-            //modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());
-            //modelBuilder.ApplyConfiguration(new DevolucaoConfiguration());
-            //modelBuilder.ApplyConfiguration(new CiclistaConfiguration());
+            modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
+            modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());
+            modelBuilder.ApplyConfiguration(new DevolucaoConfiguration());
+            modelBuilder.ApplyConfiguration(new CiclistaConfiguration());
             modelBuilder.ApplyConfiguration(new PaisConfiguration());
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
             modelBuilder.ApplyConfiguration(new PassaporteConfiguration());

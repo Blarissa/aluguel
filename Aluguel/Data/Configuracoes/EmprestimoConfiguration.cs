@@ -35,15 +35,15 @@ public class EmprestimoConfiguration : IEntityTypeConfiguration<Emprestimo>
             .WithMany(cc => cc.Emprestimos)
             .HasForeignKey(e => e.CartaoDeCreditoId);
 
-        //definindo relacionamento bicicleta x emprestimo
-        builder.HasOne(e => e.Bicicleta)
-            .WithMany(b => b.Emprestimos)
-            .HasForeignKey(e => e.BicicletaId);
+        ////definindo relacionamento bicicleta x emprestimo
+        //builder.HasOne(e => e.Bicicleta)
+        //    .WithMany(b => b.Emprestimos)
+        //    .HasForeignKey(e => e.BicicletaId);
 
-        //definindo relacionamento tranca x emprestimo
-        builder.HasOne(e => e.Tranca)
-            .WithMany(t => t.Emprestimos)
-            .HasForeignKey(e => e.TrancaId);
+        ////definindo relacionamento tranca x emprestimo
+        //builder.HasOne(e => e.Tranca)
+        //    .WithMany(t => t.Emprestimos)
+        //    .HasForeignKey(e => e.TrancaId);
 
         //definindo relacionamento devolucao x emprestimo
         builder.HasOne(e => e.Devolucao)
