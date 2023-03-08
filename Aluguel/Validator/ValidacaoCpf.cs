@@ -1,23 +1,23 @@
 ﻿namespace Aluguel.Validator
 {
-    public class ValidacaoCpf
+    public static class ValidacaoCpf
     {
-        public bool IsValid(string CPF)
+        public static bool IsValid(string CPF)
         {
             if (string.IsNullOrEmpty(CPF) &&
                 !CPF.Length.Equals(11) ||
                 CPF.All(c => CPF[0].Equals(c)))
                 return false;
 
-            int i = 9, j = 10;
+            int i = 9;
 
             int somaJ = Soma(CPF, i);
-            int somaK = Soma(CPF, j);
-
             int restoJ = somaJ % 11;
-            int restoK = somaK % 11;
-
             bool valorJ = Valor(CPF, restoJ, i);
+
+            int j = 10;
+            int somaK = Soma(CPF, j);
+            int restoK = somaK % 11;            
             bool valorK = Valor(CPF, restoK, j);
 
             return valorJ && valorK;
