@@ -29,11 +29,11 @@ namespace Aluguel.Controllers
         }
         
         [HttpGet("{idFuncionario}")]
-        public IActionResult RecuperaFuncionarioPorId(Guid idFuncionario)
+        public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(f => f.Id == idFuncionario);
+                .FirstOrDefault(f => f.Matricula == idFuncionario);
 
             if (funcionario == null)
                 return NotFound();
@@ -55,15 +55,15 @@ namespace Aluguel.Controllers
 
             return CreatedAtAction(
                 nameof(ReadFuncionarioDto), 
-                new {id = funcionario.Id}, funcionario);
+                new {matricula = funcionario.Matricula}, funcionario);
         }
         
         [HttpPut("{idFuncionario}")]
-        public IActionResult AtualizaFuncionario(Guid idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
+        public IActionResult AtualizaFuncionario(int idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
 
             if (funcionario == null)
                 return NotFound();
@@ -75,11 +75,11 @@ namespace Aluguel.Controllers
         }
         
         [HttpDelete("{idFuncionario}")]
-        public IActionResult DeletaFuncionario(Guid idFuncionario)
+        public IActionResult DeletaFuncionario(int idFuncionario)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
 
             if (funcionario == null) 
                 return NotFound();

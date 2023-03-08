@@ -8,11 +8,10 @@ namespace Aluguel.Data.Configuracoes
     {
         public void Configure(EntityTypeBuilder<Funcionario> builder)
         {
-            builder.Property(f => f.Id).ValueGeneratedOnAdd();
-            builder.HasKey(f => f.Id);
-
             builder.Property(f => f.Matricula)
-                .IsRequired();
+                .ValueGeneratedNever();
+
+            builder.HasKey(f => f.Matricula);            
 
             builder.Property(f => f.Nome)
                 .IsRequired();
@@ -26,9 +25,8 @@ namespace Aluguel.Data.Configuracoes
             builder.Property(f => f.Cpf)
                 .IsRequired();
 
-            builder.Property<DateTime>(f => f.DataNascimento)
-                .IsRequired()
-                .HasColumnType("date");
+            builder.Property(f => f.Idade)
+                .IsRequired();
         
             builder.Property(f => f.Funcao)
                 .IsRequired();
