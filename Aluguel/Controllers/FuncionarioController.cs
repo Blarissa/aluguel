@@ -48,14 +48,10 @@ namespace Aluguel.Controllers
         {            
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
-            contexto.Funcionarios.Add(funcionario);
-            Console.WriteLine(funcionario);
-
+            contexto.Funcionarios.Add(funcionario);          
             contexto.SaveChanges();
 
-            return CreatedAtAction(
-                nameof(ReadFuncionarioDto), 
-                new {matricula = funcionario.Matricula}, funcionario);
+            return Ok(funcionarioDto);
         }
         
         [HttpPut("{idFuncionario}")]
