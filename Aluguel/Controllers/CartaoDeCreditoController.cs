@@ -68,7 +68,7 @@ namespace Aluguel.Controller
                     return UnprocessableEntity();
                 }
 
-                CartaoDeCredito novosDadosMapeados = mapper.Map<CartaoDeCredito>(novosDados);
+                CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);
 
                 store.AlterarCartaoPorIdCiclista(idTransformado, novosDadosMapeados);
 
