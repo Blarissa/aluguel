@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Aluguel.Data.Dtos;
+using Aluguel.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Aluguel.Validator
 {
-    public class ValidacaoFuncionario: IValidator
+    public class ValidacaoFuncionario : IValidator, IValidatorFuncionario
     {
         public bool Nome(string valor)
         {
@@ -24,9 +27,35 @@ namespace Aluguel.Validator
             return ValidacaoCpf.IsValid(valor);
         }
 
-        public bool Idade(string valor)
+        public bool Funcao(int valor)
         {
-            return int.Parse(valor) >= 18;
+            return valor == 0 || valor == 1;
+        }
+
+        public bool IsValid(CreateFuncionarioDto dto)
+        {
+            if (Nome(dto.Nome) || Email(dto.Email) ||
+                Senha(dto.Senha, dto.ConfirmaSenha) ||
+                Funcao(dto.Funcao) || Documento(dto.Cpf) ||
+                Matricula(dto.Matricula))
+                return false;
+
+            return true;
+        }
+
+        public bool IsValid(UpdateFuncionarioDto dto)
+        {
+            if (Nome(dto.Nome) ||
+                Senha(dto.Senha, dto.ConfirmaSenha) ||
+                Funcao(dto.Funcao))
+                return false;
+
+            return true;
+        }
+
+        public bool Matricula(int idFuncionario)
+        {
+            return true;
         }
     }
 }
