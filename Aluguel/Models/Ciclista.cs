@@ -26,5 +26,10 @@
             Emprestimos = new List<Emprestimo>();
             Cartoes = new List<CartaoDeCredito>();
         }
+
+        public void Ativar()
+        {
+            Status = 2;
+        }
     }
 }
