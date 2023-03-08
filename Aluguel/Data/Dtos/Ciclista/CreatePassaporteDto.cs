@@ -4,6 +4,6 @@
     {
         public string Numero { get; set; }
         public DateTime DataValidade { get; set; }
-        public string Pais { get; set; }
+        public PaisDto Pais { get; set; }
     }
 }

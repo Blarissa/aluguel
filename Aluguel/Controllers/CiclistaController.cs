@@ -23,11 +23,15 @@ namespace Aluguel.Controllers
         [HttpPost]
         public IActionResult AdicionarCiclista([FromBody] AdicionarCiclistaDto adicionarCiclistaDto)
         {
-            var ciclista = mapper.Map<Ciclista>(adicionarCiclistaDto);
+            var ciclista = mapper.Map<Ciclista>(adicionarCiclistaDto.Ciclista);
+
+            var meioDePagamento = mapper.Map<CartaoDeCredito>(adicionarCiclistaDto.MeioDePagamento);
 
             contexto.Ciclistas.Add(ciclista);
 
-            Console.WriteLine(ciclista);
+            meioDePagamento.CiclistaId = ciclista.Id;
+
+            contexto.CartoesDeCredito.Add(meioDePagamento);
 
             return Ok(ciclista);
         }
@@ -61,7 +65,7 @@ namespace Aluguel.Controllers
             if (ciclista == null)
                 return NotFound();
 
-            mapper.Map(ciclistaDto, ciclista);
+            mapper.Map<CiclistaDto, Ciclista>(ciclistaDto, ciclista);
             contexto.SaveChanges();
 
             return Ok(ciclista);
