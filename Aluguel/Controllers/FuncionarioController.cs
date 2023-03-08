@@ -1,9 +1,9 @@
 ﻿using Aluguel.Data;
 using Aluguel.Data.Dtos;
 using Aluguel.Models;
+using Aluguel.Validator;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,73 +15,80 @@ namespace Aluguel.Controllers
     {
         private AluguelContexto contexto;
         private IMapper mapper;
+        private IValidatorFuncionario validator;
 
-        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper, IValidatorFuncionario validator)
         {
             this.contexto = contexto;
             this.mapper = mapper;
+            this.validator = validator;
         }
 
         [HttpGet]
         public IEnumerable<ReadFuncionarioDto> RecuperaFuncionarios()
-        {            
+        {
             return mapper.Map<List<ReadFuncionarioDto>>(contexto.Funcionarios.ToList());
         }
-        
+
         [HttpGet("{idFuncionario}")]
-        public IActionResult RecuperaFuncionarioPorId(Guid idFuncionario)
+        public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(f => f.Id == idFuncionario);
+                .FirstOrDefault(f => f.Matricula == idFuncionario);
 
             if (funcionario == null)
                 return NotFound();
+
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity();
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
             return Ok(funcionarioDto);
         }
-        
-        [HttpPost]        
+
+        [HttpPost]
         public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
-        {            
+        {
+            if (!validator.IsValid(funcionarioDto))
+                return UnprocessableEntity();
+
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
             contexto.Funcionarios.Add(funcionario);
-            Console.WriteLine(funcionario);
-
             contexto.SaveChanges();
 
-            return CreatedAtAction(
-                nameof(ReadFuncionarioDto), 
-                new {id = funcionario.Id}, funcionario);
+            return Ok(funcionario);
         }
-        
+
         [HttpPut("{idFuncionario}")]
-        public IActionResult AtualizaFuncionario(Guid idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
+        public IActionResult AtualizaFuncionario(int idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
 
             if (funcionario == null)
                 return NotFound();
+
+            if (!validator.IsValid(funcionarioDto))
+                return UnprocessableEntity();
 
             mapper.Map(funcionarioDto, funcionario);
             contexto.SaveChanges();
 
             return NoContent();
         }
-        
+
         [HttpDelete("{idFuncionario}")]
-        public IActionResult DeletaFuncionario(Guid idFuncionario)
+        public IActionResult DeletaFuncionario(int idFuncionario)
         {
             var funcionario = contexto
                 .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Id == idFuncionario);
+                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
 
-            if (funcionario == null) 
+            if (funcionario == null)
                 return NotFound();
 
             contexto.Funcionarios.Remove(funcionario);

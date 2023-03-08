@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,18 +12,17 @@ namespace Aluguel.Migrations
                 name: "funcionarios",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    matricula = table.Column<string>(type: "text", nullable: false),
+                    matricula = table.Column<int>(type: "integer", nullable: false),
                     nome = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
                     senha = table.Column<string>(type: "text", nullable: false),
                     cpf = table.Column<string>(type: "text", nullable: false),
-                    data_nascimento = table.Column<DateTime>(type: "date", nullable: false),
+                    idade = table.Column<int>(type: "integer", nullable: false),
                     funcao = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_funcionarios", x => x.id);
+                    table.PrimaryKey("pk_funcionarios", x => x.matricula);
                 });
         }
 
