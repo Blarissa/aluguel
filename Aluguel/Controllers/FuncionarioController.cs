@@ -15,13 +15,11 @@ namespace Aluguel.Controllers
     {
         private AluguelContexto contexto;
         private IMapper mapper;
-        private IValidatorFuncionario validator;
 
-        public FuncionarioController(AluguelContexto contexto, IMapper mapper, IValidatorFuncionario validator)
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
         {
             this.contexto = contexto;
-            this.mapper = mapper;
-            this.validator = validator;
+            this.mapper = mapper;         
         }
 
         [HttpGet]
@@ -40,8 +38,8 @@ namespace Aluguel.Controllers
             if (funcionario == null)
                 return NotFound();
 
-            if (!validator.Matricula(idFuncionario))
-                return UnprocessableEntity();
+            //if (!validator.Matricula(idFuncionario))
+            //    return UnprocessableEntity();
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
@@ -51,8 +49,8 @@ namespace Aluguel.Controllers
         [HttpPost]
         public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
         {
-            if (!validator.IsValid(funcionarioDto))
-                return UnprocessableEntity();
+            //if (!validator.IsValid(funcionarioDto))
+            //    return UnprocessableEntity();
 
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
@@ -72,8 +70,8 @@ namespace Aluguel.Controllers
             if (funcionario == null)
                 return NotFound();
 
-            if (!validator.IsValid(funcionarioDto))
-                return UnprocessableEntity();
+            //if (!validator.IsValid(funcionarioDto))
+            //    return UnprocessableEntity();
 
             mapper.Map(funcionarioDto, funcionario);
             contexto.SaveChanges();
