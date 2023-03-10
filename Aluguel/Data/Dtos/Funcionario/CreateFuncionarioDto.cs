@@ -28,6 +28,5 @@ public class CreateFuncionarioDto
     public int Idade { get; set; }
 
     [Required]
-    [EnumDataType(typeof(EFuncao))]
     public string Funcao { get; set; }
 }
