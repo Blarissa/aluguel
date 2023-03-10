@@ -5,8 +5,6 @@ using Aluguel.Models;
 using Aluguel.Validator;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,8 +19,7 @@ namespace Aluguel.Controllers
         private IMapper mapper;
         private IValidatorFuncionario validator;
 
-        public FuncionarioController(AluguelContexto contexto,
-            IMapper mapper)
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
         {
             this.contexto = contexto;
             funcionarioDao = new FuncionarioDao(contexto);
@@ -42,13 +39,13 @@ namespace Aluguel.Controllers
         [HttpGet("{idFuncionario}")]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
-            //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity(erro);
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity();
 
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
 
             if (funcionario == null)
-                return NotFound(erro);            
+                return NotFound();            
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 

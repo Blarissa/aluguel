@@ -27,9 +27,10 @@ namespace Aluguel.Validator
             return ValidacaoCpf.IsValid(valor);
         }
 
-        public bool Funcao(int valor)
+        public bool Funcao(string valor)
         {
-            return valor == 0 || valor == 1;
+            return valor.Equals("ADMINISTRATIVO") || 
+                   valor.Equals("REPARADOR");
         }
 
         public bool IsValid(CreateFuncionarioDto dto)
