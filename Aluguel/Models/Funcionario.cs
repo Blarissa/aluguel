@@ -1,4 +1,7 @@
-﻿namespace Aluguel.Models
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Aluguel.Models
 {
     public class Funcionario
     {      
@@ -8,7 +11,7 @@
         public string Senha { get; set; }       
         public string Cpf { get; set; }
         public int Idade { get ; set; }
-        public int Funcao { get; set; }
+        public EFuncao Funcao { get; set; }
 
         public override string ToString()
         {
