@@ -1,6 +1,8 @@
+using Aluguel.Controllers;
 using Aluguel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -22,7 +22,11 @@ namespace Aluguel.Data
         {
             modelBuilder.Ignore<Bicicleta>();
             modelBuilder.Ignore<Tranca>();
-            
+
+            modelBuilder.HasPostgresEnum<EFuncao>();
+            modelBuilder.HasPostgresEnum<ENacionalidade>();
+            modelBuilder.HasPostgresEnum<EStatusCartao>();
+            modelBuilder.HasPostgresEnum<EStatusCiclista>();
 
             modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
             modelBuilder.ApplyConfiguration(new CartaoDeCreditoConfiguration());

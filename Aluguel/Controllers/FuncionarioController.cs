@@ -1,4 +1,5 @@
 ﻿using Aluguel.Data;
+using Aluguel.Data.Dao;
 using Aluguel.Data.Dtos;
 using Aluguel.Models;
 using Aluguel.Validator;
@@ -14,32 +15,37 @@ namespace Aluguel.Controllers
     public class FuncionarioController : ControllerBase
     {
         private AluguelContexto contexto;
+        private FuncionarioDao funcionarioDao;
         private IMapper mapper;
+        private IValidatorFuncionario validator;
 
         public FuncionarioController(AluguelContexto contexto, IMapper mapper)
         {
             this.contexto = contexto;
-            this.mapper = mapper;         
+            funcionarioDao = new FuncionarioDao(contexto);
+            this.mapper = mapper;    
+            validator = new ValidacaoFuncionario();
         }
 
         [HttpGet]
-        public IEnumerable<ReadFuncionarioDto> RecuperaFuncionarios()
+        public IActionResult RecuperaFuncionarios()
         {
-            return mapper.Map<List<ReadFuncionarioDto>>(contexto.Funcionarios.ToList());
+            var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
+                (funcionarioDao.RecuperaTodosFuncionarios());
+
+            return Ok(funcionarios);
         }
 
         [HttpGet("{idFuncionario}")]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
-            var funcionario = contexto
-                .Funcionarios
-                .FirstOrDefault(f => f.Matricula == idFuncionario);
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity();
+
+            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
 
             if (funcionario == null)
-                return NotFound();
-
-            //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity();
+                return NotFound();            
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
@@ -49,50 +55,50 @@ namespace Aluguel.Controllers
         [HttpPost]
         public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
         {
-            //if (!validator.IsValid(funcionarioDto))
-            //    return UnprocessableEntity();
+            if (!validator.IsValid(funcionarioDto))
+                return UnprocessableEntity();
 
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
-            contexto.Funcionarios.Add(funcionario);
-            contexto.SaveChanges();
-
+            funcionarioDao.AdicionaFuncionario(funcionario);
+           
             return Ok(funcionario);
         }
 
         [HttpPut("{idFuncionario}")]
         public IActionResult AtualizaFuncionario(int idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
-            var funcionario = contexto
-                .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity();
+
+            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
 
             if (funcionario == null)
                 return NotFound();
 
-            //if (!validator.IsValid(funcionarioDto))
-            //    return UnprocessableEntity();
+            if (!validator.IsValid(funcionarioDto))
+                return UnprocessableEntity();
 
             mapper.Map(funcionarioDto, funcionario);
             contexto.SaveChanges();
 
-            return NoContent();
+            return Ok(funcionario);
         }
 
-        [HttpDelete("{idFuncionario}")]
+        [HttpDelete("{idFuncionario}")]        
         public IActionResult DeletaFuncionario(int idFuncionario)
         {
-            var funcionario = contexto
-                .Funcionarios
-                .FirstOrDefault(funcionario => funcionario.Matricula == idFuncionario);
-
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity();
+            
+            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
+            
             if (funcionario == null)
-                return NotFound();
+                return NotFound();            
 
-            contexto.Funcionarios.Remove(funcionario);
-            contexto.SaveChanges();
-
-            return NoContent();
+            funcionarioDao.DeletaFuncionario(funcionario);
+                
+            return Ok(funcionario);            
         }
     }
 }
