@@ -35,23 +35,23 @@ namespace Aluguel.Validator
 
         public bool IsValid(CreateFuncionarioDto dto)
         {
-            if (Nome(dto.Nome) || Email(dto.Email) ||
-                Senha(dto.Senha, dto.ConfirmaSenha) ||
-                Funcao(dto.Funcao) || Documento(dto.Cpf) ||
+            if (Nome(dto.Nome) & Email(dto.Email) & 
+                Senha(dto.Senha, dto.ConfirmaSenha) & 
+                Funcao(dto.Funcao) & Documento(dto.Cpf) &
                 Matricula(dto.Matricula))
-                return false;
+                return true;
 
-            return true;
+            return false;
         }
 
         public bool IsValid(UpdateFuncionarioDto dto)
         {
-            if (Nome(dto.Nome) ||
-                Senha(dto.Senha, dto.ConfirmaSenha) ||
+            if (Nome(dto.Nome) &
+                Senha(dto.Senha, dto.ConfirmaSenha) &
                 Funcao(dto.Funcao))
-                return false;
+                return true;
 
-            return true;
+            return false;
         }
 
         public bool Matricula(int idFuncionario)
