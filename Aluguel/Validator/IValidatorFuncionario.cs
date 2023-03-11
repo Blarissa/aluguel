@@ -5,7 +5,7 @@ namespace Aluguel.Validator
 {
     public interface IValidatorFuncionario
     {
-        bool Funcao(EFuncao valor);
+        bool Funcao(string valor);
         bool IsValid(CreateFuncionarioDto dto);
         bool IsValid(UpdateFuncionarioDto dto);
         bool Matricula(int idFuncionario);
