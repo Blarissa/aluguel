@@ -2,7 +2,7 @@
 using Aluguel.Data.Dao;
 using Aluguel.Data.Dtos;
 using Aluguel.Models;
-using Aluguel.Validator;
+using Aluguel.Validacao;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +17,14 @@ namespace Aluguel.Controllers
         private AluguelContexto contexto;
         private FuncionarioDao funcionarioDao;
         private IMapper mapper;
-        //private IValidatorFuncionario validator;
+        private ValidacaoFuncionario validator;        
 
         public FuncionarioController(AluguelContexto contexto, IMapper mapper)
         {
             this.contexto = contexto;
             funcionarioDao = new FuncionarioDao(contexto);
-            this.mapper = mapper;    
-            //validator = new ValidacaoFuncionario();
+            this.mapper = mapper;
+            validator = new ValidacaoFuncionario();           
         }
 
         [HttpGet]
@@ -39,13 +39,13 @@ namespace Aluguel.Controllers
         [HttpGet("{idFuncionario}")]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
-            //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity();
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity(validator.Erros);
 
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
 
             if (funcionario == null)
-                return NotFound();            
+                return NotFound(new Erro("0", "Funcionário não encontrado!"));            
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
@@ -55,11 +55,8 @@ namespace Aluguel.Controllers
         [HttpPost]
         public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
         {
-            //if (!validator.IsValid(funcionarioDto))
-            //{
-            //    Console.WriteLine(funcionarioDto);
-            //    return UnprocessableEntity();
-            //}
+            if (!validator.IsValid(funcionarioDto))        
+                return UnprocessableEntity(validator.Erros);            
 
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
@@ -72,15 +69,18 @@ namespace Aluguel.Controllers
         public IActionResult AtualizaFuncionario(int idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
             //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity();
+            //    return UnprocessableEntity(validator.Erros);
 
-            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
+            var funcionario = funcionarioDao
+                .RecuperaFuncionarioPorId(idFuncionario);                        
 
             if (funcionario == null)
-                return NotFound();
+                return NotFound(new Erro("0","Funcionário não encontrado!"));
 
-            //if (!validator.IsValid(funcionarioDto))
-            //    return UnprocessableEntity();
+            
+
+            if (!validator.IsValid(funcionarioDto))                
+                return UnprocessableEntity(validator.Erros);
 
             mapper.Map(funcionarioDto, funcionario);
             contexto.SaveChanges();
@@ -91,13 +91,13 @@ namespace Aluguel.Controllers
         [HttpDelete("{idFuncionario}")]        
         public IActionResult DeletaFuncionario(int idFuncionario)
         {
-            //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity();
+            if (!validator.Matricula(idFuncionario))
+                return UnprocessableEntity(validator.Erros);
             
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
             
             if (funcionario == null)
-                return NotFound();            
+                return NotFound(new Erro("0", "Funcionário não encontrado!"));
 
             funcionarioDao.DeletaFuncionario(funcionario);
                 
