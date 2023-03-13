@@ -3,6 +3,7 @@ using System;
 using Aluguel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,19 +12,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aluguel.Migrations
 {
     [DbContext(typeof(AluguelContexto))]
-    partial class AluguelContextoModelSnapshot : ModelSnapshot
+    [Migration("20230312204615_adicionado-devolucaoId-Emprestimo")]
+    partial class adicionadodevolucaoIdEmprestimo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_cartao", new[] { "ativo", "desativado" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Aluguel.Models.CartaoDeCredito", b =>
@@ -254,7 +252,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Funcao")
-                        .HasColumnType("e_funcao")
+                        .HasColumnType("integer")
                         .HasColumnName("funcao");
 
                     b.Property<int>("Idade")
