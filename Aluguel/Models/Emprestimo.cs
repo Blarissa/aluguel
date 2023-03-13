@@ -10,7 +10,9 @@
         public Guid CartaoDeCreditoId { get; set; }
         public Guid CiclistaId { get; set; }
         public Guid BicicletaId { get; set; }        
-        public Guid TrancaId { get; set; }        
+        public Guid TrancaId { get; set; }   
+        
+        public Guid? DevolucaoId { get; set; }
         
         public virtual CartaoDeCredito CartaoDeCredito { get; set; }
         public virtual Ciclista Ciclista { get; set; }        
