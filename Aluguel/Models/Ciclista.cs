@@ -10,8 +10,8 @@ namespace Aluguel.Models
         public string Email { get; set; }
         public string Senha { get; set; }
         public Uri UrlFotoDocumento { get; set; }
-        public int Status { get; set; }
-        public int Nacionalidade { get; set; }
+        public string Status { get; set; }
+        public string Nacionalidade { get; set; }
         public DateTime DataHoraCadastro { get; set; }
         public DateTime DataHoraConfirmacao { get; set; }
         
@@ -33,7 +33,7 @@ namespace Aluguel.Models
 
         public void Ativar()
         {
-            Status = 2;
+            Status = "ATIVO";
         }
     }
 }
