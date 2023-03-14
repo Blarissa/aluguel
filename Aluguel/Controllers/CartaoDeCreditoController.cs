@@ -60,11 +60,6 @@ namespace Aluguel.Controller
                     return NotFound(new Erro() { Codigo = 404, Mensagem = "Cartao nao encontrado" });
                 }
 
-                if(!ModelState.IsValid) {
-                    Console.WriteLine("erros " + ModelState.ErrorCount); ;
-                    return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao Invalida"});
-                }
-
                 CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);
 
                 store.AlterarCartaoPorIdCiclista(idTransformado, novosDadosMapeados);
