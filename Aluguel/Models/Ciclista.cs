@@ -1,4 +1,6 @@
-﻿namespace Aluguel.Models
+﻿using Newtonsoft.Json;
+
+namespace Aluguel.Models
 {
     public class Ciclista
     {
@@ -17,7 +19,9 @@
         public Guid? PassaporteId { get; set; }
 
         public virtual Passaporte Passaporte { get; set; }
+        [JsonIgnore]
         public virtual IList<CartaoDeCredito> Cartoes { get; set; }
+        [JsonIgnore]
         public virtual IList<Emprestimo> Emprestimos { get; set; }
 
 
