@@ -25,7 +25,6 @@ public class ReadFuncionarioDto
     [Required]    
     public int Idade { get; set; }
 
-    [Required]
-    [EnumDataType(typeof(EFuncao))]
+    [Required]    
     public string Funcao { get; set; }
 }

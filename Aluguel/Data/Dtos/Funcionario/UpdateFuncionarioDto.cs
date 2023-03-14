@@ -1,5 +1,10 @@
 ﻿using Aluguel.Models;
+using AutoMapper.Configuration.Annotations;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json.Serialization;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace Aluguel.Data.Dtos;
 
@@ -17,7 +22,6 @@ public class UpdateFuncionarioDto
     [Required]
     public int Idade { get; set; }
     
-    [Required]
-    [EnumDataType(typeof(EFuncao))]
+    [Required]    
     public string Funcao { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using Aluguel.Models;
 
-namespace Aluguel.Validator
+namespace Aluguel.Validacao
 {
     public interface IValidator
     {
