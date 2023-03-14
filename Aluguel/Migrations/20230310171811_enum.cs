@@ -12,15 +12,7 @@ namespace Aluguel.Migrations
                 .Annotation("Npgsql:Enum:e_funcao", "administrativo,reparador")
                 .Annotation("Npgsql:Enum:e_nacionalidade", "brasileiro,estrangeiro")
                 .Annotation("Npgsql:Enum:e_status_cartao", "ativo,desativado")
-                .Annotation("Npgsql:Enum:e_status_ciclista", "pendente,ativo,bloqueado");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "funcao",
-                table: "funcionarios",
-                type: "e_funcao",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
+                .Annotation("Npgsql:Enum:e_status_ciclista", "pendente,ativo,bloqueado");           
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -19,9 +19,13 @@ namespace Aluguel.Data
 
             builder.Property(c => c.UrlFotoDocumento).IsRequired();
 
-            builder.Property(c => c.Status).IsRequired();
+            builder.Property(c => c.Status)
+                .HasColumnType("e_status_ciclista")
+                .IsRequired();
 
-            builder.Property(c => c.Nacionalidade).IsRequired();
+            builder.Property(c => c.Nacionalidade)
+                .HasColumnType("e_nacionalidade")
+                .IsRequired();
 
             builder.Property(c => c.DataHoraCadastro).HasColumnType("Timestamp without Time Zone").HasDefaultValueSql("now()");
 
