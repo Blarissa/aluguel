@@ -33,7 +33,7 @@ namespace Aluguel.Models
 
         public void Ativar()
         {
-            Status = "ATIVO";
+            Status = EStatusCiclista.ATIVO;
         }
     }
 }
