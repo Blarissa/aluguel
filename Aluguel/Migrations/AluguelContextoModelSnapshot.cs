@@ -60,7 +60,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("numero");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("e_status_cartao")
                         .HasColumnName("status");
 
                     b.HasKey("Id")
@@ -103,7 +103,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Nacionalidade")
-                        .HasColumnType("integer")
+                        .HasColumnType("e_nacionalidade")
                         .HasColumnName("nacionalidade");
 
                     b.Property<string>("Nome")
@@ -121,7 +121,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("senha");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
+                        .HasColumnType("e_status_ciclista")
                         .HasColumnName("status");
 
                     b.Property<string>("UrlFotoDocumento")
