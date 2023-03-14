@@ -1,4 +1,6 @@
-﻿using Aluguel.Data.Dtos;
+﻿using Aluguel.Data;
+using Aluguel.Data.Dao;
+using Aluguel.Data.Dtos;
 using Aluguel.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,10 +9,12 @@ namespace Aluguel.Validacao;
 public class ValidacaoFuncionario : IValidator
 {
     public List<Erro> Erros { get; set; }
-    int id = 1;
+    int codigo = 1;
+    private FuncionarioDao funcionarioDao;
 
-    public ValidacaoFuncionario()
+    public ValidacaoFuncionario(FuncionarioDao funcionarioDao)
     {
+        this.funcionarioDao = funcionarioDao;
         Erros = new List<Erro>();
     }
 
@@ -18,11 +22,13 @@ public class ValidacaoFuncionario : IValidator
     {
         if (valor.Length < 3)
         {
-            Erros.Add(new Erro(
-                    id.ToString(),
-                    "Nome deve ter no mínimo 3 caracteres"));
+            Erros.Add(new Erro()
+            {                  
+                Codigo = codigo,
+                Mensagem = "Nome deve ter no mínimo 3 caracteres"
+            });
 
-            id++;
+            codigo++;
 
             return false;
         }
@@ -34,11 +40,13 @@ public class ValidacaoFuncionario : IValidator
     {
         if (!new EmailAddressAttribute().IsValid(valor))
         {
-            Erros.Add(new Erro(
-                id.ToString(),
-                "Email inválido"));
-
-            id++;
+            Erros.Add(new Erro()
+            {
+                Codigo = codigo,
+                Mensagem = "Email inválido"
+            });
+                
+            codigo++;
 
             return false;
         }
@@ -50,11 +58,13 @@ public class ValidacaoFuncionario : IValidator
     {
         if (!valor1.Equals(valor2))
         {
-            Erros.Add(new Erro(
-                id.ToString(),
-                "Senhas diferentes"));
+            Erros.Add(new Erro() 
+            { 
+                Codigo = codigo, 
+                Mensagem = "Senhas diferentes" 
+            });
 
-            id++;
+            codigo++;
 
             return false;
         }
@@ -66,11 +76,13 @@ public class ValidacaoFuncionario : IValidator
     {
         if (!ValidacaoCpf.IsValid(valor))
         {
-            Erros.Add(new Erro(
-                id.ToString(),
-                "CPF deve conter 11 dígitos"));
+            Erros.Add(new Erro() 
+            { 
+                Codigo = codigo, 
+                Mensagem = "CPF deve conter 11 dígitos" 
+            });
 
-            id++;
+            codigo++;
 
             return false;
         }
@@ -83,11 +95,12 @@ public class ValidacaoFuncionario : IValidator
         if (!(valor.Equals("ADMINISTRATIVO") ||
                valor.Equals("REPARADOR")))
         {
-            Erros.Add(new Erro(
-             id.ToString(),
-             "Função deve ser REPARADOR ou ADMINISTRATIVO"));
+            Erros.Add(new Erro() {
+                Codigo = codigo,
+                Mensagem = "Função deve ser REPARADOR ou ADMINISTRATIVO"
+            });
 
-            id++;
+            codigo++;
 
             return false;
         }
@@ -97,13 +110,15 @@ public class ValidacaoFuncionario : IValidator
 
     public bool Matricula(int idFuncionario)
     {
-        if (idFuncionario == null)
+        if (ValidacaoMatricula.Exists(funcionarioDao, idFuncionario))
         {
-            Erros.Add(new Erro(
-                id.ToString(),
-                "Matrícula inválida"));
+            Erros.Add(new Erro()
+            {
+                Codigo = codigo,
+                Mensagem = "Matrícula existente"
+            });
 
-            id++;
+            codigo++;
 
             return false;
         }
@@ -115,11 +130,13 @@ public class ValidacaoFuncionario : IValidator
     {
         if (idade < 18)
         {
-            Erros.Add(new Erro(
-                id.ToString(),
-                "Idade deve ser maior que 18!"));
-
-            id++;
+            Erros.Add(new Erro()
+            {
+                Codigo = codigo,
+                Mensagem = "Idade deve ser maior que 18!"
+            });
+                            
+            codigo++;
 
             return false;
         }
@@ -141,8 +158,8 @@ public class ValidacaoFuncionario : IValidator
     public bool IsValid(UpdateFuncionarioDto dto)
     {
         if (Nome(dto.Nome) &
-            Senha(dto.Senha, dto.ConfirmaSenha) &
-            Funcao(dto.Funcao))
+            Funcao(dto.Funcao) &
+            Senha(dto.Senha, dto.ConfirmaSenha))
             return true;
 
         return false;

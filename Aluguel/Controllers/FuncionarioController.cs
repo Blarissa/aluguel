@@ -24,7 +24,7 @@ namespace Aluguel.Controllers
             this.contexto = contexto;
             funcionarioDao = new FuncionarioDao(contexto);
             this.mapper = mapper;
-            validator = new ValidacaoFuncionario();           
+            validator = new ValidacaoFuncionario(funcionarioDao);                       
         }
 
         [HttpGet]
@@ -45,7 +45,10 @@ namespace Aluguel.Controllers
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
 
             if (funcionario == null)
-                return NotFound(new Erro("0", "Funcionário não encontrado!"));            
+                return NotFound(new Erro() {
+                    Codigo = 1, 
+                    Mensagem = "Funcionário não encontrado!" 
+                });            
 
             var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
@@ -68,19 +71,19 @@ namespace Aluguel.Controllers
         [HttpPut("{idFuncionario}")]
         public IActionResult AtualizaFuncionario(int idFuncionario, [FromBody] UpdateFuncionarioDto funcionarioDto)
         {
-            //if (!validator.Matricula(idFuncionario))
-            //    return UnprocessableEntity(validator.Erros);
-
-            var funcionario = funcionarioDao
-                .RecuperaFuncionarioPorId(idFuncionario);                        
-
-            if (funcionario == null)
-                return NotFound(new Erro("0","Funcionário não encontrado!"));
-
-            
-
-            if (!validator.IsValid(funcionarioDto))                
+            if (!(validator.Matricula(idFuncionario) &&
+                validator.IsValid(funcionarioDto)))
                 return UnprocessableEntity(validator.Erros);
+            
+            var funcionario = funcionarioDao
+                .RecuperaFuncionarioPorId(idFuncionario);   
+            
+            if (funcionario == null)
+                return NotFound(new Erro()
+                {
+                    Codigo = 1,
+                    Mensagem = "Funcionário não encontrado!"
+                });
 
             mapper.Map(funcionarioDto, funcionario);
             contexto.SaveChanges();
@@ -97,7 +100,11 @@ namespace Aluguel.Controllers
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
             
             if (funcionario == null)
-                return NotFound(new Erro("0", "Funcionário não encontrado!"));
+                return NotFound(new Erro()
+                {
+                    Codigo = 1,
+                    Mensagem = "Funcionário não encontrado!"
+                });            
 
             funcionarioDao.DeletaFuncionario(funcionario);
                 
