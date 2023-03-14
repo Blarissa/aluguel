@@ -15,7 +15,7 @@ namespace Aluguel.Data.Dao.Cartao
         public CartaoDeCredito? BuscarPorIdCiclista(Guid IdCiclista)
         {
             var query = from cartao in contexto.CartoesDeCredito
-                                      where cartao.CiclistaId == IdCiclista
+                                      where cartao.CiclistaId == IdCiclista && cartao.Status == (int) EStatusCartao.ATIVO
                                       select cartao;
 
             return query.FirstOrDefault();
