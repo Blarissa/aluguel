@@ -1,4 +1,5 @@
 ﻿using Aluguel.Data.Dtos;
+using Aluguel.Data.Dtos.Emprestimo;
 using Aluguel.Models;
 using AutoMapper;
 
@@ -8,7 +9,9 @@ namespace Aluguel.Profiles
     {
         public EmprestimoProfile()
         {
-            CreateMap<CreateEmprestimoDto, Emprestimo>();
+            CreateMap<ResponseCreateEmprestimoDto, Emprestimo>()
+                .ForMember(dest => dest.BicicletaId, org => org.MapFrom(src => src.Bicicleta))
+                .ForMember(dest => dest.DataHora, org => org.MapFrom(src => src.DataHora));
         }
     }
 }

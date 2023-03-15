@@ -9,6 +9,8 @@ namespace Aluguel.Servicos.Externo
         private const string FilaCobrancaEndpoint = "/filaCobranca";
         private const string CobrancaEndpoint = "/Cobranca";
         private const string ValidaCartaoEndpoint = "/validaCartaoDeCredito";
+        private const string EnviarEmailEndpoint = "/enviarEmail";
+
 
         private readonly HttpClient client;
         private readonly string baseUriServico;
@@ -38,6 +40,16 @@ namespace Aluguel.Servicos.Externo
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
             var resposta = await client.PostAsync(baseUriServico+CobrancaEndpoint, requestBody);
+
+            return resposta;
+        }
+
+        public async Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
+        {
+            var conteudoJson = JsonConvert.SerializeObject(emailDto);
+            var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
+
+            var resposta = await client.PostAsync(baseUriServico+EnviarEmailEndpoint, requestBody);
 
             return resposta;
         }
