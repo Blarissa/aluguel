@@ -9,6 +9,8 @@ namespace Aluguel.Servicos.Externo
         private const string FilaCobrancaEndpoint = "/filaCobranca";
         private const string CobrancaEndpoint = "/Cobranca";
         private const string ValidaCartaoEndpoint = "/validaCartaoDeCredito";
+        private const string EnviarEmailEndpoint = "/enviarEmail";
+
 
         private readonly HttpClient client;
         private readonly string baseUriServico;
@@ -18,7 +20,8 @@ namespace Aluguel.Servicos.Externo
             client = apiClient.CreateClient();
             //client = apiClient;
 
-            baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
+            //baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
+            baseUriServico = "https://residencia-nebula.ed.dev.br/aluguel-grupo2";
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
@@ -38,6 +41,16 @@ namespace Aluguel.Servicos.Externo
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
             var resposta = await client.PostAsync(baseUriServico+CobrancaEndpoint, requestBody);
+
+            return resposta;
+        }
+
+        public async Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
+        {
+            var conteudoJson = JsonConvert.SerializeObject(emailDto);
+            var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
+
+            var resposta = await client.PostAsync(baseUriServico+EnviarEmailEndpoint, requestBody);
 
             return resposta;
         }

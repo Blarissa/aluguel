@@ -13,8 +13,9 @@ namespace Aluguel.Mock.Equipamento
         {
             var retorno = new GetTrancaPorIdDto() {
                 Id = Guid.NewGuid(),
-                Ano = "2020",
-                Marca = "CALOI",
+                Bicicleta = Guid.NewGuid(),
+                AnoDeFabricacao = "2020",
+                Localizacao = "Rua Avenida Brasil 2 - A novela",
                 Modelo = "BMX",
                 Numero = 456,
                 Status = Models.EStatusTranca.LIVRE
