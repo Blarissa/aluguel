@@ -3,13 +3,13 @@ using Aluguel.Data.Dao;
 using Aluguel.Data.Dtos;
 using Aluguel.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace Aluguel.Validacao;
 
 public class ValidacaoFuncionario : IValidator
 {
     public List<Erro> Erros { get; set; }
-    int codigo = 1;
     private FuncionarioDao funcionarioDao;
 
     public ValidacaoFuncionario(FuncionarioDao funcionarioDao)
@@ -22,13 +22,7 @@ public class ValidacaoFuncionario : IValidator
     {
         if (valor.Length < 3)
         {
-            Erros.Add(new Erro()
-            {                  
-                Codigo = codigo,
-                Mensagem = "Nome deve ter no mínimo 3 caracteres"
-            });
-
-            codigo++;
+            Erros.Add(new Erros().GetErro("001"));
 
             return false;
         }
@@ -40,13 +34,7 @@ public class ValidacaoFuncionario : IValidator
     {
         if (!new EmailAddressAttribute().IsValid(valor))
         {
-            Erros.Add(new Erro()
-            {
-                Codigo = codigo,
-                Mensagem = "Email inválido"
-            });
-                
-            codigo++;
+            Erros.Add(new Erros().GetErro("006"));
 
             return false;
         }
@@ -56,15 +44,11 @@ public class ValidacaoFuncionario : IValidator
 
     public bool Senha(string valor1, string valor2)
     {
-        if (!valor1.Equals(valor2))
+        if (!valor1.Equals(valor2) ||
+            string.IsNullOrEmpty(valor1) ||
+            string.IsNullOrEmpty(valor2))
         {
-            Erros.Add(new Erro() 
-            { 
-                Codigo = codigo, 
-                Mensagem = "Senhas diferentes" 
-            });
-
-            codigo++;
+            Erros.Add(new Erros().GetErro("007"));
 
             return false;
         }
@@ -76,13 +60,7 @@ public class ValidacaoFuncionario : IValidator
     {
         if (!ValidacaoCpf.IsValid(valor))
         {
-            Erros.Add(new Erro() 
-            { 
-                Codigo = codigo, 
-                Mensagem = "CPF deve conter 11 dígitos" 
-            });
-
-            codigo++;
+            Erros.Add(new Erros().GetErro("002"));
 
             return false;
         }
@@ -92,15 +70,11 @@ public class ValidacaoFuncionario : IValidator
 
     public bool Funcao(string valor)
     {
-        if (!(valor.Equals("ADMINISTRATIVO") ||
-               valor.Equals("REPARADOR")))
+        if (!(valor.Equals("ADMINISTRATIVO") &&
+               valor.Equals("REPARADOR")) || 
+               string.IsNullOrEmpty(valor))
         {
-            Erros.Add(new Erro() {
-                Codigo = codigo,
-                Mensagem = "Função deve ser REPARADOR ou ADMINISTRATIVO"
-            });
-
-            codigo++;
+            Erros.Add(new Erros().GetErro("012"));
 
             return false;
         }
@@ -110,15 +84,9 @@ public class ValidacaoFuncionario : IValidator
 
     public bool Matricula(int idFuncionario)
     {
-        if (ValidacaoMatricula.Exists(funcionarioDao, idFuncionario))
+        if (funcionarioDao.RecuperaFuncionarioPorId(idFuncionario) != null)
         {
-            Erros.Add(new Erro()
-            {
-                Codigo = codigo,
-                Mensagem = "Matrícula existente"
-            });
-
-            codigo++;
+            Erros.Add(new Erros().GetErro("014"));
 
             return false;
         }
@@ -130,13 +98,7 @@ public class ValidacaoFuncionario : IValidator
     {
         if (idade < 18)
         {
-            Erros.Add(new Erro()
-            {
-                Codigo = codigo,
-                Mensagem = "Idade deve ser maior que 18!"
-            });
-                            
-            codigo++;
+            Erros.Add(new Erros().GetErro("005"));
 
             return false;
         }

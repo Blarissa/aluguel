@@ -22,7 +22,7 @@ builder.Services.AddControllers().AddNewtonsoftJson()
     .ConfigureApiBehaviorOptions(options => {
         options.InvalidModelStateResponseFactory = context => {
 
-            ObjectResult returnObj =  new ObjectResult(new Erro() { Codigo = 10, Mensagem = "Erro: Estrutura de requisicao inesperada"});
+            ObjectResult returnObj =  new ObjectResult(new Erro("10", "Erro: Estrutura de requisicao inesperada"));
             returnObj.StatusCode = 400;
 
             return returnObj;

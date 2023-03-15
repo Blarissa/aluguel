@@ -46,20 +46,23 @@ namespace Aluguel.Models
                 new Erro("007", "Senha de confirmação diferente!"),
                 //PASSAPORTE
                 new Erro("009", "Passaporte inválido!"),
-                //PASSAPORTE
+                //CVV
                 new Erro("010", "CVV inválido!"),            
-                //PASSAPORTE
+                //PAIS
                 new Erro("011", "Pais deve ter somente 2 caracteres!"),
-                //PASSAPORTE
-                new Erro("012", "Status dever ser REPARADOR ou ADMINISTRATIVO!"),
-                //PASSAPORTE
+                //FUNÇÃO
+                new Erro("012", "Função dever ser REPARADOR ou ADMINISTRATIVO!"),
+                //NACIONALIDADE
                 new Erro("013", "Nacionalidade dever ser BRASILEIRO ou ESTRANGEIRO!"),
+
+                //MATRICULA
+                new Erro("014", "Matrícula existente!")
             };
         }        
 
-        public Erro? GetErro(int codigo)
+        public Erro? GetErro(string codigo)
         {
-            return erros.FirstOrDefault(e => e.Codigo.Equals(codigo.ToString()));
+            return erros.FirstOrDefault(e => e.Codigo.Equals(codigo));
         }
 
         
