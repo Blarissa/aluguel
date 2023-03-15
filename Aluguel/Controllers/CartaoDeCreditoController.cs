@@ -39,7 +39,7 @@ namespace Aluguel.Controller
 
                 var cartaoAchado = store.BuscarPorIdCiclista(idTransformado);
                 if(cartaoAchado == null) {
-                    return NotFound(new Erro() { Codigo = 404, Mensagem = "Cartao nao encontrado" });
+                    return NotFound(new Erro("404", "Cartao nao encontrado"));
                 }
 
                 var cartaoDto = mapper.Map<ReadCartaoDto>(cartaoAchado);
@@ -47,7 +47,7 @@ namespace Aluguel.Controller
                 return Ok(cartaoDto);
             }
             catch(FormatException formEx) {
-                return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao Invalida" });
+                return UnprocessableEntity(new Erro("422", "Solicitacao Invalida"));
             }
             catch(Exception e) {
                 Console.WriteLine(e);
@@ -65,12 +65,12 @@ namespace Aluguel.Controller
                 var retorno = await externoApi.ValidacaoCartao(request);
 
                 if(retorno.StatusCode != System.Net.HttpStatusCode.OK) {
-                    return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao invalida" });
+                    return UnprocessableEntity(new Erro("422", "Solicitacao invalida"));
                 }
 
                 CartaoDeCredito? cartaoAchado = store.BuscarPorIdCiclista(idTransformado);
                 if(cartaoAchado == null) {
-                    return NotFound(new Erro() { Codigo = 404, Mensagem = "Cartao nao encontrado" });
+                    return NotFound(new Erro("422", "Cartao nao encontrado"));
                 }
 
                 CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);
@@ -81,7 +81,7 @@ namespace Aluguel.Controller
 
             }
             catch(FormatException formEx) {
-                return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao Invalida" });
+                return UnprocessableEntity(new Erro("422", "Solicitacao Invalida"));
             }
             catch (Exception e) {
                 Console.WriteLine(e);

@@ -45,7 +45,7 @@ namespace Aluguel.Controllers
              */
             try {
                 if(!ModelState.IsValid) {
-                    return BadRequest(new Erro() { Codigo = 400, Mensagem = "Erro: Dados inválidos" });
+                    return BadRequest(new Erro("400", "Erro: Dados inválidos"));
                 }
 
                 //chamado da tranca
@@ -58,13 +58,13 @@ namespace Aluguel.Controllers
 
                 //Verifica o status da bicicleta e tranca
                 if(bicicletaEmprestada.Status != EStatusBicicleta.EM_USO || trancaUsada.Status != EStatusTranca.LIVRE) {
-                    return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Erro: Dados conflituosos" });
+                    return UnprocessableEntity(new Erro("422", "Erro: Dados conflituosos"));
                 }
 
 
                 Emprestimo emprestimoBicicleta = store.BuscarEmprestimoAberto(dados.IdBicicleta, dados.IdTranca);
                 if(emprestimoBicicleta == null) {
-                    return NotFound(new Erro() { Codigo = 404, Mensagem = "Erro: Sem emprestimo corrente" });
+                    return NotFound(new Erro("404", "Erro: Sem emprestimo corrente"));
                 }
 
                 TimeSpan duracaoAlguel = DateTime.Now - emprestimoBicicleta.DataHora;
@@ -103,7 +103,7 @@ namespace Aluguel.Controllers
                     });
 
                     if(retFilaCobranca.StatusCode != System.Net.HttpStatusCode.OK)
-                        return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Erro: Cobranca falhou em todas as tentativas" });
+                        return UnprocessableEntity(new Erro("422", "Erro: Cobranca falhou em todas as tentativas"));
 
                     ResponsePostFilaCobrancaDto bodyRetFilaCobranca =  JsonConvert.DeserializeObject<ResponsePostFilaCobrancaDto>(await retCobranca.Content.ReadAsStringAsync());
 
