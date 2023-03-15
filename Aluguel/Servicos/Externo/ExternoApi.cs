@@ -20,7 +20,8 @@ namespace Aluguel.Servicos.Externo
             client = apiClient.CreateClient();
             //client = apiClient;
 
-            baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
+            //baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
+            baseUriServico = "https://residencia-nebula.ed.dev.br/aluguel-grupo2";
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
