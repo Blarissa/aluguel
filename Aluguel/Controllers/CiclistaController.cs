@@ -23,6 +23,12 @@ namespace Aluguel.Controllers
         [HttpPost]
         public IActionResult AdicionarCiclista([FromBody] AdicionarCiclistaDto adicionarCiclistaDto)
         {
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("erros " + ModelState.ErrorCount);
+                return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Dados inválidos"});
+            }
+
             var ciclista = mapper.Map<Ciclista>(adicionarCiclistaDto.Ciclista);
 
             var meioDePagamento = mapper.Map<CartaoDeCredito>(adicionarCiclistaDto.MeioDePagamento);
@@ -32,6 +38,7 @@ namespace Aluguel.Controllers
             meioDePagamento.CiclistaId = ciclista.Id;
 
             contexto.CartoesDeCredito.Add(meioDePagamento);
+            contexto.SaveChanges();
 
             return Ok(ciclista);
         }
