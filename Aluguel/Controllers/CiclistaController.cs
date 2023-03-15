@@ -25,8 +25,7 @@ namespace Aluguel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("erros " + ModelState.ErrorCount);
-                return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Dados inválidos"});
+                return UnprocessableEntity(new Erro("422", "Dados Invalidos"));
             }
 
             var ciclista = mapper.Map<Ciclista>(adicionarCiclistaDto.Ciclista);
