@@ -13,7 +13,6 @@ public class ReadFuncionarioDto
     public string Nome { get; set; }
     
     [Required]
-    [EmailAddress]
     public string Email { get; set; }
     
     [Required]
