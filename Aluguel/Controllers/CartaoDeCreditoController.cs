@@ -1,7 +1,9 @@
 ﻿using Aluguel.Data;
 using Aluguel.Data.Dao.Cartao;
 using Aluguel.Data.Dtos.Cartao;
+using Aluguel.Data.Dtos.Servicos.Externo;
 using Aluguel.Models;
+using Aluguel.Servicos.Externo;
 using Aluguel.Validacao.Cartao;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +19,15 @@ namespace Aluguel.Controller
         private readonly AluguelContexto contexto;
         private readonly CartaoDeCreditoDao store;
         private IMapper mapper;
-        public CartaoDeCreditoController(AluguelContexto ctxt, IMapper map)
+
+        private readonly ExternoApi externoApi;
+        public CartaoDeCreditoController(AluguelContexto ctxt, IMapper map, IHttpClientFactory apiFactory)
         {
-            contexto = ctxt;
+            HttpClient client = new HttpClient();
             store = new CartaoDeCreditoDao(ctxt);
             mapper = map;
+
+            externoApi = new ExternoApi(apiFactory);
         }
 
         [HttpGet("{idCiclista}")]
@@ -50,19 +56,21 @@ namespace Aluguel.Controller
         }
 
         [HttpPut("{idCiclista}")]
-        public IActionResult PutCartaoDeCredito([FromRoute] string idCiclista, [FromBody] UpdateCartaoDeCreditoDto novosDados)
+        public async Task<IActionResult> PutCartaoDeCredito([FromRoute] string idCiclista, [FromBody] UpdateCartaoDeCreditoDto novosDados)
         {
             try {
                 Guid idTransformado = Guid.Parse(idCiclista);
 
+                PostValidaCartaoDto request = mapper.Map<PostValidaCartaoDto>(novosDados);
+                var retorno = await externoApi.ValidacaoCartao(request);
+
+                if(retorno.StatusCode != System.Net.HttpStatusCode.OK) {
+                    return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao invalida" });
+                }
+
                 CartaoDeCredito? cartaoAchado = store.BuscarPorIdCiclista(idTransformado);
                 if(cartaoAchado == null) {
                     return NotFound(new Erro() { Codigo = 404, Mensagem = "Cartao nao encontrado" });
-                }
-
-                if(!ModelState.IsValid) {
-                    Console.WriteLine("erros " + ModelState.ErrorCount); ;
-                    return UnprocessableEntity(new Erro() { Codigo = 422, Mensagem = "Solicitacao Invalida"});
                 }
 
                 CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);

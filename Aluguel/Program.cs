@@ -1,5 +1,7 @@
 using Aluguel.Controllers;
 using Aluguel.Data;
+using Aluguel.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Npgsql;
@@ -14,7 +16,18 @@ builder.Services.AddDbContext<AluguelContexto>(
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddHttpClient();
+
+builder.Services.AddControllers().AddNewtonsoftJson()
+    .ConfigureApiBehaviorOptions(options => {
+        options.InvalidModelStateResponseFactory = context => {
+
+            ObjectResult returnObj =  new ObjectResult(new Erro() { Codigo = 10, Mensagem = "Erro: Estrutura de requisicao inesperada"});
+            returnObj.StatusCode = 400;
+
+            return returnObj;
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 

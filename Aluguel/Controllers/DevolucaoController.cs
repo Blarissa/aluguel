@@ -34,21 +34,6 @@ namespace Aluguel.Controllers
             mapper = map;
         }
 
-        [Route("Custom")]
-        [HttpGet]
-        public async Task<IActionResult> Testando(){
-            Console.WriteLine("TO AQUI");
-            HttpClient cliente = new HttpClient();
-
-            var result = await cliente.GetAsync("https://api.exchangerate.host/convert?from=USD&to=EUR&amount=100");
-
-            string responseBody = await result.Content.ReadAsStringAsync();
-
-            Console.WriteLine(responseBody);
-
-            return Ok(responseBody);
-        }
-
         [HttpPost]
         public async Task<IActionResult> PostDevolucao([FromBody] PostDevolucaoDto dados)
         {

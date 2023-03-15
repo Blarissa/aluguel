@@ -8,7 +8,7 @@ namespace Aluguel.Servicos.Externo
     {
         private const string FilaCobrancaEndpoint = "/filaCobranca";
         private const string CobrancaEndpoint = "/Cobranca";
-
+        private const string ValidaCartaoEndpoint = "/validaCartaoDeCredito";
 
         private readonly HttpClient client;
         private readonly string baseUriServico;
@@ -16,6 +16,7 @@ namespace Aluguel.Servicos.Externo
         public ExternoApi(IHttpClientFactory apiClient)
         {
             client = apiClient.CreateClient();
+            //client = apiClient;
 
             baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
@@ -44,6 +45,16 @@ namespace Aluguel.Servicos.Externo
         public async Task<HttpResponseMessage> BuscarCobranca(Guid idCobranca)
         {
             var resposta = await client.GetAsync(baseUriServico+CobrancaEndpoint+$"{idCobranca}");
+
+            return resposta;
+        }
+
+        public async Task<HttpResponseMessage> ValidacaoCartao(PostValidaCartaoDto validaCartaoDto)
+        {
+            var conteudoJson = JsonConvert.SerializeObject(validaCartaoDto);
+            var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
+
+            var resposta = await client.PostAsync(baseUriServico+ValidaCartaoEndpoint, requestBody);
 
             return resposta;
         }
