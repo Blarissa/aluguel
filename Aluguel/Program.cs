@@ -18,14 +18,20 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddControllers().AddNewtonsoftJson()
+builder.Services.AddControllers()
+    .AddNewtonsoftJson()
     .ConfigureApiBehaviorOptions(options => {
-        options.InvalidModelStateResponseFactory = context => {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var response = new {
+                Erros = new List<Erro>()
+            };
 
-            ObjectResult returnObj =  new ObjectResult(new Erro("400", "Erro: Estrutura de requisicao inesperada"));
-            returnObj.StatusCode = 400;
+            foreach (var (key, value) in context.ModelState)
+                foreach(var item in value.Errors)
+                    response.Erros.Add(new Erro(key, item.ErrorMessage));
 
-            return returnObj;
+            return new UnprocessableEntityObjectResult(response);
         };
     });
 
