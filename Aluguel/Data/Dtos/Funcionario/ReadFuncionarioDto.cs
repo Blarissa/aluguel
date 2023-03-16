@@ -5,7 +5,6 @@ namespace Aluguel.Data.Dtos;
 
 public class ReadFuncionarioDto
 {
-
     [Required]
     public int Matricula { get; set; }
     
