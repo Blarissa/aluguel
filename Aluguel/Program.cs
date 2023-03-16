@@ -20,12 +20,19 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddControllers().AddNewtonsoftJson()
     .ConfigureApiBehaviorOptions(options => {
-        options.InvalidModelStateResponseFactory = context => {
+        options.InvalidModelStateResponseFactory = context =>
+        { 
 
-            ObjectResult returnObj =  new ObjectResult(new Erro("400", "Erro: Estrutura de requisicao inesperada"));
-            returnObj.StatusCode = 400;
+            var response = new
+            {
+                Erros = new List<Erro>()
+            };
 
-            return returnObj;
+            foreach (var (codigo, matriculas) in context.ModelState)
+                foreach (var matricula in matriculas.Errors)
+                    response.Erros.Add(new Erro(codigo, matricula.ErrorMessage));
+            
+            return new UnprocessableEntityObjectResult(response);
         };
     });
 
