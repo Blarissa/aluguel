@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Controllers
 {
+    [Tags("Aluguel")]
     [ApiController]
     [Route("[controller]")]
     public class CiclistaController : ControllerBase

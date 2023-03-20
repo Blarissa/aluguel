@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace Aluguel.Controller
 {
+    [Tags("Aluguel")]
     [Route("[controller]")]
     [ApiController]
     public class CartaoDeCreditoController : ControllerBase

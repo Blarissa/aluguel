@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace Aluguel.Controllers
 {
+    [Tags("Aluguel")]
     [Route("[controller]")]
     [ApiController]
     public class DevolucaoController : ControllerBase
