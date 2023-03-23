@@ -1,23 +1,20 @@
 ﻿using Aluguel.Data;
 using Aluguel.Data.Dao;
 using Aluguel.Data.Dtos;
-using Aluguel.Migrations;
 using Aluguel.Models;
-using Aluguel.Validacao;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Aluguel.Controllers
-{
-    [Tags("Aluguel")]
+{   
     [ApiController]
-    [Route("[controller]")]   
+    [Produces("application/json")]
+    [Route("[controller]")]
+    [Tags("Aluguel")]    
     public class FuncionarioController : ControllerBase
     {
         private AluguelContexto contexto;
@@ -33,10 +30,11 @@ namespace Aluguel.Controllers
 
         /// <summary>
         /// Recupera funcionários cadastrados
-        /// </summary>
+        /// </summary>      
+        /// <response code="200">200 OK</response>
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]        
+        [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]        
         public IActionResult RecuperaFuncionarios()
         {
             var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
@@ -49,10 +47,14 @@ namespace Aluguel.Controllers
         /// <summary>
         /// Recupera funcionário
         /// </summary>
+        /// <response code="200">Dados recuperados</response>
+        /// <response code="422">Dados inválidos</response>
+        /// <response code="404">Não encontrado</response>
+
         [HttpGet("{idFuncionario}")]
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        [ProducesResponseType(404, Type = typeof(List<Erro>))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {          
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
@@ -69,11 +71,13 @@ namespace Aluguel.Controllers
         /// <summary>
         /// Cadastrar funcionário
         /// </summary>
+        /// <response code="200">Dados cadastrados</response>
+        /// <response code="422">Dados Inválidos</response>
+
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(Funcionario))]
+        [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        [ProducesResponseType(404, Type = typeof(List<Erro>))]
-        public IActionResult AdicionaFuncionario([FromBody] CreateFuncionarioDto funcionarioDto)
+        public IActionResult AdicionaFuncionario([FromBody, Required] CreateFuncionarioDto funcionarioDto)
         {
             var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
@@ -85,12 +89,16 @@ namespace Aluguel.Controllers
         /// <summary>
         /// Editar funcionário
         /// </summary>
+        /// <response code="200">Dados atualizados</response>
+        /// <response code="422">Dados Inválidos</response>
+        /// <response code="404">Não encontrado</response>
+
         [HttpPut("{idFuncionario}")]
-        [ProducesResponseType(200, Type = typeof(Funcionario))]
+        [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        [ProducesResponseType(404, Type = typeof(List<Erro>))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult AtualizaFuncionario(int idFuncionario, 
-            [FromBody] UpdateFuncionarioDto funcionarioDto)
+            [FromBody, Required] UpdateFuncionarioDto funcionarioDto)
         {           
             var funcionario = funcionarioDao
                 .RecuperaFuncionarioPorId(idFuncionario);
@@ -107,10 +115,14 @@ namespace Aluguel.Controllers
         /// <summary>
         /// Remover funcionário
         /// </summary>
+        /// <response code="200">Dados removidos</response>
+        /// <response code="422">Dados Inválidos</response>
+        /// <response code="404">Não encontrado</response>
+
         [HttpDelete("{idFuncionario}")]
-        [ProducesResponseType(200, Type = typeof(Funcionario))]
+        [ProducesResponseType(200)]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        [ProducesResponseType(404, Type = typeof(List<Erro>))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult DeletaFuncionario(int idFuncionario)
         {                        
             var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);

@@ -6,14 +6,13 @@ using System.ComponentModel.DataAnnotations;
 namespace Aluguel.Data.Dtos;
 
 public class CreateFuncionarioDto
-{
+{    
     [Required]    
-    public int Matricula { get; set; }
-
-    [Required]
-    [ModelBinder(Name = "001a")]
-    [MinLength(5, ErrorMessage = "Nome deve ter pelo menos 5 caracteres!")]
-    public string Nome { get; set; }
+    [ModelBinder(Name = "007a")]
+    [Compare("ConfirmaSenha", ErrorMessage = "Senha de confirmação diferente!")]
+    public string Senha { get; set; }
+    
+    public string ConfirmaSenha { get; set; }
 
     [Required]
     [ModelBinder(Name = "006a")]
@@ -21,17 +20,9 @@ public class CreateFuncionarioDto
     public string Email { get; set; }
     
     [Required]
-    [ModelBinder(Name = "007a")]
-    [Compare("ConfirmaSenha", ErrorMessage = "Senha de confirmação diferente!")]
-    public string Senha { get; set; }
-
-    [Required]
-    public string ConfirmaSenha { get; set; }
-
-    [Required]
-    [ModelBinder(Name = "002a")]
-    [Cpf(ErrorMessage = "CPF deve ter 11 dígitos!")]
-    public string Cpf { get; set; }
+    [ModelBinder(Name = "001a")]
+    [MinLength(5, ErrorMessage = "Nome deve ter pelo menos 5 caracteres!")]
+    public string Nome { get; set; }
 
     [Required]
     [ModelBinder(Name = "005a")]
@@ -42,4 +33,9 @@ public class CreateFuncionarioDto
     [ModelBinder(Name = "012a")]
     [EnumDataType(typeof(EFuncao), ErrorMessage = "Função dever ser REPARADOR ou ADMINISTRATIVO!")]
     public string Funcao { get; set; }
+
+    [Required]
+    [ModelBinder(Name = "002a")]
+    [Cpf(ErrorMessage = "CPF deve ter 11 dígitos!")]
+    public string Cpf { get; set; }
 }
