@@ -6,9 +6,7 @@ namespace Aluguel.Data.Dtos.Ciclista
     {
         public Guid Id { get; set; }
         public string Status { get; set; }
-        public string Nome { get; set; }
-
-        [DataType(DataType.Date)]
+        public string Nome { get; set; }       
         public DateTime DataNascimento { get; set; }
         public string? Cpf { get; set; }
         public PassaporteDto? Passaporte { get; set; }
@@ -16,8 +14,6 @@ namespace Aluguel.Data.Dtos.Ciclista
 
         [EmailAddress]
         public string Email { get; set; }
-
-        [DataType(DataType.ImageUrl)]
         public Uri UrlFotoDocumento { get; set; }
     }
 }
