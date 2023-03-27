@@ -10,11 +10,13 @@ using Aluguel.Servicos.Externo;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {
     [Tags("Aluguel")]
     [ApiController]
+    [Produces("application/json")]
     [Route("[controller]")]
     public class AluguelController : ControllerBase
     {
@@ -39,9 +41,21 @@ namespace Aluguel.Controllers
 
             this.mapper = mapper;
         }
-      
+
+        /// <summary>
+        /// Realizar aluguel
+        /// </summary>
+        /// <remarks>
+        /// Realiza uma cobrança de um valor fixo e em caso de aprovada a mesma libera a tranca com a 
+        /// bicicleta escolhida pelo ciclista. A mesma também notifica o ciclista da retirada da bicicleta.
+        /// </remarks>
+        /// <response code="200">Aluguel realizado</response>
+        /// <response code="422">Dados Inválidos</response>
+
         [HttpPost]
-        public async Task<IActionResult> RealizaEmprestimo([FromBody] CreateEmprestimoDto emprestimoDto)
+        [ProducesResponseType(200, Type = typeof(ReadEmprestimoDto))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
+        public async Task<IActionResult> RealizaEmprestimo([FromBody,Required] CreateEmprestimoDto emprestimoDto)
         {
             Guid ciclistaId = emprestimoDto.Ciclista;
             Guid trancaId = emprestimoDto.TrancaInicio;
