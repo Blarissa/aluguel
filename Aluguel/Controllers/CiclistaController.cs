@@ -4,12 +4,15 @@ using Aluguel.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {
-    [Tags("Aluguel")]
     [ApiController]
+    [Produces("application/json")] 
+    [Consumes("application/json")] 
     [Route("[controller]")]
+    [Tags("Aluguel")]
     public class CiclistaController : ControllerBase
     {
         private AluguelContexto contexto;
@@ -21,8 +24,16 @@ namespace Aluguel.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Cadastrar um ciclista
+        /// </summary>
+        /// <response code="201">Ciclista cadastrado</response>
+        /// <response code="422">Dados inválidos</response>
+
         [HttpPost]
-        public IActionResult AdicionarCiclista([FromBody] AdicionarCiclistaDto adicionarCiclistaDto)
+        [ProducesResponseType(201, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
+        public IActionResult AdicionarCiclista([FromBody,Required] AdicionarCiclistaDto adicionarCiclistaDto)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +54,17 @@ namespace Aluguel.Controllers
             return Ok(ciclista);
         }
 
+        /// <summary>
+        /// Recupera dados de um ciclista
+        /// </summary>
+        /// <response code="200">Retorna ciclista solicitado</response>
+        /// <response code="404">Não encontrado</response>
+        /// <response code="422">Dados inválidos</response>
+
         [HttpGet("{idCiclista}")]
+        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult RecuperaCiclistaPorId(Guid idCiclista)
         {
             var ciclista = contexto
@@ -60,8 +81,18 @@ namespace Aluguel.Controllers
             return Ok(ciclistaDto);
         }
 
+        /// <summary>
+        /// Alterar dados de um ciclista
+        /// </summary>
+        /// <response code="200">Dados atualizados</response>
+        /// <response code="404">Não encontrado</response>
+        /// <response code="422">Dados inválidos</response>
+
         [HttpPut("{idCiclista}")]
-        public IActionResult AtualizarCiclista(Guid idCiclista, [FromBody] CiclistaDto ciclistaDto)
+        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
+        public IActionResult AtualizarCiclista(Guid idCiclista, [FromBody, Required] CiclistaDto ciclistaDto)
         {
             var ciclista = contexto
                 .Ciclistas
@@ -78,9 +109,20 @@ namespace Aluguel.Controllers
             return Ok(ciclista);
         }
 
+        /// <summary>
+        /// Ativar cadastro do ciclista
+        /// </summary>
+        /// <response code="200">Ciclista ativado</response>
+        /// <response code="404">Não encontrado</response>
+        /// <response code="422">Dados inválidos</response>
+
         [HttpPost("{idCiclista}/ativar")]
+        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]        
         public IActionResult AtivarCiclista(Guid idCiclista)
         {
+            // falta parâmetro x-id-requisicao especificado no swagger
             var ciclista = contexto
                 .Ciclistas
                 .FirstOrDefault(c => c.Id == idCiclista);
@@ -94,9 +136,18 @@ namespace Aluguel.Controllers
             return Ok(ciclista);
         }
 
+        /// <summary>
+        /// Verifica se o ciclista pode alugar uma bicicleta, já que só pode alugar uma por vez.
+        /// </summary>
+        /// <response code="200">true se puder alugar e false caso contrário</response>
+        /// <response code="404">Não encontrado</response>
+
         [HttpGet("{idCiclista}/permiteAluguel")]
+        [ProducesResponseType(200, Type = typeof(bool))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult PermiteAluguel(Guid idCiclista)
         {
+
             var ciclista = contexto
                 .Ciclistas
                 .Include(c => c.Emprestimos)
@@ -114,7 +165,15 @@ namespace Aluguel.Controllers
             return Ok(true);
         }
 
+        /// <summary>        
+        /// Obtém bicicleta alugada por um ciclista (ou vazio caso contrário).
+        /// </summary>
+        /// <response code = "200">Retorna bicicleta caso o ciclista tenha alugado ou vazio caso contrário.</response>
+        /// <response code ="404">Ciclista não encontrado</response>        
+
         [HttpGet("{idCiclista}/bicicletaAlugada")]
+        [ProducesResponseType(200, Type = typeof(Bicicleta))]
+        [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult BuscaBicicletaAlugada(Guid idCiclista)
         {
             var ciclista = contexto
@@ -153,8 +212,18 @@ namespace Aluguel.Controllers
             return Ok(ciclistaDto);
         }
 
+        /// <summary>        
+        /// Verifica se o e-mail já foi utilizado por algum ciclista.
+        /// </summary>
+        /// <response code = "200">True caso exista o email e false caso contrario</response>
+        /// <response code ="400">Email não enviado como parâmetro</response>
+        /// <response code = "422">Dados inválidos</response>
+
         [HttpGet("existeEmail/{email}")]
-        public IActionResult BuscaBicicletaAlugada(string email)
+        [ProducesResponseType(200, Type = typeof(bool))]
+        [ProducesResponseType(400, Type = typeof(Erro))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
+        public IActionResult ExisteEmail(string email)
         {
             var ciclista = contexto
                 .Ciclistas

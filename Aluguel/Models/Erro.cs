@@ -1,14 +1,12 @@
-﻿using Aluguel.Migrations;
-using System.Collections;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Cryptography.X509Certificates;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Models
 {
     public class Erro
     {
+        [Required]
         public string Codigo { get; set; }
+        [Required]
         public string Mensagem { get; set; }         
         
         public Erro(string codigo, string mensagem)
