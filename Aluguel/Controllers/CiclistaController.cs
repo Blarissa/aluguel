@@ -9,7 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace Aluguel.Controllers
 {
     [ApiController]
-    [Produces("application/json")]
+    [Produces("application/json")] 
+    [Consumes("application/json")] 
     [Route("[controller]")]
     [Tags("Aluguel")]
     public class CiclistaController : ControllerBase
