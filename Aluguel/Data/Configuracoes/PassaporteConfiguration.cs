@@ -19,7 +19,7 @@ namespace Aluguel.Data.Configuracoes
                 .HasColumnType("date");
 
             builder.HasOne(p => p.Pais)
-                .WithOne(p => p.Passaporte)
+                .WithOne()
                 .HasForeignKey<Passaporte>(p => p.PaisId);
         }
     }

@@ -21,18 +21,7 @@ builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
         options.InvalidModelStateResponseFactory = context =>
-        {
-            var response = new
-            {
-                Erros = new List<Erro>()
-            };
-
-            foreach (var (key, value) in context.ModelState)
-                foreach (var item in value.Errors)
-                    response.Erros.Add(new Erro(key, item.ErrorMessage));
-
-            return new UnprocessableEntityObjectResult(response);
-        };
+            new UnprocessableEntityObjectResult(context.ModelState);                        
     });
 
 builder.Services.AddEndpointsApiExplorer();

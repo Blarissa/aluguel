@@ -397,7 +397,7 @@ namespace Aluguel.Migrations
             modelBuilder.Entity("Aluguel.Models.Passaporte", b =>
                 {
                     b.HasOne("Aluguel.Models.Pais", "Pais")
-                        .WithOne("Passaporte")
+                        .WithOne()
                         .HasForeignKey("Aluguel.Models.Passaporte", "PaisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -423,12 +423,6 @@ namespace Aluguel.Migrations
             modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
                 {
                     b.Navigation("Devolucao");
-                });
-
-            modelBuilder.Entity("Aluguel.Models.Pais", b =>
-                {
-                    b.Navigation("Passaporte")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
