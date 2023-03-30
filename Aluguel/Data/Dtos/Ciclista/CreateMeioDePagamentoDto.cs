@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Aluguel.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Data.Dtos.Ciclista
 {
     public class CreateMeioDePagamentoDto
     {
         [Required]
-        [StringLength(60, ErrorMessage = "Nome é obrigatório", MinimumLength = 2)]
+        [ModelBinder(Name = Erros.NomeCod)]
+        [StringLength(60, ErrorMessage = Erros.NomeMsg, MinimumLength = 2)]
         public string Nome { get; set; }
 
         [Required]

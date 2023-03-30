@@ -1,13 +1,17 @@
-﻿using Aluguel.Validacao;
+﻿using Aluguel.Models;
+using Aluguel.Validacao;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace Aluguel.Data.Dtos.Ciclista
 {
     public class CreateCiclistaDto
     {
         [Required]
-        [StringLength(60, ErrorMessage = "Nome é obrigatório", MinimumLength = 2)]
+        [ModelBinder(Name = Erros.NomeCod)]
+        [StringLength(60, ErrorMessage = Erros.NomeMsg, MinimumLength = 2)]
         public string Nome { get; set; }
 
         [DataType(DataType.Date)]

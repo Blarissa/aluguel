@@ -1,12 +1,16 @@
-﻿using Aluguel.Validacao;
+﻿using Aluguel.Models;
+using Aluguel.Validacao;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Aluguel.Data.Dtos.Cartao
 {
     public class UpdateCartaoDeCreditoDto
     {
         [Required]
-        [StringLength(60, ErrorMessage = "Nome é obrigatório", MinimumLength = 5)]
+        [ModelBinder(Name = Erros.NomeCod)]
+        [StringLength(60, ErrorMessage = Erros.NomeMsg, MinimumLength = 2)]
         public string Nome { get; set; }
 
         [Required]
