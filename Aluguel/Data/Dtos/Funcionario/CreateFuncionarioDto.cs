@@ -8,34 +8,34 @@ namespace Aluguel.Data.Dtos;
 public class CreateFuncionarioDto
 {    
     [Required]    
-    [ModelBinder(Name = "007a")]
-    [Compare("ConfirmaSenha", ErrorMessage = "Senha de confirmação diferente!")]
+    [ModelBinder(Name = Erros.SenhaCod)]
+    [Compare("ConfirmaSenha", ErrorMessage = Erros.SenhaMsg)]
     public string Senha { get; set; }
     
     public string ConfirmaSenha { get; set; }
 
     [Required]
-    [ModelBinder(Name = "006a")]
-    [EmailAddress(ErrorMessage = "Email dever ser no padrão user@example.com!")]
+    [ModelBinder(Name = Erros.EmailCod)]
+    [EmailAddress(ErrorMessage = Erros.EmailMsg)]
     public string Email { get; set; }
     
     [Required]
-    [ModelBinder(Name = "001a")]
-    [MinLength(5, ErrorMessage = "Nome deve ter pelo menos 5 caracteres!")]
+    [ModelBinder(Name = Erros.NomeCod)]
+    [MinLength(5, ErrorMessage = Erros.NomeMsg)]
     public string Nome { get; set; }
 
     [Required]
-    [ModelBinder(Name = "005a")]
-    [Range(18, 200, ErrorMessage = "Idade deve ser pelo menos 18!")]
+    [ModelBinder(Name = Erros.IdadeCod)]
+    [Range(18, 100, ErrorMessage = Erros.IdadeMsg)]
     public int Idade { get; set; }
 
     [Required]
-    [ModelBinder(Name = "012a")]
-    [EnumDataType(typeof(EFuncao), ErrorMessage = "Função dever ser REPARADOR ou ADMINISTRATIVO!")]
+    [ModelBinder(Name = Erros.FuncaoCod)]
+    [EnumDataType(typeof(EFuncao), ErrorMessage = Erros.FuncaoMsg)]
     public string Funcao { get; set; }
 
     [Required]
-    [ModelBinder(Name = "002a")]
-    [Cpf(ErrorMessage = "CPF deve ter 11 dígitos!")]
+    [ModelBinder(Name = Erros.CpfCod)]
+    [Cpf(ErrorMessage = Erros.CpfMsg)]
     public string Cpf { get; set; }
 }
