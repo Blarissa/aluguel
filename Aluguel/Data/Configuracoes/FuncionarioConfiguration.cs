@@ -9,7 +9,7 @@ namespace Aluguel.Data.Configuracoes
         public void Configure(EntityTypeBuilder<Funcionario> builder)
         {
             builder.Property(f => f.Matricula)
-                .ValueGeneratedNever();
+                .ValueGeneratedOnAdd();
 
             builder.HasKey(f => f.Matricula);            
 
