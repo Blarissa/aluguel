@@ -3,7 +3,7 @@ using Aluguel.Models;
 
 namespace Aluguel.Data.Dao;
 
-public class FuncionarioDao
+public class FuncionarioDao : IDao<Funcionario>, IDaoComInt<Funcionario>
 {
     private AluguelContexto contexto;
 
@@ -12,27 +12,30 @@ public class FuncionarioDao
         this.contexto = contexto;
     }
 
-    public void AdicionaFuncionario(Funcionario funcionario)
+    public void Adicionar(Funcionario t)
     {
-        contexto.Funcionarios.Add(funcionario);
+        contexto.Funcionarios.Add(t);
         contexto.SaveChanges();
     }
 
-    public void DeletaFuncionario(Funcionario funcionario)
+    public void Deletar(Funcionario t)
     {
-        contexto.Funcionarios.Remove(funcionario);
+        contexto.Funcionarios.Remove(t);
         contexto.SaveChanges();
     }
+    
 
-    public Funcionario? RecuperaFuncionarioPorId(int idFuncionario)
+    public Funcionario? RecuperarPorId(int id)
     {
         return contexto.Funcionarios
-            .FirstOrDefault(f => f.Matricula == idFuncionario);
+            .FirstOrDefault(f => f.Matricula == id);
     }
 
-    public IList<Funcionario> RecuperaTodosFuncionarios()
+    public IList<Funcionario> RecuperarTodos()
     {
         return contexto.Funcionarios.ToList();
     }
+
+    
 
 }
