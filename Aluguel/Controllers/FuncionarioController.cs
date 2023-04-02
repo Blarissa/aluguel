@@ -13,12 +13,13 @@ namespace Aluguel.Controllers
 {   
     [ApiController]
     [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("[controller]")]
     [Tags("Aluguel")]    
     public class FuncionarioController : ControllerBase
     {
         private AluguelContexto contexto;
-        private FuncionarioDao funcionarioDao;
+        private IDaoComInt<Funcionario> funcionarioDao;
         private IMapper mapper;
 
         public FuncionarioController(AluguelContexto contexto, IMapper mapper)
@@ -37,10 +38,16 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]        
         public IActionResult RecuperaFuncionarios()
         {
-            var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
-                (funcionarioDao.RecuperaTodosFuncionarios());
+            try
+            {
+                var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
+                    (funcionarioDao.RecuperarTodos());
 
-            return Ok(funcionarios);
+                return Ok(funcionarios);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -56,15 +63,21 @@ namespace Aluguel.Controllers
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
-        {          
-            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
+        {
+            try
+            {
+                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
 
-            if (funcionario == null)
-                return NotFound(new Erro("000a", "Funcionário não encontrado"));
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
 
-            var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
+                var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
 
-            return Ok(funcionarioDto);
+                return Ok(funcionarioDto);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -79,11 +92,17 @@ namespace Aluguel.Controllers
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult AdicionaFuncionario([FromBody, Required] CreateFuncionarioDto funcionarioDto)
         {
-            var funcionario = mapper.Map<Funcionario>(funcionarioDto);
+            try
+            {
+                var funcionario = mapper.Map<Funcionario>(funcionarioDto);
 
-            funcionarioDao.AdicionaFuncionario(funcionario);
+                funcionarioDao.Adicionar(funcionario);
            
-            return Ok(funcionario);
+                return Ok(funcionario);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -99,17 +118,23 @@ namespace Aluguel.Controllers
         [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult AtualizaFuncionario(int idFuncionario, 
             [FromBody, Required] UpdateFuncionarioDto funcionarioDto)
-        {           
-            var funcionario = funcionarioDao
-                .RecuperaFuncionarioPorId(idFuncionario);
+        {               
+            try
+            {
+                var funcionario = funcionarioDao
+                .RecuperarPorId(idFuncionario);
 
-            if (funcionario == null)
-                return NotFound(new Erro("000a", "Funcionário não encontrado"));
-            
-            mapper.Map(funcionarioDto, funcionario);
-            contexto.SaveChanges();
-         
-            return Ok(funcionario);
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+
+                mapper.Map(funcionarioDto, funcionario);
+                contexto.SaveChanges();
+
+                return Ok(funcionario);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         /// <summary>
@@ -124,15 +149,21 @@ namespace Aluguel.Controllers
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult DeletaFuncionario(int idFuncionario)
-        {                        
-            var funcionario = funcionarioDao.RecuperaFuncionarioPorId(idFuncionario);
+        {
+            try
+            {
+                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
 
-            if (funcionario == null)
-                return NotFound(new Erro("000a", "Funcionário não encontrado"));
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
 
-            funcionarioDao.DeletaFuncionario(funcionario);
+                funcionarioDao.Deletar(funcionario);
                 
-            return Ok(funcionario);            
+                return Ok(funcionario);            
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

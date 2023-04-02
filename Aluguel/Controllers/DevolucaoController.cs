@@ -16,6 +16,8 @@ namespace Aluguel.Controllers
 {
     [Tags("Aluguel")]
     [Route("[controller]")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [ApiController]
     public class DevolucaoController : ControllerBase
     {
