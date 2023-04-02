@@ -18,6 +18,9 @@ namespace Aluguel.Models
     
     public static class Erros
     {
+        public const string NaoEncrontradoCod = "000a";
+        public const string NaoEncrontradoMsg = "Nome inválido!";
+
         public const string NomeCod = "001a";
         public const string NomeMsg = "Nome inválido!";
 
@@ -45,9 +48,9 @@ namespace Aluguel.Models
         public const string FotoCod = "009a";
         public const string FotoMsg = "Foto do documento inválida!";
 
-        //Indefinidos
-        //public const string DadosInvalidCod = "010a";
-        //public const string DadosInvalidMsg = "Dados inválidos";
+        
+        public const string PaisCod = "010a";
+        public const string PaisMsg = "Código do país inválido";
 
         //public const string StatusCod = "011a";
         //public const string StatusMsg = "Status do funcionário inválido";
