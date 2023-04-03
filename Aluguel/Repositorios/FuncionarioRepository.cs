@@ -1,0 +1,37 @@
+﻿using Aluguel.Models;
+using Aluguel.Repositorios.Contracts;
+
+namespace Aluguel.Data.Dao;
+
+public class FuncionarioRepository : IFuncionarioRepository
+{
+    private AluguelContexto contexto;
+
+    public FuncionarioRepository(AluguelContexto contexto)
+    {
+        this.contexto = contexto;
+    }
+
+    public void Adicionar(Funcionario funcionario)
+    {
+        contexto.Funcionarios.Add(funcionario);
+        contexto.SaveChanges();
+    }    
+
+    public void Deletar(Funcionario funcionario)
+    {
+        contexto.Funcionarios.Remove(funcionario);
+        contexto.SaveChanges();
+    }
+    
+    public Funcionario? RecuperarPorId(int id)
+    {
+        return contexto.Funcionarios
+            .FirstOrDefault(f => f.Matricula == id);
+    }
+
+    public IList<Funcionario> RecuperarTodos()
+    {
+        return contexto.Funcionarios.ToList();
+    }   
+}
