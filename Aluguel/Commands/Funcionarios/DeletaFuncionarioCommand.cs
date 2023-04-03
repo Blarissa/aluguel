@@ -1,12 +1,11 @@
 ﻿using Aluguel.Commands.Contracts;
-using Aluguel.Data.Dtos;
 using Aluguel.Validacao;
 
 namespace Aluguel.Commands.Funcionarios
 {
     public class DeletaFuncionarioCommand : BaseValidacao, ICommand
     {
-        int Matricula { get; set; }
+        public int Matricula { get; set; }
 
         public DeletaFuncionarioCommand(int Matricula)
         {
@@ -15,7 +14,8 @@ namespace Aluguel.Commands.Funcionarios
 
         public bool Validar()
         {
-            throw new NotImplementedException();
+            //TODO: Vailidações
+            return Valida;
         }
     }
 }
