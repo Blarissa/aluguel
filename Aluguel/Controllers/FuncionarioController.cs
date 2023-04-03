@@ -1,8 +1,8 @@
-﻿using Aluguel.Commands.Funcionarios;
+﻿using Aluguel.Data;
+using Aluguel.Data.Dao;
 using Aluguel.Data.Dtos;
-using Aluguel.Handlers.Funcionarios;
 using Aluguel.Models;
-using Aluguel.Queries.Funcionarios;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,17 +18,38 @@ namespace Aluguel.Controllers
     [Tags("Aluguel")]    
     public class FuncionarioController : ControllerBase
     {
+        private AluguelContexto contexto;
+        private IDaoComInt<Funcionario> funcionarioDao;
+        private IMapper mapper;
+
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
+        {
+            this.contexto = contexto;
+            funcionarioDao = new FuncionarioDao(contexto);
+            this.mapper = mapper;            
+        }
+
         /// <summary>
         /// Recupera funcionários cadastrados
         /// </summary>      
         /// <response code="200">200 OK</response>
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]
-        public IActionResult RecuperaFuncionarios([FromServices] RecuperaTodosFuncionariosHandler handler)
+        [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]        
+        public IActionResult RecuperaFuncionarios()
         {
-            return Ok(handler.Handle());            
+            try
+            {
+                var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
+                    (funcionarioDao.RecuperarTodos());
+
+                return Ok(funcionarios);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         /// <summary>
         /// Recupera funcionário
@@ -41,11 +62,24 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult RecuperaFuncionarioPorId(int idFuncionario, 
-            [FromServices] RecuperaFuncionarioPorMatriculaHandler handler)
+        public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
-            return Ok(handler.Handle(new RecuperaFuncionarioPorMatriculaQuery(idFuncionario)));
+            try
+            {
+                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
+
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+
+                var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
+
+                return Ok(funcionarioDto);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         /// <summary>
         /// Cadastrar funcionário
@@ -56,11 +90,19 @@ namespace Aluguel.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult AdicionaFuncionario(
-            [FromBody, Required] CreateFuncionarioDto funcionarioDto,
-            [FromServices] AdicionaFuncionarioHandler handler)
+        public IActionResult AdicionaFuncionario([FromBody, Required] CreateFuncionarioDto funcionarioDto)
         {
-            return Ok(handler.Handle(new AdicionaFuncionarioCommand(funcionarioDto)));            
+            try
+            {
+                var funcionario = mapper.Map<Funcionario>(funcionarioDto);
+
+                funcionarioDao.Adicionar(funcionario);
+           
+                return Ok(funcionario);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -74,11 +116,25 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult AtualizaFuncionario(int idFuncionario,
-            [FromBody, Required] UpdateFuncionarioDto funcionarioDto,
-            [FromServices] AlteraFuncionarioHandler handler)
-        {
-            return Ok(handler.Handle(new AlteraFuncionarioCommand(idFuncionario,funcionarioDto)));
+        public IActionResult AtualizaFuncionario(int idFuncionario, 
+            [FromBody, Required] UpdateFuncionarioDto funcionarioDto)
+        {               
+            try
+            {
+                var funcionario = funcionarioDao
+                .RecuperarPorId(idFuncionario);
+
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+
+                mapper.Map(funcionarioDto, funcionario);
+                contexto.SaveChanges();
+
+                return Ok(funcionario);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         /// <summary>
@@ -92,10 +148,22 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult DeletaFuncionario(int idFuncionario,
-            [FromServices] DeletaFuncionarioHandler handler)
+        public IActionResult DeletaFuncionario(int idFuncionario)
         {
-                return Ok(handler.Handle(new DeletaFuncionarioCommand(idFuncionario)));                        
+            try
+            {
+                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
+
+                if (funcionario == null)
+                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+
+                funcionarioDao.Deletar(funcionario);
+                
+                return Ok(funcionario);            
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
