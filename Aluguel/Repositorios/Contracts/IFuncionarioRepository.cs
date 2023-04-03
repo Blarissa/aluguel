@@ -7,5 +7,5 @@ public interface IFuncionarioRepository
     void Adicionar(Funcionario funcionario);    
     void Deletar(Funcionario funcionario);
     IList<Funcionario> RecuperarTodos();
-    Funcionario RecuperarPorId(int id);
+    Funcionario RecuperarPorMatricula(int matricula);
 }

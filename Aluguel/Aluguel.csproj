@@ -42,7 +42,6 @@
     <Folder Include="Commands\Alugueis\" />
     <Folder Include="Commands\CartoesDeCredito\" />
     <Folder Include="Commands\Devolucoes\" />
-    <Folder Include="Commands\Funcionarios\" />
     <Folder Include="Handlers\Alugueis\" />
     <Folder Include="Handlers\CartoesDeCredito\" />
     <Folder Include="Handlers\Ciclistas\" />

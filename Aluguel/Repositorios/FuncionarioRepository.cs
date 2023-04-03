@@ -24,10 +24,10 @@ public class FuncionarioRepository : IFuncionarioRepository
         contexto.SaveChanges();
     }
     
-    public Funcionario? RecuperarPorId(int id)
+    public Funcionario? RecuperarPorMatricula(int matricula)
     {
         return contexto.Funcionarios
-            .FirstOrDefault(f => f.Matricula == id);
+            .FirstOrDefault(f => f.Matricula == matricula);
     }
 
     public IList<Funcionario> RecuperarTodos()
