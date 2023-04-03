@@ -1,5 +1,6 @@
 ﻿using Aluguel.Models;
 using Aluguel.Repositorios.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Data.Dao;
 
@@ -16,7 +17,13 @@ public class FuncionarioRepository : IFuncionarioRepository
     {
         contexto.Funcionarios.Add(funcionario);
         contexto.SaveChanges();
-    }    
+    }
+
+    public void Alterar(Funcionario funcionario)
+    {
+        contexto.Entry(funcionario).State = EntityState.Modified;
+        contexto.SaveChanges();
+    }
 
     public void Deletar(Funcionario funcionario)
     {
