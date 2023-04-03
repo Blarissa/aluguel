@@ -1,7 +1,6 @@
 ﻿using Aluguel.Commands;
 using Aluguel.Commands.Contracts;
 using Aluguel.Commands.Funcionarios;
-using Aluguel.Data.Dtos;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Models;
 using Aluguel.Repositorios.Contracts;
@@ -13,11 +12,6 @@ namespace Aluguel.Handlers.Funcionarios
     {
         private readonly IFuncionarioRepository _repository;
         private readonly IMapper _mapper;
-
-        public AdicionaFuncionarioHandler()
-        {
-            
-        }
 
         public AdicionaFuncionarioHandler(IFuncionarioRepository repository, IMapper mapper)
         {
@@ -34,7 +28,7 @@ namespace Aluguel.Handlers.Funcionarios
 
             _repository.Adicionar(funcionario);
 
-            return new GenericCommandResult(command.funcionarioDto);
+            return new GenericCommandResult(funcionario);
         }
     }
 }
