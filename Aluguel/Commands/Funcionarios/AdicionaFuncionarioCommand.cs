@@ -2,10 +2,11 @@
 using Aluguel.Data.Dtos;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Models;
+using Aluguel.Validacao;
 
 namespace Aluguel.Commands.Funcionarios
 {
-    public class AdicionaFuncionarioCommand : ICommand
+    public class AdicionaFuncionarioCommand : BaseValidacao, ICommand
     {
         CreateFuncionarioDto funcionarioDto { get; set; }
 
