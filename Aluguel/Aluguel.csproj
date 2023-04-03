@@ -38,6 +38,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Ciclistas\" />
+    <Folder Include="Commands\Alugueis\" />
+    <Folder Include="Commands\CartoesDeCredito\" />
+    <Folder Include="Commands\Devolucoes\" />
+    <Folder Include="Handlers\Alugueis\" />
+    <Folder Include="Handlers\CartoesDeCredito\" />
+    <Folder Include="Handlers\Ciclistas\" />
+    <Folder Include="Handlers\Devolucoes\" />
+    <Folder Include="Queries\Alugueis\" />
+    <Folder Include="Queries\CartoesDeCredito\" />
+    <Folder Include="Queries\Ciclistas\" />
+    <Folder Include="Queries\Devolucoes\" />
     <Folder Include="Validacao\Devolucao\" />
   </ItemGroup>
 
