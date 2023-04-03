@@ -51,7 +51,6 @@
     <Folder Include="Queries\CartoesDeCredito\" />
     <Folder Include="Queries\Ciclistas\" />
     <Folder Include="Queries\Devolucoes\" />
-    <Folder Include="Queries\Funcionarios\" />
     <Folder Include="Validacao\Devolucao\" />
   </ItemGroup>
 
