@@ -46,7 +46,6 @@
     <Folder Include="Handlers\CartoesDeCredito\" />
     <Folder Include="Handlers\Ciclistas\" />
     <Folder Include="Handlers\Devolucoes\" />
-    <Folder Include="Handlers\Funcionarios\" />
     <Folder Include="Queries\Alugueis\" />
     <Folder Include="Queries\CartoesDeCredito\" />
     <Folder Include="Queries\Ciclistas\" />
