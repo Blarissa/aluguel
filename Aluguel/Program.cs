@@ -1,5 +1,11 @@
+using Aluguel.Commands.Contracts;
+using Aluguel.Commands.Funcionarios;
 using Aluguel.Data;
+using Aluguel.Data.Dao;
+using Aluguel.Handlers.Contracts;
+using Aluguel.Handlers.Funcionarios;
 using Aluguel.Models;
+using Aluguel.Repositorios.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -11,6 +17,13 @@ var connectionString = builder.Configuration.GetConnectionString("AluguelConnect
 
 builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+
+builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
+builder.Services.AddTransient<AdicionaFuncionarioHandler>();
+builder.Services.AddTransient<AlteraFuncionarioHandler>();
+builder.Services.AddTransient<DeletaFuncionarioHandler>();
+builder.Services.AddTransient<RecuperaFuncionarioPorMatriculaHandler>();
+builder.Services.AddTransient<RecuperaTodosFuncionariosHandler>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
