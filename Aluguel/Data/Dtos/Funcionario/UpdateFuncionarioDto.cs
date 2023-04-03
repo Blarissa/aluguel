@@ -1,7 +1,7 @@
 ﻿namespace Aluguel.Data.Dtos;
 
 public class UpdateFuncionarioDto
-{
+{    
     public string Senha { get; set; }   
     public string ConfirmaSenha { get; set; }
     public string Email { get; set; }

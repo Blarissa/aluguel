@@ -26,7 +26,7 @@ namespace Aluguel.Handlers.Funcionarios
             var funcionario = _repository.RecuperarPorMatricula(command.Matricula);
             _repository.Deletar(funcionario);
 
-            return new GenericCommandResult(command);
+            return new GenericCommandResult();
         }        
     }
 }
