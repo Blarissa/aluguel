@@ -7,49 +7,49 @@ namespace Aluguel.Commands.Funcionarios
 {
     public class AdicionaFuncionarioCommand : BaseValidacao, ICommand
     {
-        public CreateFuncionarioDto funcionarioDto { get; set; }
-        IValida validacao;
+        public CreateFuncionarioDto FuncionarioDto { get; set; }
+        IValida validacao;        
 
         public AdicionaFuncionarioCommand(CreateFuncionarioDto funcionarioDto)
         {
-            this.funcionarioDto = funcionarioDto;
+            FuncionarioDto = funcionarioDto;
             validacao = new Valida();
         }             
 
         public bool Validar()
         {
-            if (!validacao.CPF(funcionarioDto.Cpf))
+            if (!validacao.CPF(FuncionarioDto.Cpf))              
                 AdicionarErro(new Erro(
                     ListaDeErros.CpfCod, 
                     ListaDeErros.CpfMsg));
 
-            if (!validacao.Funcao(funcionarioDto.Funcao))
+            if (!validacao.Funcao(FuncionarioDto.Funcao))
                 AdicionarErro(new Erro(
                     ListaDeErros.FuncaoCod,
                     ListaDeErros.FuncaoMsg));
 
-            if (!validacao.Nome(funcionarioDto.Nome))
+            if (!validacao.Nome(FuncionarioDto.Nome))
                 AdicionarErro(new Erro(
                     ListaDeErros.NomeCod,
                     ListaDeErros.NomeMsg));
 
-            if (!validacao.Senha(funcionarioDto.Senha, 
-                funcionarioDto.ConfirmaSenha))
+            if (!validacao.Senha(FuncionarioDto.Senha, 
+                FuncionarioDto.ConfirmaSenha))
                 AdicionarErro(new Erro(
                     ListaDeErros.SenhaCod,
                     ListaDeErros.SenhaMsg));
 
-            if (!validacao.Email(funcionarioDto.Email))
+            if (!validacao.Email(FuncionarioDto.Email))
                 AdicionarErro(new Erro(
                     ListaDeErros.EmailCod,
                     ListaDeErros.EmailMsg));
 
-            if (!validacao.Idade(funcionarioDto.Idade))
+            if (!validacao.Idade(FuncionarioDto.Idade))
                 AdicionarErro(new Erro(
                     ListaDeErros.IdadeCod,
                     ListaDeErros.IdadeMsg));
 
             return Valida;
-        }
+        }        
     }
 }
