@@ -1,11 +1,8 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Aluguel.Validacao
 {

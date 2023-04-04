@@ -1,7 +1,4 @@
-﻿using Aluguel.Models;
-using Aluguel.Repositorios.Contracts;
-
-namespace Aluguel.Validacao
+﻿namespace Aluguel.Validacao
 {
     public static class ValidaRegras
     {

@@ -1,10 +1,8 @@
-﻿using Aluguel.Data.Dao;
-using Aluguel.Models;
-using Aluguel.Repositorios.Contracts;
+﻿using Aluguel.Repositorios.Contracts;
 
 namespace Aluguel.Validacao
 {
-    public class ValidaRegraDoBancoCiclista : IValidaRegraDoBancoCiclista
+    public class ValidaRegraDoBancoCiclista 
     {
         ICiclistaRepository _ciclistaRepository;
         IPaisRepository _paisRepository;
