@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Aluguel.Models;
+﻿namespace Aluguel.Models;
 
 public class Erro
 {    
@@ -23,7 +21,7 @@ public class Erro
 public static class ListaDeErros
 {
     public const string NaoEncrontradoCod = "000a";
-    public const string NaoEncrontradoMsg = "Nome inválido!";
+    public const string NaoEncrontradoMsg = "Não encontrado!";
 
     public const string NomeCod = "001a";
     public const string NomeMsg = "Nome inválido!";

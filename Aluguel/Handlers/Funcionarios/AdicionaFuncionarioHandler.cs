@@ -24,8 +24,10 @@ namespace Aluguel.Handlers.Funcionarios
 
         public ICommandResult Handle(AdicionaFuncionarioCommand command)
         {
+            //validação dos dados passados
             if (!command.Validar())
             {
+                //se já existe o cpf
                 if (_valida.CPFFuncionario(command.FuncionarioDto.Cpf))
                     command.AdicionarErro(new Erro(
                         ListaDeErros.CpfCod,

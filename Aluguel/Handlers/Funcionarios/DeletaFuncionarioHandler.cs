@@ -5,7 +5,6 @@ using Aluguel.Handlers.Contracts;
 using Aluguel.Models;
 using Aluguel.Repositorios.Contracts;
 using Aluguel.Validacao;
-using AutoMapper;
 
 namespace Aluguel.Handlers.Funcionarios
 {
@@ -22,6 +21,7 @@ namespace Aluguel.Handlers.Funcionarios
 
         public ICommandResult Handle(DeletaFuncionarioCommand command)
         {
+            //se existe o funcionário
             if (!_valida.IdFuncionario(command.Matricula))
             {
                 command.AdicionarErro(new Erro(
