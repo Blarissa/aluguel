@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Models;
+using Aluguel.Models.Enums;
 
 namespace Aluguel.Data.Dao.Cartao
 {
