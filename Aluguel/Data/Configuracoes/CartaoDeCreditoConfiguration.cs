@@ -30,12 +30,7 @@ public class CartaoDeCreditoConfiguration : IEntityTypeConfiguration<CartaoDeCre
 
         //definindo propriedade codigoseguranca not null
         builder.Property(cc => cc.CodigoSeguranca)
-            .IsRequired();
-
-        //definindo propriedade de status do cartão de crédito
-        builder.Property(cc => cc.Status)
-            .HasColumnType("e_status_cartao")
-            .IsRequired();
+            .IsRequired();      
 
         //definindo relacionamento ciclista x cartaodecredito
         builder.HasOne(cc => cc.Ciclista)

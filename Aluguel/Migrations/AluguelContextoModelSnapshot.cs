@@ -21,8 +21,7 @@ namespace Aluguel.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_cartao", new[] { "ativo", "desativado" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });           
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -57,11 +56,7 @@ namespace Aluguel.Migrations
                     b.Property<string>("Numero")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("numero");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("e_status_cartao")
-                        .HasColumnName("status");
+                        .HasColumnName("numero");                    
 
                     b.HasKey("Id")
                         .HasName("pk_cartoes_de_credito");

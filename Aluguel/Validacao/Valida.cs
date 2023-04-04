@@ -8,12 +8,12 @@ namespace Aluguel.Validacao
         public bool CartaoCredito(ReadCartaoDto cartao)
         {
             return ValidaFormato.CartaoFormato(cartao) &&
-                   ValidaRegras.DataRegras(cartao.MesValidade,cartao.AnoValidade);
+                   ValidaRegras.DataRegras(cartao.MesValidade, cartao.AnoValidade);                   
         }
 
         public bool CPF(string cpf)
         {
-            return ValidaFormato.CPFFormato(cpf) && 
+            return ValidaFormato.CPFFormato(cpf) &&
                    ValidaRegras.CPFRegras(cpf);
         }
 

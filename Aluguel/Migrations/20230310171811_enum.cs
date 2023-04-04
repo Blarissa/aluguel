@@ -10,8 +10,7 @@ namespace Aluguel.Migrations
         {
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:e_funcao", "administrativo,reparador")
-                .Annotation("Npgsql:Enum:e_nacionalidade", "brasileiro,estrangeiro")
-                .Annotation("Npgsql:Enum:e_status_cartao", "ativo,desativado")
+                .Annotation("Npgsql:Enum:e_nacionalidade", "brasileiro,estrangeiro")                
                 .Annotation("Npgsql:Enum:e_status_ciclista", "pendente,ativo,bloqueado");           
         }
 
@@ -19,8 +18,7 @@ namespace Aluguel.Migrations
         {
             migrationBuilder.AlterDatabase()
                 .OldAnnotation("Npgsql:Enum:e_funcao", "administrativo,reparador")
-                .OldAnnotation("Npgsql:Enum:e_nacionalidade", "brasileiro,estrangeiro")
-                .OldAnnotation("Npgsql:Enum:e_status_cartao", "ativo,desativado")
+                .OldAnnotation("Npgsql:Enum:e_nacionalidade", "brasileiro,estrangeiro")                
                 .OldAnnotation("Npgsql:Enum:e_status_ciclista", "pendente,ativo,bloqueado");
 
             migrationBuilder.AlterColumn<int>(

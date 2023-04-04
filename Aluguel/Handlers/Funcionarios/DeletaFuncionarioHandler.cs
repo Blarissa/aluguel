@@ -2,26 +2,34 @@
 using Aluguel.Commands.Contracts;
 using Aluguel.Commands.Funcionarios;
 using Aluguel.Handlers.Contracts;
+using Aluguel.Models;
 using Aluguel.Repositorios.Contracts;
-using AutoMapper;
+using Aluguel.Validacao;
 
 namespace Aluguel.Handlers.Funcionarios
 {
     public class DeletaFuncionarioHandler : IHandler<DeletaFuncionarioCommand>
     {
-        private readonly IFuncionarioRepository _repository;
-        private readonly IMapper _mapper;
+        private readonly IFuncionarioRepository _repository;        
+        private readonly IValidaRegraBancoFuncionario _valida;
 
-        public DeletaFuncionarioHandler(IFuncionarioRepository repository, IMapper mapper)
+        public DeletaFuncionarioHandler(IFuncionarioRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
+            _valida = new ValidaRegraDoBancoFuncionario(_repository);
         }
 
         public ICommandResult Handle(DeletaFuncionarioCommand command)
         {
-            if (!command.Valida)
-                return new GenericCommandResult(command.Erros.ToArray());
+            //se existe o funcionário
+            if (!_valida.IdFuncionario(command.Matricula))
+            {
+                command.AdicionarErro(new Erro(
+                    ListaDeErros.NaoEncrontradoCod, 
+                    ListaDeErros.NaoEncrontradoMsg));
+
+                return new GenericCommandResult(command.Erros);
+            }
 
             var funcionario = _repository.RecuperarPorMatricula(command.Matricula);
             _repository.Deletar(funcionario);

@@ -1,14 +1,12 @@
-﻿using Aluguel.Data.Dtos;
-using Aluguel.Models;
-using Aluguel.Queries.Contracts;
-using System.Linq.Expressions;
+﻿using Aluguel.Queries.Contracts;
+using Aluguel.Validacao;
 
 namespace Aluguel.Queries.Funcionarios
 {
-    public class RecuperaFuncionarioPorMatriculaQuery : IQuery
+    public class RecuperaFuncionarioPorMatriculaQuery : BaseValidacao, IQuery
     {
         public int Matricula { get; set; }        
-        
+
         public RecuperaFuncionarioPorMatriculaQuery(int matricula)
         {
             Matricula = matricula;

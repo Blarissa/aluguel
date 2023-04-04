@@ -5,7 +5,7 @@ namespace Aluguel.Commands.Funcionarios
 {
     public class DeletaFuncionarioCommand : BaseValidacao, ICommand
     {
-        public int Matricula { get; set; }
+        public int Matricula { get; set; }    
 
         public DeletaFuncionarioCommand(int Matricula)
         {
@@ -14,7 +14,6 @@ namespace Aluguel.Commands.Funcionarios
 
         public bool Validar()
         {
-            //TODO: Vailidações
             return Valida;
         }
     }
