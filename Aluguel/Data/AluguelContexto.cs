@@ -25,7 +25,6 @@ namespace Aluguel.Data
 
             modelBuilder.HasPostgresEnum<EFuncao>();
             modelBuilder.HasPostgresEnum<ENacionalidade>();
-            modelBuilder.HasPostgresEnum<EStatusCartao>();
             modelBuilder.HasPostgresEnum<EStatusCiclista>();
 
             modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());
