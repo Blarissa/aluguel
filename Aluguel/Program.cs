@@ -1,14 +1,9 @@
-using Aluguel.Commands.Contracts;
-using Aluguel.Commands.Funcionarios;
 using Aluguel.Data;
 using Aluguel.Data.Dao;
-using Aluguel.Handlers.Contracts;
 using Aluguel.Handlers.Funcionarios;
-using Aluguel.Models;
 using Aluguel.Repositorios;
 using Aluguel.Repositorios.Contracts;
 using Aluguel.Validacao;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -23,15 +18,14 @@ builder.Services.AddDbContext<AluguelContexto>(
 builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
 builder.Services.AddTransient<IPaisRepository, PaisRepository>();
 
+builder.Services.AddTransient<IValida, Valida>();;
+builder.Services.AddTransient<IValidaRegraBancoFuncionario, ValidaRegraDoBancoFuncionario>();
+
 builder.Services.AddTransient<AdicionaFuncionarioHandler>();
 builder.Services.AddTransient<AlteraFuncionarioHandler>();
 builder.Services.AddTransient<DeletaFuncionarioHandler>();
 builder.Services.AddTransient<RecuperaFuncionarioPorMatriculaHandler>();
 builder.Services.AddTransient<RecuperaTodosFuncionariosHandler>();
-
-builder.Services.AddTransient<IValida, Valida>();
-builder.Services.AddTransient<IValidaRegraBancoFuncionario, ValidaRegraDoBancoFuncionario>();
-builder.Services.AddTransient<IValidaRegraDoBancoCiclista, ValidaRegraDoBancoCiclista>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
