@@ -21,8 +21,8 @@ namespace Aluguel.Handlers.Funcionarios
 
         public ICommandResult Handle(AdicionaFuncionarioCommand command)
         {
-            if(!command.Valida)
-                return new GenericCommandResult(command.Erros.ToArray());
+            if(!command.Validar())
+                return new GenericCommandResult(command.Erros);
 
             var funcionario = _mapper.Map<Funcionario>(command.funcionarioDto);
 

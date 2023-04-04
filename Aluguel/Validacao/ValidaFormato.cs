@@ -77,7 +77,7 @@ namespace Aluguel.Validacao
             funcao = funcao.ToUpper();
 
             return funcao.Equals("REPADADOR") ||
-                   funcao.Equals("ADMINISTRADOR");
+                   funcao.Equals("ADMINISTRATIVO");
         }
 
         //se é formato guid 
@@ -118,17 +118,7 @@ namespace Aluguel.Validacao
 
 
             return true;
-        }
-
-        //se extensão do arquivo é válida
-        public static bool FotoFormato(string foto)
-        {
-            string[] extensoes = { ".png", ".jpg" , ".jpeg" };
-
-            var ext = Path.GetExtension(foto).ToLowerInvariant();
-
-            return !string.IsNullOrEmpty(ext) && extensoes.Contains(ext);
-        }
+        }        
 
         //se o código do pais tem 2 caracteres
         private static bool PaisFormato(string codigo)

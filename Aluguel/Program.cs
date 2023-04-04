@@ -5,7 +5,9 @@ using Aluguel.Data.Dao;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Handlers.Funcionarios;
 using Aluguel.Models;
+using Aluguel.Repositorios;
 using Aluguel.Repositorios.Contracts;
+using Aluguel.Validacao;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -19,23 +21,32 @@ builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
+builder.Services.AddTransient<IPaisRepository, PaisRepository>();
+
 builder.Services.AddTransient<AdicionaFuncionarioHandler>();
 builder.Services.AddTransient<AlteraFuncionarioHandler>();
 builder.Services.AddTransient<DeletaFuncionarioHandler>();
 builder.Services.AddTransient<RecuperaFuncionarioPorMatriculaHandler>();
 builder.Services.AddTransient<RecuperaTodosFuncionariosHandler>();
 
+builder.Services.AddTransient<IValida, Valida>();
+builder.Services.AddTransient<IValidaRegraBancoFuncionario, ValidaRegraDoBancoFuncionario>();
+builder.Services.AddTransient<IValidaRegraDoBancoCiclista, ValidaRegraDoBancoCiclista>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllers()
-    .AddNewtonsoftJson()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        options.InvalidModelStateResponseFactory = context =>
-            new UnprocessableEntityObjectResult(context.ModelState);                        
-    });
+    .AddNewtonsoftJson();
+
+//builder.Services.AddControllers()
+//    .AddNewtonsoftJson()
+//    .ConfigureApiBehaviorOptions(options =>
+//    {
+//        options.InvalidModelStateResponseFactory = context =>
+//            new UnprocessableEntityObjectResult(context.ModelState);                        
+//    });
 
 builder.Services.AddEndpointsApiExplorer();
 

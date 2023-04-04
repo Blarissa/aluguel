@@ -1,5 +1,6 @@
 ﻿using Aluguel.Commands.Contracts;
 using Aluguel.Data.Dtos;
+using Aluguel.Models;
 using Aluguel.Validacao;
 
 namespace Aluguel.Commands.Funcionarios
@@ -7,15 +8,47 @@ namespace Aluguel.Commands.Funcionarios
     public class AdicionaFuncionarioCommand : BaseValidacao, ICommand
     {
         public CreateFuncionarioDto funcionarioDto { get; set; }
+        IValida validacao;
 
         public AdicionaFuncionarioCommand(CreateFuncionarioDto funcionarioDto)
         {
-           this.funcionarioDto = funcionarioDto;
+            this.funcionarioDto = funcionarioDto;
+            validacao = new Valida();
         }             
 
         public bool Validar()
         {
-            //TODO: Vailidações
+            if (!validacao.CPF(funcionarioDto.Cpf))
+                AdicionarErro(new Erro(
+                    ListaDeErros.CpfCod, 
+                    ListaDeErros.CpfMsg));
+
+            if (!validacao.Funcao(funcionarioDto.Funcao))
+                AdicionarErro(new Erro(
+                    ListaDeErros.FuncaoCod,
+                    ListaDeErros.FuncaoMsg));
+
+            if (!validacao.Nome(funcionarioDto.Nome))
+                AdicionarErro(new Erro(
+                    ListaDeErros.NomeCod,
+                    ListaDeErros.NomeMsg));
+
+            if (!validacao.Senha(funcionarioDto.Senha, 
+                funcionarioDto.ConfirmaSenha))
+                AdicionarErro(new Erro(
+                    ListaDeErros.SenhaCod,
+                    ListaDeErros.SenhaMsg));
+
+            if (!validacao.Email(funcionarioDto.Email))
+                AdicionarErro(new Erro(
+                    ListaDeErros.EmailCod,
+                    ListaDeErros.EmailMsg));
+
+            if (!validacao.Idade(funcionarioDto.Idade))
+                AdicionarErro(new Erro(
+                    ListaDeErros.IdadeCod,
+                    ListaDeErros.IdadeMsg));
+
             return Valida;
         }
     }
