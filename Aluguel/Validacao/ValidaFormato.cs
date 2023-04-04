@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Aluguel.Validacao
 {
@@ -30,7 +31,7 @@ namespace Aluguel.Validacao
                    cpf.All(c => char.IsDigit(c)) &&
                    cpf.Length.Equals(11) &&
                    cpf.Any(c => !cpf[0].Equals(c));
-        }        
+        }
 
         //se estiver no formato dd/MM/yyyy
         public static bool DataFormato(string data)
@@ -105,7 +106,7 @@ namespace Aluguel.Validacao
 
             return nacionalidade.Equals("BRASILEIRO") ||
                    nacionalidade.Equals("ESTRANGEIRO");
-        }        
+        }
 
         //se o número do passaporte é válido
         //se o código do pais tem 2 caracteres
@@ -115,16 +116,29 @@ namespace Aluguel.Validacao
                 !PaisFormato(passaporte.Pais.Codigo))
                 return false;
 
+
             return true;
         }
-        
+
+        //se extensão do arquivo é válida
+        public static bool FotoFormato(string foto)
+        {
+            string[] extensoes = { ".png", ".jpg" , ".jpeg" };
+
+            var ext = Path.GetExtension(foto).ToLowerInvariant();
+
+            return !string.IsNullOrEmpty(ext) && extensoes.Contains(ext);
+        }
+
+        //se o código do pais tem 2 caracteres
         private static bool PaisFormato(string codigo)
         {
             codigo = codigo.ToLower();
 
             return codigo.Length == 2;
         }
-       
+
+        //se o número do passaporte é válido
         private static bool NumeroPassaporte(string numero)
         {
             Regex re = new Regex(@"^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$");

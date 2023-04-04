@@ -18,12 +18,35 @@ namespace Aluguel.Validacao
             bool valorK = Valor(cpf, restoK, 10);
 
             return valorJ && valorK;
+        }        
+
+        //se é uma data do futuro
+        public static bool DataRegras(string data)
+        {
+            var dt = DateTime.Parse(data);
+
+            return dt > DateTime.Now;
         }
 
-        public static bool  PassaporteRegras(Passaporte passaporte)
+        //se é uma data do futuro
+        public static bool DataRegras(string mes, string ano)
+        {            
+            var dt = new DateTime(int.Parse(ano), int.Parse(mes), 1);
+
+            return dt > DateTime.Now;
+        }
+
+        //se a data de nascimento é de um adulto
+        public static bool DataNascimentoRegras(string data)
         {
-            if()
-            return true;
+            var dt = DateTime.Parse(data);
+            
+            return DateTime.Now.Subtract(dt).Days/365 >= 18;
+        }
+
+        public static bool IdadeRegras(string idade)
+        {
+            return int.Parse(idade) >= 18;
         }
 
         private static bool Valor(string cpf, int restoJ, int i)
@@ -51,5 +74,6 @@ namespace Aluguel.Validacao
 
             return somaJ;
         }
+
     }
 }

@@ -1,19 +1,26 @@
-﻿using Aluguel.Migrations;
-using Aluguel.Models;
+﻿using Aluguel.Data.Dtos.Cartao;
+using Aluguel.Data.Dtos.Ciclista;
 
 namespace Aluguel.Validacao
 {
     public class Valida : IValida
     {
+        public bool CartaoCredito(ReadCartaoDto cartao)
+        {
+            return ValidaFormato.CartaoFormato(cartao) &&
+                   ValidaRegras.DataRegras(cartao.MesValidade,cartao.AnoValidade);
+        }
+
         public bool CPF(string cpf)
         {
             return ValidaFormato.CPFFormato(cpf) && 
                    ValidaRegras.CPFRegras(cpf);
         }
 
-        public bool Data(string data)
+        public bool DataNascimento(string data)
         {
-            return ValidaFormato.DataFormato(data);
+            return ValidaFormato.DataFormato(data) &&
+                   ValidaRegras.DataNascimentoRegras(data);
         }
 
         public bool DataHora(string dataHora)
@@ -31,9 +38,20 @@ namespace Aluguel.Validacao
             return ValidaFormato.FuncaoFormato(funcao);
         }
 
+        public bool Id(string id)
+        {
+            return ValidaFormato.GuidFormato(id);
+        }
+
         public bool Idade(string idade)
         {
-            throw new NotImplementedException();
+            return ValidaFormato.IntFormato(idade) &&
+                   ValidaRegras.IdadeRegras(idade);
+        }
+
+        public bool Matricula(string matricula)
+        {
+            return ValidaFormato.IntFormato(matricula);
         }
 
         public bool Nacionalidade(string nacionalidade)
@@ -46,26 +64,19 @@ namespace Aluguel.Validacao
             return ValidaFormato.NomeFormato(nome);
         }
         
-        public bool Passaporte(Passaporte passaporte)
+        public bool Passaporte(PassaporteDto passaporte)
         {
-            return Pais(passaporte.Pais);
+            return ValidaFormato.PassaporteFormato(passaporte);
         }
-
         
         public bool Senha(string senha, string confirmaSenha)
         {
             return senha.Equals(confirmaSenha);
         }                
-
-        //falta fazer
+        
         public bool UrlFotoDocumento(string foto)
         {
             return ValidaFormato.FotoFormato(foto);
-        }
-        
-        private bool Pais(Pais pais)
-        {
-            return ValidaFormato.PaisFormato(pais.Codigo);
-        }
+        }               
     }
 }
