@@ -1,6 +1,7 @@
 ﻿using Aluguel.Data;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Repositorios;
 
@@ -29,6 +30,12 @@ public class CartaoDeCreditoRepository : ICartaoDeCreditoRepository
         cartaoParaAlterar = cartaoDeCredito;
 
         _contexto.CartoesDeCredito.Update(cartaoParaAlterar);
+        _contexto.SaveChanges();
+    }
+
+    public void AlterarCartao(CartaoDeCredito cartaoDeCredito)
+    {
+        _contexto.Entry(cartaoDeCredito).State = EntityState.Modified;
         _contexto.SaveChanges();
     }
 }

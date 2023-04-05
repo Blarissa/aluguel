@@ -1,5 +1,5 @@
 ﻿using Aluguel.Commands;
-using Aluguel.Commands.Ciclistas;
+using Aluguel.Commands.CartoesDeCredito;
 using Aluguel.Commands.Contracts;
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Handlers.Contracts;
@@ -8,12 +8,12 @@ using AutoMapper;
 
 namespace Aluguel.Handlers.CartoesDeCredito;
 
-public class BuscarCartaoDeCreditoHandler : IHandler<BuscarBicicletaAlugadaCommand>
+public class BuscarCartaoDeCreditoHandler : IHandler<BuscarCartaoDeCreditoCommand>
 {
     private readonly ICartaoDeCreditoRepository _repository;
     private readonly IMapper _mapper;
 
-    public ICommandResult Handle(BuscarBicicletaAlugadaCommand command)
+    public ICommandResult Handle(BuscarCartaoDeCreditoCommand command)
     {
         if (!command.Validar())
             return new GenericCommandResult(command.Validar());

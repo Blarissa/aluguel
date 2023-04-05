@@ -7,4 +7,6 @@ public interface ICartaoDeCreditoRepository
     CartaoDeCredito? BuscarPorIdCiclista(Guid ciclistaId);
 
     void AlterarCartaoPorIdCiclista(Guid ciclistaId, CartaoDeCredito cartaoDeCredito);
+
+    void AlterarCartao(CartaoDeCredito cartaoDeCredito);
 }

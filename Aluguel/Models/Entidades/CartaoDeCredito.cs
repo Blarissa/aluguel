@@ -20,4 +20,13 @@ public class CartaoDeCredito
         Emprestimos = new List<Emprestimo>();
         Devolucoes = new List<Devolucao>();
     }
+
+    public void AtualizarDadosCartao(string nome, string numero, int mesValidade, int anoValidade, int codigoSeguranca)
+    {
+        Nome = nome;
+        Numero = numero;
+        MesValidade = mesValidade;
+        AnoValidade = anoValidade;
+        CodigoSeguranca = codigoSeguranca;
+    }
 }
