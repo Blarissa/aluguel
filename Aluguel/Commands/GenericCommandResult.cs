@@ -15,6 +15,6 @@ public class GenericCommandResult : ICommandResult
         Status = HttpStatusCode.InternalServerError;
     }
 
-    public object Data { get; private set; }
-    public HttpStatusCode Status { get; private set; }
+    public object Data { get; set; }
+    public HttpStatusCode Status { get; set; }
 }

@@ -5,18 +5,14 @@ namespace Aluguel.Commands.Results
 {
     public class UnprocessableEntityCommandResult : GenericCommandResult
     {
-        public HttpStatusCode Status { get; private set; }
-        public object Data { get; private set; }
-
-        public UnprocessableEntityCommandResult(object data)
+        public UnprocessableEntityCommandResult(object data) : base(data)
         {
-            Data = data;
-            Status = HttpStatusCode.UnprocessableEntity;
+            base.Status = HttpStatusCode.UnprocessableEntity;
         }
 
-        public UnprocessableEntityCommandResult()
+        public UnprocessableEntityCommandResult() : base() 
         {
-            Status = HttpStatusCode.UnprocessableEntity;
+            base.Status = HttpStatusCode.UnprocessableEntity;
         }
     }
 }

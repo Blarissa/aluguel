@@ -5,18 +5,14 @@ namespace Aluguel.Commands.Results
 {
     public class NotFoundCommandResult : GenericCommandResult
     {
-        public HttpStatusCode Status { get; private set; }
-        public object Data { get; private set; }
-
-        public NotFoundCommandResult(object data)
+        public NotFoundCommandResult(object data) : base(data)
         {
-            Data = data;
-            Status = HttpStatusCode.InternalServerError;
+            base.Status = HttpStatusCode.InternalServerError;
         }
 
-        public NotFoundCommandResult()
+        public NotFoundCommandResult() : base()
         {
-            Status = HttpStatusCode.NotFound;
+            base.Status = HttpStatusCode.NotFound;
         }
     }
 }
