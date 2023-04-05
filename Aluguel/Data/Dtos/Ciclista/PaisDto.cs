@@ -2,6 +2,6 @@
 {
     public class PaisDto
     {
-        public string Nome { get; set; }
+        public string Codigo { get; set; }
     }
 }
