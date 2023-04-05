@@ -1,8 +1,12 @@
 using Aluguel.Data;
 using Aluguel.Data.Dao;
+using Aluguel.Handlers.Devolucoes;
 using Aluguel.Handlers.Funcionarios;
 using Aluguel.Repositorios;
 using Aluguel.Repositorios.Contracts;
+using Aluguel.Servicos;
+using Aluguel.Servicos.Bicicleta;
+using Aluguel.Servicos.Externo;
 using Aluguel.Validacao;
 using Aluguel.Handlers.Ciclistas;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +19,19 @@ var connectionString = builder.Configuration.GetConnectionString("AluguelConnect
 
 builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+
+//Sincronizacoes de Servicos
+builder.Services.AddTransient<IExternoService, ExternoApi>();
+builder.Services.AddTransient<IEquipamentoService, EquipamentoApi>();
+//
+
+//Sincronizacoes de Repositorio
+builder.Services.AddTransient<IDevolucaoRepository, DevolucaoRepository>();
+//
+
+//Definindo os handlers
+builder.Services.AddTransient<RealizaDevolucaoHandler>();
+
 
 builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
 builder.Services.AddTransient<IPaisRepository, PaisRepository>();
