@@ -1,7 +1,7 @@
 ﻿using Aluguel.Data;
-using Aluguel.Models;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Repositorios;
 
@@ -23,16 +23,26 @@ public class CiclistaRepository : ICiclistaRepository
 
     public void AtualizarCiclista(Ciclista ciclista)
     {
-        throw new NotImplementedException();
+        _contexto.Entry(ciclista).State = EntityState.Modified;
+        _contexto.SaveChanges();
     }
 
-    public Ciclista BuscarPorId(Guid id)
+    public Ciclista? BuscarPorId(Guid id)
     {
-        throw new NotImplementedException();
+        var ciclista = _contexto.Ciclistas
+            .Include(c => c.Emprestimos)
+            .ThenInclude(c => c.CartaoDeCredito)
+            .Include(c => c.Passaporte)
+            .ThenInclude(c => c.Pais)
+            .FirstOrDefault(c => c.Id == id);
+
+        return ciclista;
     }
 
     public bool EmailExiste(string email)
     {
-        throw new NotImplementedException();
+        var ciclista = _contexto.Ciclistas.FirstOrDefault(c => c.Email == email);
+
+        return ciclista != null;
     }
 }
