@@ -45,8 +45,7 @@ namespace Aluguel.Migrations
                     numero = table.Column<string>(type: "text", nullable: false),
                     mes_validade = table.Column<int>(type: "integer", nullable: false),
                     ano_validade = table.Column<int>(type: "integer", nullable: false),
-                    codigo_seguranca = table.Column<int>(type: "integer", nullable: false),
-                    status = table.Column<int>(type: "e_status_cartao", nullable: false),
+                    codigo_seguranca = table.Column<int>(type: "integer", nullable: false),                   
                     ciclista_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

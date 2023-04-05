@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Aluguel.Servicos.Externo
 {
-    public class ExternoApi
+    public class ExternoApi : IExternoService
     {
         private const string FilaCobrancaEndpoint = "/filaCobranca";
         private const string CobrancaEndpoint = "/Cobranca";
@@ -25,49 +25,49 @@ namespace Aluguel.Servicos.Externo
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
-        public async Task<HttpResponseMessage> EnviarCobrancaParaFila(PostFilaCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobrancaParaFila(PostFilaCobrancaDto cobrancaDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(cobrancaDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
-            var resposta = await client.PostAsync(baseUriServico+FilaCobrancaEndpoint, requestBody);
+            var resposta = client.PostAsync(baseUriServico+FilaCobrancaEndpoint, requestBody);
 
             return resposta;
         }
 
-        public async Task<HttpResponseMessage> EnviarCobranca(PostCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobranca(PostCobrancaDto cobrancaDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(cobrancaDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
-            var resposta = await client.PostAsync(baseUriServico+CobrancaEndpoint, requestBody);
+            var resposta = client.PostAsync(baseUriServico+CobrancaEndpoint, requestBody);
 
             return resposta;
         }
 
-        public async Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
+        public Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(emailDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
-            var resposta = await client.PostAsync(baseUriServico+EnviarEmailEndpoint, requestBody);
+            var resposta = client.PostAsync(baseUriServico+EnviarEmailEndpoint, requestBody);
 
             return resposta;
         }
 
-        public async Task<HttpResponseMessage> BuscarCobranca(Guid idCobranca)
+        public Task<HttpResponseMessage> BuscarCobranca(Guid idCobranca)
         {
-            var resposta = await client.GetAsync(baseUriServico+CobrancaEndpoint+$"{idCobranca}");
+            var resposta = client.GetAsync(baseUriServico+CobrancaEndpoint+$"{idCobranca}");
 
             return resposta;
         }
 
-        public async Task<HttpResponseMessage> ValidacaoCartao(PostValidaCartaoDto validaCartaoDto)
+        public Task<HttpResponseMessage> ValidacaoCartao(PostValidaCartaoDto validaCartaoDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(validaCartaoDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
 
-            var resposta = await client.PostAsync(baseUriServico+ValidaCartaoEndpoint, requestBody);
+            var resposta = client.PostAsync(baseUriServico+ValidaCartaoEndpoint, requestBody);
 
             return resposta;
         }
