@@ -1,4 +1,5 @@
-﻿using Aluguel.Data;
+﻿using Aluguel.Commands.CartoesDeCredito;
+using Aluguel.Data;
 using Aluguel.Data.Dao.Cartao;
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Servicos.Externo;
@@ -76,37 +77,40 @@ namespace Aluguel.Controller
         [ProducesResponseType(200, Type = typeof(UpdateCartaoDeCreditoDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public async Task<IActionResult> PutCartaoDeCredito([FromRoute] string idCiclista, [FromBody,Required] UpdateCartaoDeCreditoDto novosDados)
+        public async Task<IActionResult> PutCartaoDeCredito([FromRoute]string idCiclista, [FromBody,Required]AlterarCartaoDeCreditoCommand command)
+        //public async Task<IActionResult> PutCartaoDeCredito([FromRoute]string idCiclista, [FromBody,Required] UpdateCartaoDeCreditoDto novosDados)
         {
-            try {
-                Guid idTransformado = Guid.Parse(idCiclista);
+            command.InserirCiclistaId(Guid.Parse(idCiclista));
 
-                PostValidaCartaoDto request = mapper.Map<PostValidaCartaoDto>(novosDados);
-                var retorno = await externoApi.ValidacaoCartao(request);
+            //try {
+            //    Guid idTransformado = Guid.Parse(idCiclista);
 
-                if(retorno.StatusCode != System.Net.HttpStatusCode.OK) {
-                    return UnprocessableEntity(new Erro("422", "Solicitacao invalida"));
-                }
+            //    PostValidaCartaoDto request = mapper.Map<PostValidaCartaoDto>(novosDados);
+            //    var retorno = await externoApi.ValidacaoCartao(request);
 
-                CartaoDeCredito? cartaoAchado = store.BuscarPorIdCiclista(idTransformado);
-                if(cartaoAchado == null) {
-                    return NotFound(new Erro("422", "Cartao nao encontrado"));
-                }
+            //    if(retorno.StatusCode != System.Net.HttpStatusCode.OK) {
+            //        return UnprocessableEntity(new Erro("422", "Solicitacao invalida"));
+            //    }
 
-                CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);
+            //    CartaoDeCredito? cartaoAchado = store.BuscarPorIdCiclista(idTransformado);
+            //    if(cartaoAchado == null) {
+            //        return NotFound(new Erro("422", "Cartao nao encontrado"));
+            //    }
 
-                store.AlterarCartaoPorIdCiclista(idTransformado, novosDadosMapeados);
+            //    CartaoDeCredito novosDadosMapeados = mapper.Map<UpdateCartaoDeCreditoDto,CartaoDeCredito>(novosDados, cartaoAchado);
 
-                return CreatedAtAction(nameof(GetCartaoDeCredito), new { idCiclista = idCiclista }, novosDados);
+            //    store.AlterarCartaoPorIdCiclista(idTransformado, novosDadosMapeados);
 
-            }
-            catch(FormatException formEx) {
-                return UnprocessableEntity(new Erro("422", "Solicitacao Invalida"));
-            }
-            catch (Exception e) {
-                Console.WriteLine(e);
-                return StatusCode(500);
-            }
+            //    return CreatedAtAction(nameof(GetCartaoDeCredito), new { idCiclista = idCiclista }, novosDados);
+
+            //}
+            //catch(FormatException formEx) {
+            //    return UnprocessableEntity(new Erro("422", "Solicitacao Invalida"));
+            //}
+            //catch (Exception e) {
+            //    Console.WriteLine(e);
+            //    return StatusCode(500);
+            //}
         }
     }
 }

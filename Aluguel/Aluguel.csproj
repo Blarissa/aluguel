@@ -46,10 +46,8 @@
 
   <ItemGroup>
     <Folder Include="Commands\Alugueis\" />
-    <Folder Include="Commands\CartoesDeCredito\" />
     <Folder Include="Commands\Devolucoes\" />
     <Folder Include="Handlers\Alugueis\" />
-    <Folder Include="Handlers\CartoesDeCredito\" />
     <Folder Include="Handlers\Devolucoes\" />
     <Folder Include="Queries\Alugueis\" />
     <Folder Include="Queries\CartoesDeCredito\" />
