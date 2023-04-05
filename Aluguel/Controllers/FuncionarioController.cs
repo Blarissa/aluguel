@@ -11,11 +11,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {   
-    [ApiController]
+    [Tags("Aluguel")]    
+    [Route("[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("[controller]")]
-    [Tags("Aluguel")]    
+    [ApiController]
     public class FuncionarioController : ControllerBase
     {
         /// <summary>

@@ -14,11 +14,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {
-    [Tags("Aluguel")]
-    [ApiController]
+    [Tags("Aluguel")]    
+    [Route("[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("[controller]")]
+    [ApiController]
     public class AluguelController : ControllerBase
     {
         private CartaoDeCreditoDao storeCartao;
