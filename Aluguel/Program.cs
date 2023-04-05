@@ -1,5 +1,8 @@
 using Aluguel.Data;
+using Aluguel.Handlers.Ciclistas;
 using Aluguel.Models;
+using Aluguel.Repositorios;
+using Aluguel.Repositorios.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -13,6 +16,9 @@ builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddTransient<ICiclistaRepository, CiclistaRepository>();
+builder.Services.AddTransient<AdicionarCiclistaHandler, AdicionarCiclistaHandler>();
 
 builder.Services.AddHttpClient();
 

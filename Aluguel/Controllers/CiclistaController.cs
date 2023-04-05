@@ -1,6 +1,9 @@
-﻿using Aluguel.Data;
+﻿using Aluguel.Commands.Ciclistas;
+using Aluguel.Data;
 using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Handlers.Ciclistas;
 using Aluguel.Models;
+using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +18,13 @@ namespace Aluguel.Controllers
     [Tags("Aluguel")]
     public class CiclistaController : ControllerBase
     {
+        private readonly ICiclistaRepository repository;
         private AluguelContexto contexto;
         private IMapper mapper;
 
-        public CiclistaController(AluguelContexto contexto, IMapper mapper)
+        public CiclistaController(ICiclistaRepository repository, AluguelContexto contexto, IMapper mapper)
         {
+            this.repository = repository;
             this.contexto = contexto;
             this.mapper = mapper;
         }
@@ -33,25 +38,11 @@ namespace Aluguel.Controllers
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(CiclistaDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult AdicionarCiclista([FromBody,Required] AdicionarCiclistaDto adicionarCiclistaDto)
+        public IActionResult AdicionarCiclista(
+            [FromBody]AdicionarCiclistaCommand command,
+            [FromServices]AdicionarCiclistaHandler handler)
         {
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(new Erro("422", "Dados Invalidos"));
-            }
-
-            var ciclista = mapper.Map<Ciclista>(adicionarCiclistaDto.Ciclista);
-
-            var meioDePagamento = mapper.Map<CartaoDeCredito>(adicionarCiclistaDto.MeioDePagamento);
-
-            contexto.Ciclistas.Add(ciclista);
-
-            meioDePagamento.CiclistaId = ciclista.Id;
-
-            contexto.CartoesDeCredito.Add(meioDePagamento);
-            contexto.SaveChanges();
-
-            return Ok(ciclista);
+            return Ok(handler.Handle(command));
         }
 
         /// <summary>
@@ -67,18 +58,7 @@ namespace Aluguel.Controllers
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult RecuperaCiclistaPorId(Guid idCiclista)
         {
-            var ciclista = contexto
-                .Ciclistas
-                .Include(x => x.Passaporte)
-                .ThenInclude(x => x.Pais)
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null) 
-                return NotFound();
-
-            var ciclistaDto = mapper.Map<CiclistaDto>(ciclista);
-
-            return Ok(ciclistaDto);
+            return Ok(repository.BuscarPorId(idCiclista));
         }
 
         /// <summary>
@@ -92,21 +72,11 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(CiclistaDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult AtualizarCiclista(Guid idCiclista, [FromBody, Required] CiclistaDto ciclistaDto)
+        public IActionResult AtualizarCiclista(
+            [FromBody]AtualizarCiclistaCommand command,
+            [FromServices]AtualizarCiclistaHandler handler)
         {
-            var ciclista = contexto
-                .Ciclistas
-                .Include(x => x.Passaporte)
-                .ThenInclude(x => x.Pais)
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null)
-                return NotFound();
-
-            mapper.Map<CiclistaDto, Ciclista>(ciclistaDto, ciclista);
-            contexto.SaveChanges();
-
-            return Ok(ciclista);
+            return Ok(handler.Handle(command));
         }
 
         /// <summary>
@@ -120,20 +90,12 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(CiclistaDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]        
-        public IActionResult AtivarCiclista(Guid idCiclista)
+        public IActionResult AtivarCiclista(
+            [FromBody]AtivarCiclistaCommand command,
+            [FromServices]AtivarCiclistaHandler handler)
         {
             // falta parâmetro x-id-requisicao especificado no swagger
-            var ciclista = contexto
-                .Ciclistas
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null)
-                return NotFound();
-
-            ciclista.Ativar();
-            contexto.SaveChanges();
-
-            return Ok(ciclista);
+            return Ok(handler.Handle(command));
         }
 
         /// <summary>
@@ -145,24 +107,11 @@ namespace Aluguel.Controllers
         [HttpGet("{idCiclista}/permiteAluguel")]
         [ProducesResponseType(200, Type = typeof(bool))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult PermiteAluguel(Guid idCiclista)
+        public IActionResult PodeAlugarBicleta(
+            [FromBody]PodeFazerEmprestimoCommand command,
+            [FromServices]PodeFazerEmprestimoHandler handler)
         {
-
-            var ciclista = contexto
-                .Ciclistas
-                .Include(c => c.Emprestimos)
-                .ThenInclude(c => c.Devolucao)
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null)
-                return NotFound();
-
-            var emprestimo = ciclista.Emprestimos.LastOrDefault();
-
-            if (emprestimo?.Devolucao != null)
-                return Ok(false);
-
-            return Ok(true);
+            return Ok(handler.Handle(command));
         }
 
         /// <summary>        
@@ -174,42 +123,11 @@ namespace Aluguel.Controllers
         [HttpGet("{idCiclista}/bicicletaAlugada")]
         [ProducesResponseType(200, Type = typeof(Bicicleta))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult BuscaBicicletaAlugada(Guid idCiclista)
+        public IActionResult BuscaBicicletaAlugada(
+            [FromBody]BuscarBicicletaAlugadaCommand command,
+            [FromServices]BuscarBicicletaAlugadaHandler handler)
         {
-            var ciclista = contexto
-                .Ciclistas
-                .Include(c => c.Emprestimos)
-                .ThenInclude(c => c.Bicicleta)
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null)
-                return NotFound();
-
-            var emprestimo = ciclista.Emprestimos.LastOrDefault();
-
-            return Ok(emprestimo?.Bicicleta);
-        }
-
-        [HttpPost("{idCiclista}/notificaAluguelEmCurso")]
-        public IActionResult NotificaAluguelEmCurso(Guid idCiclista)
-        {
-            var ciclista = contexto
-                .Ciclistas
-                .Include(c => c.Emprestimos)
-                .Include(c => c.Passaporte)
-                .FirstOrDefault(c => c.Id == idCiclista);
-
-            if (ciclista == null)
-                return NotFound();
-
-            var emprestimo = ciclista.Emprestimos.LastOrDefault();
-
-            if (emprestimo?.Devolucao != null)
-                return NotFound(404);
-
-            var ciclistaDto = mapper.Map<CiclistaDto>(ciclista);
-
-            return Ok(ciclistaDto);
+            return Ok(handler.Handle(command));
         }
 
         /// <summary>        
@@ -223,16 +141,11 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(bool))]
         [ProducesResponseType(400, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult ExisteEmail(string email)
+        public IActionResult ExisteEmail(
+            [FromBody]VerificarSeEmailExisteCommand command,
+            [FromServices]VerificarSeEmailExisteHandler handler)
         {
-            var ciclista = contexto
-                .Ciclistas
-                .FirstOrDefault(c => c.Email == email);
-
-            if (ciclista == null)
-                return NotFound();
-
-            return Ok(ciclista != null);
+            return Ok(handler.Handle(command));
         }
     }
 }
