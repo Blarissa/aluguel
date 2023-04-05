@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using AutoMapper;
 
 namespace Aluguel.Profiles

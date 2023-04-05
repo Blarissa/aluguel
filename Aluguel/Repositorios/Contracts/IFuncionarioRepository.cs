@@ -1,4 +1,4 @@
-﻿using Aluguel.Models;
+﻿using Aluguel.Models.Entidades;
 
 namespace Aluguel.Repositorios.Contracts; 
 

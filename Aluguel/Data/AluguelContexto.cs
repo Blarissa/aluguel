@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Configuracoes;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Data

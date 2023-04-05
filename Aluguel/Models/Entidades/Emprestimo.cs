@@ -1,4 +1,4 @@
-﻿namespace Aluguel.Models;
+﻿namespace Aluguel.Models.Entidades;
 
 public class Emprestimo
 {
@@ -19,4 +19,9 @@ public class Emprestimo
     public virtual Bicicleta Bicicleta { get; set; }
     public virtual Tranca Tranca { get; set; }
     public virtual Devolucao? Devolucao { get; set; }
+
+    public bool EmprestimoAtivo()
+    {
+        return DevolucaoId == null ? true : false;
+    }
 }

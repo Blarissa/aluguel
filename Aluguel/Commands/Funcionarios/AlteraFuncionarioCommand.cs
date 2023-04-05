@@ -1,6 +1,6 @@
 ﻿using Aluguel.Commands.Contracts;
 using Aluguel.Data.Dtos;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Validacao;
 
 namespace Aluguel.Commands.Funcionarios

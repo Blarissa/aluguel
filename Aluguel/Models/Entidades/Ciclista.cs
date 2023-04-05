@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Aluguel.Models;
+namespace Aluguel.Models.Entidades;
 
 public class Ciclista
 {
@@ -34,5 +34,33 @@ public class Ciclista
     public void Ativar()
     {
         Status = EStatusCiclista.ATIVO;
+    }
+
+    public void AtualizarDados(Ciclista ciclista)
+    {
+        Nome = ciclista.Nome;
+        Status = ciclista.Status;
+        DataNascimento = ciclista.DataNascimento;
+        Cpf = ciclista.Cpf;
+        Passaporte.AtualizarDados(ciclista.Passaporte);
+        Nacionalidade = ciclista.Nacionalidade;
+        Email = ciclista.Email;
+        UrlFotoDocumento = ciclista.UrlFotoDocumento;
+    }
+
+    public bool PodeFazerEmprestimo()
+    {
+        var ultimoEmprestimo = Emprestimos.LastOrDefault();
+
+        return ultimoEmprestimo?.Devolucao == null;
+    }
+
+    public Guid? BuscarBicicletaDoEmprestimoAtivo()
+    {
+        var emprestimo = Emprestimos.Last();
+
+        var bicicletaId = emprestimo.EmprestimoAtivo() ? emprestimo?.BicicletaId : null;
+
+        return bicicletaId;
     }
 }

@@ -2,13 +2,10 @@
 using Aluguel.Data.Dao.Cartao;
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Servicos.Externo;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Servicos.Externo;
-using Aluguel.Validacao.Cartao;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace Aluguel.Controller
 {

@@ -2,12 +2,10 @@
 using Aluguel.Data;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Handlers.Ciclistas;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {

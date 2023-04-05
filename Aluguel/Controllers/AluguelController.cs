@@ -4,7 +4,7 @@ using Aluguel.Data.Dtos;
 using Aluguel.Data.Dtos.Emprestimo;
 using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Data.Dtos.Servicos.Externo;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Servicos.Bicicleta;
 using Aluguel.Servicos.Externo;
 using AutoMapper;

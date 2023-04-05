@@ -1,4 +1,4 @@
-﻿namespace Aluguel.Models;
+﻿namespace Aluguel.Models.Entidades;
 
 public class Devolucao
 {

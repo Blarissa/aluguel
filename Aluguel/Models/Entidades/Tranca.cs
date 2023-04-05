@@ -1,4 +1,6 @@
-﻿namespace Aluguel.Models;
+﻿using Aluguel.Models.Entidades;
+
+namespace Aluguel.Models.Entidades;
 
 public class Tranca
 {

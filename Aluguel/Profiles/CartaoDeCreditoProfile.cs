@@ -1,5 +1,5 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using AutoMapper;
 
 namespace Aluguel.Profiles

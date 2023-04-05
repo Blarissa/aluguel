@@ -5,6 +5,7 @@ using Aluguel.Handlers.Contracts;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 
 namespace Aluguel.Handlers.Ciclistas;
 

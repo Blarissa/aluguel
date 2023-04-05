@@ -1,7 +1,7 @@
 ﻿using Aluguel.Commands.Funcionarios;
 using Aluguel.Data.Dtos;
 using Aluguel.Handlers.Funcionarios;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Queries.Funcionarios;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

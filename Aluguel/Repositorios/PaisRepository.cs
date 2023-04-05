@@ -1,5 +1,5 @@
 ﻿using Aluguel.Data;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 
 namespace Aluguel.Repositorios

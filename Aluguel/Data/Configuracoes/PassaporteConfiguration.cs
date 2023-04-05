@@ -1,4 +1,5 @@
 ﻿using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

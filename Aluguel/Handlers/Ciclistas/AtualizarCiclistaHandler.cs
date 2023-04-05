@@ -2,7 +2,7 @@
 using Aluguel.Commands.Ciclistas;
 using Aluguel.Commands.Contracts;
 using Aluguel.Handlers.Contracts;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 

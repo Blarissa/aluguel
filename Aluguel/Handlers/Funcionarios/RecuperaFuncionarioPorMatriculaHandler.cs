@@ -2,7 +2,7 @@
 using Aluguel.Commands.Contracts;
 using Aluguel.Data.Dtos;
 using Aluguel.Handlers.Contracts;
-using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Aluguel.Queries.Funcionarios;
 using Aluguel.Repositorios.Contracts;
 using Aluguel.Validacao;
