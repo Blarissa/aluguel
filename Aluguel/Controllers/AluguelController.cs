@@ -4,6 +4,7 @@ using Aluguel.Data.Dtos;
 using Aluguel.Data.Dtos.Emprestimo;
 using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Data.Dtos.Servicos.Externo;
+using Aluguel.Handlers.Alugueis;
 using Aluguel.Models.Entidades;
 using Aluguel.Servicos.Bicicleta;
 using Aluguel.Servicos.Externo;
@@ -56,7 +57,9 @@ namespace Aluguel.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(ReadEmprestimoDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public async Task<IActionResult> RealizaEmprestimo([FromBody,Required] CreateEmprestimoDto emprestimoDto)
+        public async Task<IActionResult> RealizaEmprestimo(
+            [FromBody,Required] CreateEmprestimoDto emprestimoDto,
+            [FromServices] RealizaAluguelHandler handler)
         {
             Guid ciclistaId = emprestimoDto.Ciclista;
             Guid trancaId = emprestimoDto.TrancaInicio;
