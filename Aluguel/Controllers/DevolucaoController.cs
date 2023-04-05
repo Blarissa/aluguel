@@ -1,6 +1,7 @@
 ﻿using Aluguel.Data;
 using Aluguel.Data.Dao.Devolucao;
 using Aluguel.Data.Dtos.Devolucao;
+using Aluguel.Data.Dtos.Emprestimo;
 using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Data.Dtos.Servicos.Externo;
 using Aluguel.Models;
@@ -12,13 +13,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Controllers
 {
     [Tags("Aluguel")]
     [Route("[controller]")]
-    [Consumes("application/json")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     public class DevolucaoController : ControllerBase
     {
@@ -38,8 +40,23 @@ namespace Aluguel.Controllers
             mapper = map;
         }
 
+        /// <summary>
+        /// Realizar devolução, sendo invocado de maneira automática pelo 
+        /// hardware do totem ao encostar a bicicleta na tranca.
+        /// </summary>  
+        /// <remarks>
+        /// Ao se devolver a bicicleta deve-se alterar o estado da tranca, 
+        /// e calcular possíveis custos adicionais a ser pago pelo ciclista 
+        /// e recorre a fila de cobrança para realiza-lo, notificando o 
+        /// ciclista da devolução e da taxa extra paga.
+        /// </remarks>      
+        /// <response code="200">Devolução realizada</response>
+        /// <response code="422">Dados inválidos</response>
+
         [HttpPost]
-        public async Task<IActionResult> PostDevolucao([FromBody] PostDevolucaoDto dados)
+        [ProducesResponseType(200, Type = typeof(ResponsePostDevolucaoDto))]
+        [ProducesResponseType(422, Type = typeof(List<Erro>))]
+        public async Task<IActionResult> PostDevolucao([FromBody, Required] PostDevolucaoDto dados)
         {
 
             /**

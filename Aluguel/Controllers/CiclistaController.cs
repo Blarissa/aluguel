@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Aluguel.Controllers
 {
-    [ApiController]
-    [Produces("application/json")] 
-    [Consumes("application/json")] 
-    [Route("[controller]")]
     [Tags("Aluguel")]
+    [Route("[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
+    [ApiController]
     public class CiclistaController : ControllerBase
     {
         private readonly ICiclistaRepository repository;
