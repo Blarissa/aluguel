@@ -23,32 +23,29 @@ builder.Services.AddDbContext<AluguelContexto>(
 //Sincronizacoes de Servicos
 builder.Services.AddTransient<IExternoService, ExternoApi>();
 builder.Services.AddTransient<IEquipamentoService, EquipamentoApi>();
-//
 
 //Sincronizacoes de Repositorio
 builder.Services.AddTransient<IDevolucaoRepository, DevolucaoRepository>();
-//
-
-//Definindo os handlers
-builder.Services.AddTransient<RealizaDevolucaoHandler>();
-
-
+builder.Services.AddTransient<IAluguelRepository, AluguelRepository>();
 builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
 builder.Services.AddTransient<IPaisRepository, PaisRepository>();
+builder.Services.AddTransient<ICiclistaRepository, CiclistaRepository>();
 
-builder.Services.AddTransient<IValida, Valida>();;
-builder.Services.AddTransient<IValidaRegraBancoFuncionario, ValidaRegraDoBancoFuncionario>();
-
+//Definindo os handlers
+builder.Services.AddTransient<AdicionarCiclistaHandler>();
 builder.Services.AddTransient<AdicionaFuncionarioHandler>();
 builder.Services.AddTransient<AlteraFuncionarioHandler>();
 builder.Services.AddTransient<DeletaFuncionarioHandler>();
+builder.Services.AddTransient<RealizaDevolucaoHandler>();
 builder.Services.AddTransient<RecuperaFuncionarioPorMatriculaHandler>();
 builder.Services.AddTransient<RecuperaTodosFuncionariosHandler>();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//validações
+builder.Services.AddTransient<IValida, Valida>();
+builder.Services.AddTransient<IValidaRegraBancoFuncionario, ValidaRegraDoBancoFuncionario>();
+builder.Services.AddTransient<IValidaRegraDoBancoCiclista, ValidaRegraDoBancoCiclista>();
 
-builder.Services.AddTransient<ICiclistaRepository, CiclistaRepository>();
-builder.Services.AddTransient<AdicionarCiclistaHandler, AdicionarCiclistaHandler>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient();
 
