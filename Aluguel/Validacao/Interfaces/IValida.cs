@@ -1,6 +1,5 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Models;
 
 namespace Aluguel.Validacao
 {
@@ -14,8 +13,6 @@ namespace Aluguel.Validacao
         bool Funcao(string funcao);
         bool Idade(string idade);
         bool Nacionalidade(string nacionalidade);
-        //bool Matricula(string matricula);
-        //bool Id(string id);
         bool Nome(string nome);        
         bool Passaporte(PassaporteDto passaporte);
         bool Senha(string senha, string confirmaSenha);              
