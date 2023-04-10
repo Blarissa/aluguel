@@ -26,6 +26,13 @@ namespace Aluguel.Servicos.Bicicleta
             return resposta;
         }
 
+        public async Task<HttpResponseMessage> BuscarBicicletaPorTranca(Guid idTranca)
+        {
+            return await client
+                .GetAsync(baseUriServico + 
+                $"/tranca/{idTranca}/bicicleta");
+        }
+
         public async Task<HttpResponseMessage> BuscarTrancaPorId(Guid idTranca)
         {
             var resposta = await client.GetAsync(baseUriServico+$"/tranca/{idTranca}");
