@@ -1,20 +1,43 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Sistema de Controle de Bicicletário
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+A equipe deve implementar uma API para o controle de bicicletas de uma empresa que faz o aluguel em totens disponibilizados na rua. A implementação deve respeitar a especificação de software e a modelagem Swagger [Vá de bike](https://app.swaggerhub.com/apis/pasemes/sistema-de_controle_de_bicicletario/1).
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Microsserviço aluguel
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Responsáveis pelos endpoints abaixo, como informado no Swagger:
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+- **/ciclista**
+  - POST  - Cadastrar um ciclista.
+
+- **/ciclista/{idCiclista}**
+  - GET - Recuperar dados de um ciclista.
+  - PUT- Alterar dados de um ciclista.
+
+- **/ciclista/{idCiclista}/ativar**
+  - POST - Ativar cadastro do ciclista.
+
+- **/ciclista/{idCiclista}/permiteAluguel**
+  - GET - Verifica se o ciclista pode alugar uma bicicleta, já que só pode alugar uma por vez.
+
+- **/ciclista/{idCiclista}/bicicletaAlugada**
+  - GET - Verifica se o ciclista pode alugar uma bicicleta, já que só pode alugar uma por vez.
+
+- **/ciclista/existeEmail/{email}**
+  - GET - Verifica se o e-mail já foi utilizado por algum ciclista.
+
+- **/funcionario**
+  - GET - Recuperar funcionários cadastrados.
+  - POST - Cadastrar funcionário.
+
+- **/funcionario/{idFuncionario}**
+  - GET- Recupera funcionário.
+  - PUT - Editar funcionário.
+  - DELETE - Remover funcionário.
+
+- **/cartaoDeCredito/{idCiclista}**
+  - GET - Recupera dados de cartão de crédito de um ciclista.
+  - PUT - Alterar dados de cartão de crédito de um ciclista.
+- **/aluguel**
+  - POST - Realizar aluguel.
+- **/devolucao**
+  - POST - Realizar devolução, sendo invocado de maneira automática pelo hardware do totem ao encostar a bicicleta na tranca.
