@@ -1,10 +1,13 @@
-﻿using Aluguel.Commands.Funcionarios;
+﻿using Aluguel.Commands;
+using Aluguel.Commands.Funcionarios;
 using Aluguel.Data.Dtos;
 using Aluguel.Handlers.Funcionarios;
 using Aluguel.Models.Entidades;
 using Aluguel.Queries.Funcionarios;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,7 +30,7 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]
         public IActionResult RecuperaFuncionarios([FromServices] RecuperaTodosFuncionariosHandler handler)
         {
-            return Ok(handler.Handle());            
+            return Ok(handler.Handle().Data);            
         }
 
         /// <summary>
@@ -44,7 +47,23 @@ namespace Aluguel.Controllers
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario, 
             [FromServices] RecuperaFuncionarioPorMatriculaHandler handler)
         {
-            return Ok(handler.Handle(new RecuperaFuncionarioPorMatriculaQuery(idFuncionario)));
+            var comando = new RecuperaFuncionarioPorMatriculaQuery(idFuncionario);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
+            {
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
+            }
         }
 
         /// <summary>
@@ -60,7 +79,20 @@ namespace Aluguel.Controllers
             [FromBody, Required] CreateFuncionarioDto funcionarioDto,
             [FromServices] AdicionaFuncionarioHandler handler)
         {
-            return Ok(handler.Handle(new AdicionaFuncionarioCommand(funcionarioDto)));            
+            var comando = new AdicionaFuncionarioCommand(funcionarioDto);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
+            {
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
+            }
         }
 
         /// <summary>
@@ -78,7 +110,23 @@ namespace Aluguel.Controllers
             [FromBody, Required] UpdateFuncionarioDto funcionarioDto,
             [FromServices] AlteraFuncionarioHandler handler)
         {
-            return Ok(handler.Handle(new AlteraFuncionarioCommand(idFuncionario,funcionarioDto)));
+            var comando = new AlteraFuncionarioCommand(idFuncionario,funcionarioDto);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
+            {
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
+            }
         }
 
         /// <summary>
@@ -95,7 +143,22 @@ namespace Aluguel.Controllers
         public IActionResult DeletaFuncionario(int idFuncionario,
             [FromServices] DeletaFuncionarioHandler handler)
         {
-                return Ok(handler.Handle(new DeletaFuncionarioCommand(idFuncionario)));                        
+            var comando = new DeletaFuncionarioCommand(idFuncionario);
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
+            {
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
+            }
         }
     }
 }
