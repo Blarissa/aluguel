@@ -2,7 +2,7 @@
 
 namespace Aluguel.Data.Dtos.Servicos.Externo
 {
-    public class ResponseGetCobrancaDto
+    public class ReadFilaCobrancaDto
     {
         public Guid Id { get; set; }
         public string Status { get; set; }
