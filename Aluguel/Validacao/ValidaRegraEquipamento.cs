@@ -1,12 +1,17 @@
-﻿using Aluguel.Data.Dtos.Servicos.Equipamento;
+﻿using Aluguel.Commands;
+using Aluguel.Commands.Alugueis;
+using Aluguel.Commands.Contracts;
+using Aluguel.Commands.Results;
+using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Models;
 using Aluguel.Models.Entidades;
 using Aluguel.Servicos;
+using Aluguel.Validacao.Interfaces;
 using Newtonsoft.Json;
 
 namespace Aluguel.Validacao
 {
-    public class ValidaRegraEquipamento 
+    public class ValidaRegraEquipamento : IValidaRegraEquipamento
     {
         IEquipamentoService equipamentoService;
 
@@ -35,7 +40,7 @@ namespace Aluguel.Validacao
 
             // verifica se status code
             return !resposta.StatusCode
-                   .Equals(StatusCodes.Status404NotFound);            
+                   .Equals(StatusCodes.Status404NotFound);
         }
 
         public async Task<bool> TrancaResponde(Guid idTranca)
@@ -58,7 +63,7 @@ namespace Aluguel.Validacao
             return bicicleta.Status
                    .Equals(EStatusBicicleta.DISPONIVEL);
         }
-       
+
         public async Task<bool> BicicletaEmReparo(Guid idTranca)
         {
             // GET /tranca/{idTranca}/bicicleta
@@ -91,10 +96,10 @@ namespace Aluguel.Validacao
                    .BuscarTrancaPorId(idTranca);
         }
 
-        private static async Task<GetTrancaPorIdDto?> TrancaDto(
+        private static async Task<ReadTrancaDto?> TrancaDto(
             HttpResponseMessage resposta)
         {
-            return JsonConvert.DeserializeObject<GetTrancaPorIdDto>(
+            return JsonConvert.DeserializeObject<ReadTrancaDto>(
                    await resposta.Content.ReadAsStringAsync());
         }
 
@@ -104,11 +109,11 @@ namespace Aluguel.Validacao
             return await equipamentoService
                    .BuscarBicicletaPorTranca(idTranca);
         }
-        
-        private static async Task<GetBicicletaPorIdDto?> BicicletaDto(
+
+        private static async Task<ReadBicicletaDto?> BicicletaDto(
             HttpResponseMessage resposta)
         {
-            return JsonConvert.DeserializeObject<GetBicicletaPorIdDto>(
+            return JsonConvert.DeserializeObject<ReadBicicletaDto>(
                    await resposta.Content.ReadAsStringAsync());
         }
     }

@@ -46,9 +46,8 @@ namespace Aluguel.Validacao
         public bool PodeAlugar(Guid idCiclista)
         {
             return _ciclistaRepository
-                .BuscarEmprestimosPorCiclista(idCiclista)
-                .LastOrDefault()
-                .Devolucao != null;
+                .BuscarPorId(idCiclista)
+                .PodeFazerEmprestimo();                                     
         }
         
         //se o status do ciclista está ativo
