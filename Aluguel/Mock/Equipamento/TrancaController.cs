@@ -11,7 +11,7 @@ namespace Aluguel.Mock.Equipamento
         [HttpGet("{idTranca}")]
         public IActionResult MockTrancaPorId(Guid idTranca)
         {
-            var retorno = new GetTrancaPorIdDto() {
+            var retorno = new ReadTrancaDto() {
                 Id = Guid.NewGuid(),
                 Bicicleta = Guid.NewGuid(),
                 AnoDeFabricacao = "2020",

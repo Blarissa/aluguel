@@ -10,6 +10,7 @@ using Aluguel.Repositorios.Contracts;
 using Aluguel.Servicos;
 
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Aluguel.Handlers.Devolucoes
 {
@@ -30,26 +31,26 @@ namespace Aluguel.Handlers.Devolucoes
             try {
                 //chamado da tranca
                 var retornoBicicleta = await equipamentoApi.BuscarBicicletaPorId(command.Dados.IdBicicleta);
-                GetBicicletaPorIdDto bicicletaEmprestada = JsonConvert.DeserializeObject<GetBicicletaPorIdDto>(await retornoBicicleta.Content.ReadAsStringAsync()) ?? new GetBicicletaPorIdDto();
+                ReadBicicletaDto bicicletaEmprestada = JsonConvert.DeserializeObject<ReadBicicletaDto>(await retornoBicicleta.Content.ReadAsStringAsync()) ?? new ReadBicicletaDto();
 
                 //chamado da tranca
                 var retornoTranca= await equipamentoApi.BuscarTrancaPorId(command.Dados.IdTranca);
-                GetTrancaPorIdDto trancaUsada = JsonConvert.DeserializeObject<GetTrancaPorIdDto>(await retornoTranca.Content.ReadAsStringAsync()) ?? new GetTrancaPorIdDto();
+                ReadTrancaDto trancaUsada = JsonConvert.DeserializeObject<ReadTrancaDto>(await retornoTranca.Content.ReadAsStringAsync()) ?? new ReadTrancaDto();
 
                 if(retornoBicicleta.StatusCode == System.Net.HttpStatusCode.NotFound || retornoTranca.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    return new NotFoundCommandResult();
+                    return new NotFoundCommandResult(command.Erros);
 
                 //Verifica o status da bicicleta e tranca
                 if(bicicletaEmprestada.Status != EStatusBicicleta.EM_USO || trancaUsada.Status != EStatusTranca.LIVRE) {
                     //return UnprocessableEntity(new Erro("422", "Erro: Dados conflituosos"));
-                    return new UnprocessableEntityCommandResult();
+                    return new UnprocessableEntityCommandResult(command.Erros);
                 }
 
 
                 Emprestimo emprestimoBicicleta = store.BuscarEmprestimoAberto(command.Dados.IdBicicleta, command.Dados.IdTranca);
                 if(emprestimoBicicleta == null) {
                     //return NotFound(new Erro("404", "Erro: Sem emprestimo corrente"));
-                    return new NotFoundCommandResult();
+                    return new NotFoundCommandResult(command.Erros);
                 }
 
                 TimeSpan duracaoAlguel = DateTime.Now - emprestimoBicicleta.DataHora;
@@ -75,36 +76,32 @@ namespace Aluguel.Handlers.Devolucoes
                     return new OkCommandResult(confirmacao);
 
                 //faz cobranca do valor 
-                var retCobranca = await externoApi.EnviarCobranca(new PostCobrancaDto(){
-                    Valor = ValorDevido,
-                    Ciclista = emprestimoBicicleta.CiclistaId
-                });
+                var retCobranca = await externoApi.EnviarCobranca(new CreateCobrancaDto(
+                    ValorDevido, emprestimoBicicleta.CiclistaId));
 
                 //Fluxo alternativo caso cobrança falhe
                 if(retCobranca.StatusCode != System.Net.HttpStatusCode.OK) {
-                    var retFilaCobranca = await externoApi.EnviarCobrancaParaFila(new PostFilaCobrancaDto(){
-                        Valor = ValorDevido,
-                        Ciclista = emprestimoBicicleta.CiclistaId
-                    });
+                    var retFilaCobranca = await externoApi.EnviarCobrancaParaFila(new CreateFilaCobrancaDto(
+                        ValorDevido, emprestimoBicicleta.CiclistaId));
 
-                    if(retFilaCobranca.StatusCode != System.Net.HttpStatusCode.OK)
-                        return new UnprocessableEntityCommandResult();
+                    if (retFilaCobranca.StatusCode != System.Net.HttpStatusCode.OK)
+                        return new UnprocessableEntityCommandResult(command.Erros);
 
-                    ResponsePostFilaCobrancaDto bodyRetFilaCobranca =  JsonConvert.DeserializeObject<ResponsePostFilaCobrancaDto>(await retCobranca.Content.ReadAsStringAsync());
+                    ReadFilaCobrancaDto bodyRetFilaCobranca =  JsonConvert.DeserializeObject<ReadFilaCobrancaDto>(await retCobranca.Content.ReadAsStringAsync());
 
                     confirmacao.Cobranca = bodyRetFilaCobranca.Id;
                     confirmacao.HoraFim = bodyRetFilaCobranca.HoraFinalizacao;
                     return new OkCommandResult(confirmacao);
                 }
 
-                ResponsePostCobrancaDto bodyRetCobranca =  JsonConvert.DeserializeObject<ResponsePostCobrancaDto>(await retCobranca.Content.ReadAsStringAsync());
+                ReadCobrancaDto bodyRetCobranca =  JsonConvert.DeserializeObject<ReadCobrancaDto>(await retCobranca.Content.ReadAsStringAsync());
                 confirmacao.Cobranca = bodyRetCobranca.Id;
                 confirmacao.HoraFim = bodyRetCobranca.HoraFinalizacao;
                 return new OkCommandResult(confirmacao);
             }
             catch(Exception ex) {
                 Console.WriteLine(ex.Message);
-                return new GenericCommandResult();
+                return new GenericCommandResult(ex.Message);
             }
         }
     }

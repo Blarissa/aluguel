@@ -9,9 +9,9 @@ namespace Aluguel.Mock.Externo
     {
 
         [HttpPost]
-        public IActionResult MockPostCobranca([FromBody] PostFilaCobrancaDto dados)
+        public IActionResult MockPostCobranca([FromBody] CreateFilaCobrancaDto dados)
         {
-            var retorno = new ResponsePostCobrancaDto() {
+            var retorno = new ReadCobrancaDto() {
                 Id = Guid.NewGuid(),
                 Status = "Concluido",
                 HoraSolicitacao = new DateTime(2023, 03, 12, 21, 00, 00),
@@ -26,7 +26,7 @@ namespace Aluguel.Mock.Externo
         [HttpGet("{idCobranca}")]
         public IActionResult MockGetCobranca(Guid idCobranca)
         {
-            var retorno = new ResponsePostCobrancaDto() {
+            var retorno = new ReadCobrancaDto() {
                 Id = Guid.NewGuid(),
                 Status = "Concluido",
                 HoraSolicitacao = new DateTime(2023, 03, 12, 21, 00, 00),
