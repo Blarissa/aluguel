@@ -1,5 +1,5 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
-using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Data.Dtos.Passaporte;
 using System.Globalization;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -107,7 +107,7 @@ namespace Aluguel.Validacao
 
         //se o número do passaporte é válido
         //se o código do pais tem 2 caracteres
-        public static bool PassaporteFormato(PassaporteDto passaporte)
+        public static bool PassaporteFormato(CreatePassaporteDto passaporte)
         {            
             if(!NumeroPassaporte(passaporte.Numero) ||
                 !PaisFormato(passaporte.Pais.Codigo))

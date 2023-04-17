@@ -1,6 +1,7 @@
 ﻿using Aluguel.Commands;
 using Aluguel.Commands.Ciclistas;
 using Aluguel.Commands.Contracts;
+using Aluguel.Commands.Results;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Repositorios.Contracts;
 
@@ -18,12 +19,12 @@ public class PodeFazerEmprestimoHandler : IHandler<PodeFazerEmprestimoCommand>
     public ICommandResult Handle(PodeFazerEmprestimoCommand command)
     {
         if (!command.Validar())
-            return new GenericCommandResult(command.Erros.ToArray());
+            return new UnprocessableEntityCommandResult(command.Erros.ToArray());
 
         var ciclista = _repository.BuscarPorId(command.CiclistaId);
 
         var podeAlugarBicicleta = ciclista.PodeFazerEmprestimo();
 
-        return new GenericCommandResult(podeAlugarBicicleta);
+        return new OkCommandResult(podeAlugarBicicleta);
     }
 }

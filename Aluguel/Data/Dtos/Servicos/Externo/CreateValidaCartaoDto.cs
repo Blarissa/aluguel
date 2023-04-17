@@ -1,6 +1,6 @@
 ﻿namespace Aluguel.Data.Dtos.Servicos.Externo
 {
-    public class PostValidaCartaoDto
+    public class CreateValidaCartaoDto
     {
         public string NomeTitular { get; set; }
         public string Numero { get; set; }

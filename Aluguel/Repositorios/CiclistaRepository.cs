@@ -1,4 +1,5 @@
 ﻿using Aluguel.Data;
+using Aluguel.Models;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -39,10 +40,42 @@ public class CiclistaRepository : ICiclistaRepository
         return ciclista;
     }
 
+    public IList<Ciclista> BuscarTodos()
+    {
+        return _contexto.Ciclistas
+               .Include(c => c.Emprestimos)
+               .ThenInclude(c => c.CartaoDeCredito)
+               .Include(c => c.Passaporte)
+               .ThenInclude(c => c.Pais).ToList();
+    }
+
     public bool EmailExiste(string email)
     {
         var ciclista = _contexto.Ciclistas.FirstOrDefault(c => c.Email == email);
 
         return ciclista != null;
+    }
+
+    public Emprestimo? RetornaEmprestimoAtivo(Guid idCiclista)
+    {
+        return BuscarPorId(idCiclista)
+            .Emprestimos
+            .Where(e => e.Devolucao.Equals(null))
+            .FirstOrDefault();
+    }
+
+    public IList<Emprestimo> RetornaEmprestimosPorCiclista(Guid idCiclista)
+    {
+        return BuscarPorId(idCiclista).Emprestimos;
+    }
+
+    public EStatusCiclista RetornaStatusCiclista(Guid idCiclista)
+    {
+        return BuscarPorId(idCiclista).Status;
+    }
+
+    public CartaoDeCredito? UltimoCataoAdicionado(Guid idCiclista)
+    {
+        return BuscarPorId(idCiclista).Cartoes.LastOrDefault();                         
     }
 }

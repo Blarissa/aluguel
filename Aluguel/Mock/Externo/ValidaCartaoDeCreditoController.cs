@@ -8,7 +8,7 @@ namespace Aluguel.Mock.Externo
     public class ValidaCartaoDeCreditoController : ControllerBase
     {
         [HttpPost]
-        public IActionResult VerificarValidadaCartao(PostValidaCartaoDto dados)
+        public IActionResult VerificarValidadaCartao(CreateValidaCartaoDto dados)
         {
             return Ok();
         }

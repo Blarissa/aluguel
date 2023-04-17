@@ -34,13 +34,15 @@ namespace Aluguel.Controllers
         /// <response code="422">Dados inválidos</response>
 
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(201, Type = typeof(ReadCiclistaDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult AdicionarCiclista(
-            [FromBody]AdicionarCiclistaCommand command,
+            [FromBody]AdicionarCiclistaDto ciclistaDto,
             [FromServices]AdicionarCiclistaHandler handler)
         {
-            return Ok(handler.Handle(command));
+            return Ok(handler.Handle(new AdicionarCiclistaCommand(
+                ciclistaDto.Ciclista,
+                ciclistaDto.MeioDePagamento)));
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Aluguel.Controllers
         /// <response code="422">Dados inválidos</response>
 
         [HttpGet("{idCiclista}")]
-        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(200, Type = typeof(ReadCiclistaDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult RecuperaCiclistaPorId(Guid idCiclista)
@@ -67,14 +69,14 @@ namespace Aluguel.Controllers
         /// <response code="422">Dados inválidos</response>
 
         [HttpPut("{idCiclista}")]
-        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(200, Type = typeof(ReadCiclistaDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult AtualizarCiclista(
-            [FromBody]AtualizarCiclistaCommand command,
+        public IActionResult AtualizarCiclista(Guid id, 
+            [FromBody]UpdateCiclitasDto ciclitasDto,
             [FromServices]AtualizarCiclistaHandler handler)
         {
-            return Ok(handler.Handle(command));
+            return Ok(handler.Handle(new AtualizarCiclistaCommand(id, ciclitasDto)));
         }
 
         /// <summary>
@@ -85,15 +87,13 @@ namespace Aluguel.Controllers
         /// <response code="422">Dados inválidos</response>
 
         [HttpPost("{idCiclista}/ativar")]
-        [ProducesResponseType(200, Type = typeof(CiclistaDto))]
+        [ProducesResponseType(200, Type = typeof(ReadCiclistaDto))]
         [ProducesResponseType(404, Type = typeof(Erro))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]        
-        public IActionResult AtivarCiclista(
-            [FromBody]AtivarCiclistaCommand command,
+        public IActionResult AtivarCiclista(Guid IdCiclista,
             [FromServices]AtivarCiclistaHandler handler)
-        {
-            // falta parâmetro x-id-requisicao especificado no swagger
-            return Ok(handler.Handle(command));
+        {           
+            return Ok(handler.Handle(new AtivarCiclistaCommand(IdCiclista)));
         }
 
         /// <summary>

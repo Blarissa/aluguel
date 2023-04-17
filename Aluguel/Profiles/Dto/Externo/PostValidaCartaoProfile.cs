@@ -8,7 +8,7 @@ namespace Aluguel.Profiles.Dto.Externo
     {
         public PostValidaCartaoProfile()
         {
-            CreateMap<UpdateCartaoDeCreditoDto, PostValidaCartaoDto>()
+            CreateMap<UpdateCartaoDeCreditoDto, CreateValidaCartaoDto>()
                 .ForMember(dest => dest.NomeTitular, opt => opt.MapFrom(src => src.Nome))
                 .ForMember(dest => dest.Cvv, opt => opt.MapFrom(src => src.CodigoSeguranca));
 

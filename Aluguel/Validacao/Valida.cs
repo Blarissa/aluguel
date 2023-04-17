@@ -1,5 +1,5 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
-using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Data.Dtos.Passaporte;
 
 namespace Aluguel.Validacao
 {
@@ -64,7 +64,7 @@ namespace Aluguel.Validacao
             return ValidaFormato.NomeFormato(nome);
         }
         
-        public bool Passaporte(PassaporteDto passaporte)
+        public bool Passaporte(CreatePassaporteDto passaporte)
         {
             return ValidaFormato.PassaporteFormato(passaporte);
         }

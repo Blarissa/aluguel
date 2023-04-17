@@ -8,9 +8,9 @@ namespace Aluguel.Mock.Equipamento
     public class FilaCobrancaController : ControllerBase
     {
         [HttpPost]
-        public IActionResult MockFilaCobranca([FromBody] PostFilaCobrancaDto dados)
+        public IActionResult MockFilaCobranca([FromBody] CreateFilaCobrancaDto dados)
         {
-            var retorno = new ResponsePostFilaCobrancaDto() {
+            var retorno = new ReadFilaCobrancaDto() {
                 Id = Guid.NewGuid(),
                 Status = "Concluido",
                 HoraSolicitacao = new DateTime(2023, 03, 12, 21, 00, 00),

@@ -19,35 +19,23 @@ namespace Aluguel.Commands.Funcionarios
         public bool Validar()
         {
             if (!validacao.CPF(FuncionarioDto.Cpf))              
-                AdicionarErro(new Erro(
-                    ListaDeErros.CpfCod, 
-                    ListaDeErros.CpfMsg));
+                AdicionarErro(new Erro("002a"));
 
             if (!validacao.Funcao(FuncionarioDto.Funcao))
-                AdicionarErro(new Erro(
-                    ListaDeErros.FuncaoCod,
-                    ListaDeErros.FuncaoMsg));
+                AdicionarErro(new Erro("012a"));
 
             if (!validacao.Nome(FuncionarioDto.Nome))
-                AdicionarErro(new Erro(
-                    ListaDeErros.NomeCod,
-                    ListaDeErros.NomeMsg));
+                AdicionarErro(new Erro("001a"));
 
             if (!validacao.Senha(FuncionarioDto.Senha, 
                 FuncionarioDto.ConfirmaSenha))
-                AdicionarErro(new Erro(
-                    ListaDeErros.SenhaCod,
-                    ListaDeErros.SenhaMsg));
+                AdicionarErro(new Erro("007a"));
 
             if (!validacao.Email(FuncionarioDto.Email))
-                AdicionarErro(new Erro(
-                    ListaDeErros.EmailCod,
-                    ListaDeErros.EmailMsg));
+                AdicionarErro(new Erro("006a"));
 
             if (!validacao.Idade(FuncionarioDto.Idade))
-                AdicionarErro(new Erro(
-                    ListaDeErros.IdadeCod,
-                    ListaDeErros.IdadeMsg));
+                AdicionarErro(new Erro("005a"));
 
             return Valida;
         }        

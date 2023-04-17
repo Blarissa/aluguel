@@ -1,4 +1,7 @@
-﻿using Aluguel.Data.Dtos.Ciclista;
+﻿using Aluguel.Data.Dtos.Cartao;
+using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Data.Dtos.Pais;
+using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Models;
 using Aluguel.Models.Entidades;
 using AutoMapper;
@@ -9,23 +12,23 @@ namespace Aluguel.Profiles
     { 
         public CiclistaProfile()
         {
-            CreateMap<PaisDto, Pais>();
+            CreateMap<ReadPaisDto, Pais>();
 
-            CreateMap<Pais, PaisDto>();
+            CreateMap<Pais, ReadPaisDto>();
 
             CreateMap<CreatePassaporteDto, Passaporte>();
-            
-            CreateMap<PassaporteDto, Passaporte>();
 
-            CreateMap<Passaporte, PassaporteDto>();
+            CreateMap<CreatePassaporteDto, Passaporte>();
+
+            CreateMap<Passaporte, CreatePassaporteDto>();
             
             CreateMap<CreateCiclistaDto, Ciclista>();
 
             CreateMap<CreateMeioDePagamentoDto, CartaoDeCredito>();
 
-            CreateMap<CiclistaDto, Ciclista>();
+            CreateMap<ReadCiclistaDto, Ciclista>();
 
-            CreateMap<Ciclista, CiclistaDto>();
+            CreateMap<Ciclista, ReadCiclistaDto>();
         }
     }
 }

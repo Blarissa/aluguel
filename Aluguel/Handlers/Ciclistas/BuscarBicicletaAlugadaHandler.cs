@@ -1,6 +1,7 @@
 ﻿using Aluguel.Commands;
 using Aluguel.Commands.Ciclistas;
 using Aluguel.Commands.Contracts;
+using Aluguel.Commands.Results;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
@@ -21,7 +22,7 @@ public class BuscarBicicletaAlugadaHandler : IHandler<BuscarBicicletaAlugadaComm
     public ICommandResult Handle(BuscarBicicletaAlugadaCommand command)
     {
         if (!command.Validar())
-            return new GenericCommandResult(command.Erros.ToArray());
+            return new UnprocessableEntityCommandResult(command.Erros.ToArray());
 
         var ciclista = _repository.BuscarPorId(command.CiclistaId);
 
@@ -29,6 +30,6 @@ public class BuscarBicicletaAlugadaHandler : IHandler<BuscarBicicletaAlugadaComm
 
         // Chamar api do equipamento
 
-        return new GenericCommandResult("Funcionou");
+        return new OkCommandResult("Funcionou");
     }
 }

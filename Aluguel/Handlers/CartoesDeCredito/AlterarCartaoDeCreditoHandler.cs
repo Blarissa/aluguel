@@ -32,13 +32,13 @@ public class AlterarCartaoDeCreditoHandler : IHandler<AlterarCartaoDeCreditoComm
         if (!command.Validar())
             return new GenericCommandResult(command.Erros.ToArray());
 
-        var request = _mapper.Map<PostValidaCartaoDto>(command);
+        var request = _mapper.Map<CreateValidaCartaoDto>(command);
         var retorno = _service.ValidacaoCartao(request);
 
         var cartaoAchado = _repository.BuscarPorIdCiclista(command.GetCiclistaId());
 
         if (cartaoAchado == null)
-            return new NotFoundCommandResult(new Erro("422", "Solicitacao Invalida"));
+            return new NotFoundCommandResult(new Erro("000"));
 
         cartaoAchado.AtualizarDadosCartao(
             command.Nome, 

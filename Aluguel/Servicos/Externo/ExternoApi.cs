@@ -25,7 +25,7 @@ namespace Aluguel.Servicos.Externo
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
-        public Task<HttpResponseMessage> EnviarCobrancaParaFila(PostFilaCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobrancaParaFila(CreateFilaCobrancaDto cobrancaDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(cobrancaDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
@@ -35,7 +35,7 @@ namespace Aluguel.Servicos.Externo
             return resposta;
         }
 
-        public Task<HttpResponseMessage> EnviarCobranca(PostCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobranca(CreateCobrancaDto cobrancaDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(cobrancaDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
@@ -45,7 +45,7 @@ namespace Aluguel.Servicos.Externo
             return resposta;
         }
 
-        public Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
+        public Task<HttpResponseMessage> EnviarEmail(CreateEnviarEmailDto emailDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(emailDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");
@@ -62,7 +62,7 @@ namespace Aluguel.Servicos.Externo
             return resposta;
         }
 
-        public Task<HttpResponseMessage> ValidacaoCartao(PostValidaCartaoDto validaCartaoDto)
+        public Task<HttpResponseMessage> ValidacaoCartao(CreateValidaCartaoDto validaCartaoDto)
         {
             var conteudoJson = JsonConvert.SerializeObject(validaCartaoDto);
             var requestBody = new StringContent(conteudoJson, Encoding.UTF8, "application/json");

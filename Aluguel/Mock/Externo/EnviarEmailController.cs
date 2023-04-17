@@ -9,7 +9,7 @@ namespace Aluguel.Mock.Externo
     {
 
         [HttpPost]
-        public IActionResult MockPostEnviarEmail([FromBody] PostEnviarEmailDto dados)
+        public IActionResult MockPostEnviarEmail([FromBody] CreateEnviarEmailDto dados)
         {
             var retorno = new ResponsePostEmailDto() {
                 Id = Guid.NewGuid(),
