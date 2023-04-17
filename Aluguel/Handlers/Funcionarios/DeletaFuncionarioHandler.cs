@@ -1,6 +1,7 @@
 ﻿using Aluguel.Commands;
 using Aluguel.Commands.Contracts;
 using Aluguel.Commands.Funcionarios;
+using Aluguel.Commands.Results;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
@@ -21,20 +22,18 @@ namespace Aluguel.Handlers.Funcionarios
 
         public ICommandResult Handle(DeletaFuncionarioCommand command)
         {
-            //se existe o funcionário
+            //se o funcionário existe
             if (!_valida.IdFuncionario(command.Matricula))
             {
-                command.AdicionarErro(new Erro(
-                    ListaDeErros.NaoEncrontradoCod, 
-                    ListaDeErros.NaoEncrontradoMsg));
+                command.AdicionarErro(new Erro("000"));
 
-                return new GenericCommandResult(command.Erros);
+                return new NotFoundCommandResult(command.Erros);
             }
 
             var funcionario = _repository.RecuperarPorMatricula(command.Matricula);
             _repository.Deletar(funcionario);
 
-            return new GenericCommandResult();
+            return new OkCommandResult(funcionario);
         }        
     }
 }

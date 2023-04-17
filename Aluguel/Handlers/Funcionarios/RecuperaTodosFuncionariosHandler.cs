@@ -1,5 +1,6 @@
 ﻿using Aluguel.Commands;
 using Aluguel.Commands.Contracts;
+using Aluguel.Commands.Results;
 using Aluguel.Data.Dtos;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Queries.Funcionarios;
@@ -24,7 +25,7 @@ namespace Aluguel.Handlers.Funcionarios
         {
             var funcionarios = _mapper.Map<List<ReadFuncionarioDto>>(_repository.RecuperarTodos());
 
-            return new GenericCommandResult(funcionarios);
+            return new OkCommandResult(funcionarios);
         }
     }
 }

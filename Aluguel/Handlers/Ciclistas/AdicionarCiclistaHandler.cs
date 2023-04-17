@@ -6,6 +6,7 @@ using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Aluguel.Models;
 using Aluguel.Models.Entidades;
+using Aluguel.Commands.Results;
 
 namespace Aluguel.Handlers.Ciclistas;
 
@@ -23,7 +24,7 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
     public ICommandResult Handle(AdicionarCiclistaCommand command)
     {
         if (!command.Validar())
-            return new GenericCommandResult(command.Erros.ToArray());
+            return new UnprocessableEntityCommandResult(command.Erros.ToArray());
 
         var ciclista = _mapper.Map<Ciclista>(command.Ciclista);
 
@@ -33,6 +34,6 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
 
         _repository.AdicionarCiclistaComCartao(ciclista, cartaoDeCredito);
 
-        return new GenericCommandResult(command);
+        return new OkCommandResult(command);
     }
 }

@@ -1,6 +1,6 @@
-﻿using Aluguel.Commands;
-using Aluguel.Commands.Contracts;
+﻿using Aluguel.Commands.Contracts;
 using Aluguel.Commands.Funcionarios;
+using Aluguel.Commands.Results;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
@@ -26,23 +26,23 @@ namespace Aluguel.Handlers.Funcionarios
         {
             //se existe o funcionário
             if (!_valida.IdFuncionario(command.Matricula)) { 
-                command.AdicionarErro(new Erro(
-                    ListaDeErros.NaoEncrontradoCod,
-                    ListaDeErros.NaoEncrontradoMsg));
+                command.AdicionarErro(new Erro("000"));
 
-                return new GenericCommandResult(command.Erros);
+                return new NotFoundCommandResult(command.Erros);
             }
 
             //validações dos dados passados
             if (!command.Valida)
-                return new GenericCommandResult(command.Erros);
+                return new UnprocessableEntityCommandResult(
+                    command.Erros);
 
-            var funcionario = _repository.RecuperarPorMatricula(command.Matricula);
+            var funcionario = _repository
+                .RecuperarPorMatricula(command.Matricula);
 
             _mapper.Map(command.FuncionarioDto, funcionario);
             _repository.Alterar(funcionario);
 
-            return new GenericCommandResult(funcionario);
+            return new OkCommandResult(funcionario);
         }
     }
 }
