@@ -1,4 +1,6 @@
-﻿namespace Aluguel.Data.Dtos.Ciclista
+﻿using Aluguel.Data.Dtos.Cartao;
+
+namespace Aluguel.Data.Dtos.Ciclista
 {
     public class AdicionarCiclistaDto
     {
