@@ -11,11 +11,11 @@ public class GenericCommandResult : ICommandResult
 
     public GenericCommandResult()
     {
-        
+
     }
 
     public GenericCommandResult(object data)
     {
         Data = data;
-    }    
+    }
 }
