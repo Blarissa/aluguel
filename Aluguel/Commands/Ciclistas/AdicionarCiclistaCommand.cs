@@ -1,4 +1,5 @@
 ﻿using Aluguel.Commands.Contracts;
+using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Validacao;
 
