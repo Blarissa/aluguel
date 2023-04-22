@@ -21,22 +21,22 @@ namespace TesteAluguel.RepositoriosFakes
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> EnviarCobranca(PostCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobranca(CreateCobrancaDto cobrancaDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> EnviarCobrancaParaFila(PostFilaCobrancaDto cobrancaDto)
+        public Task<HttpResponseMessage> EnviarCobrancaParaFila(CreateFilaCobrancaDto cobrancaDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> EnviarEmail(PostEnviarEmailDto emailDto)
+        public Task<HttpResponseMessage> EnviarEmail(CreateEnviarEmailDto emailDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> ValidacaoCartao(PostValidaCartaoDto validaCartaoDto)
+        public Task<HttpResponseMessage> ValidacaoCartao(CreateValidaCartaoDto validaCartaoDto)
         {
             throw new NotImplementedException();
         }

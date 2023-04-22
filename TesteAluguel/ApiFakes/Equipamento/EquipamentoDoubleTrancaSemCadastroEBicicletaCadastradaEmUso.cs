@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -21,9 +22,14 @@ namespace TesteAluguel.ApiFakes.Equipamento
         {
         }
 
+        public Task<HttpResponseMessage> AlterarStatusBicicleta(Guid idBicicleta, EStatusBicicleta acao)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> BuscarBicicletaPorId(Guid idBicicleta)
         {
-            var body = new GetBicicletaPorIdDto(){
+            var body = new ReadBicicletaDto(){
                 Id = idBicicleta,
                 Marca=  "Caloi",
                 Modelo = "BMX",
@@ -40,12 +46,27 @@ namespace TesteAluguel.ApiFakes.Equipamento
             return Task.FromResult(retorno);
         }
 
+        public Task<HttpResponseMessage> BuscarBicicletaPorTranca(Guid idTranca)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> BuscarTotens()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> BuscarTrancaPorId(Guid idTranca)
         {
             var retorno = new HttpResponseMessage();
             retorno.StatusCode = System.Net.HttpStatusCode.NotFound;
 
             return Task.FromResult(retorno);
+        }
+
+        public Task<HttpResponseMessage> DestrancarTranca(Guid idTranca)
+        {
+            throw new NotImplementedException();
         }
     }
 }

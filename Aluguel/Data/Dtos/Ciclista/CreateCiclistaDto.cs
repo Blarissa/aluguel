@@ -9,7 +9,8 @@ using System.Xml.Linq;
 namespace Aluguel.Data.Dtos.Ciclista
 {
     public class CreateCiclistaDto
-    {        
+    {
+
         public string Nome { get; set; }        
         public DateTime DataNascimento { get; set; }
         public string? Cpf { get; set; }
@@ -18,5 +19,6 @@ namespace Aluguel.Data.Dtos.Ciclista
         public string Email { get; set; }  
         public Uri UrlFotoDocumento { get; set; }          
         public string Senha { get; set; }
+        public string ConfirmaSenha { get; set; }       
     }
 }

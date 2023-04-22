@@ -21,7 +21,7 @@ namespace Aluguel.Servicos.Externo
             //client = apiClient;
 
             //baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
-            baseUriServico = "https://residencia-nebula.ed.dev.br/aluguel-grupo2";
+            baseUriServico = "https://8ce1aa22-9fa7-4f00-9f8b-614adabcea21.mock.pstmn.io";
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
