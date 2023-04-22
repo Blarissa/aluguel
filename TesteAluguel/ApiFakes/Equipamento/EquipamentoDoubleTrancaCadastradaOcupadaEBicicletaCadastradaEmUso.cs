@@ -21,9 +21,14 @@ namespace TesteAluguel.ApiFake
         {
         }
 
+        public Task<HttpResponseMessage> AlterarStatusBicicleta(Guid idBicicleta, EStatusBicicleta acao)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> BuscarBicicletaPorId(Guid idBicicleta)
         {
-                var body = new GetBicicletaPorIdDto(){
+                var body = new ReadBicicletaDto(){
                     Id = idBicicleta,
                     Marca=  "Caloi",
                     Modelo = "BMX",
@@ -40,9 +45,19 @@ namespace TesteAluguel.ApiFake
                 return Task.FromResult(retorno);
         }
 
+        public Task<HttpResponseMessage> BuscarBicicletaPorTranca(Guid idTranca)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> BuscarTotens()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> BuscarTrancaPorId(Guid idTranca)
         {
-            var body = new GetTrancaPorIdDto(){
+            var body = new ReadTrancaDto(){
                 Id = idTranca,
                 Numero = 10,
                 Localizacao = "Endereco da tranca",
@@ -56,6 +71,11 @@ namespace TesteAluguel.ApiFake
             retorno.StatusCode = System.Net.HttpStatusCode.OK;
 
             return Task.FromResult(retorno);
+        }
+
+        public Task<HttpResponseMessage> DestrancarTranca(Guid idTranca)
+        {
+            throw new NotImplementedException();
         }
     }
 }
