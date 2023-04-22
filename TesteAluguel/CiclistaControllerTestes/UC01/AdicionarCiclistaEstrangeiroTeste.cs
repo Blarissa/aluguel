@@ -1,13 +1,10 @@
 ﻿using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Repositorios.Contracts;
-using Moq;
-using System.Net.Http.Json;
 using System.Net;
 using Xunit.Abstractions;
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Data.Dtos.Pais;
-using AutoMapper;
+using Xunit;
 
 namespace TesteAluguel;
 
@@ -19,21 +16,12 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
     }
 
     [Fact]
-    public async void VerificaSeAdicionarCiclistaEstrangeiroCorretoRetornaStatusCreated()
+    public void VerificaSeAdicionarCiclistaEstrangeiroCorretoRetornaStatusPretendido()
     {
-        string resquestUri = BaseUri + "/ciclista";
-
         var ciclista = CiclistaEstrangeiroValido();
         var cartao = CartaoValido(ciclista.Nome);
 
-        var ciclistaDto = new AdicionarCiclistaDto()
-        {
-            Ciclista = ciclista,
-            MeioDePagamento = cartao
-        };
-
-        var resposta = await client
-            .PostAsJsonAsync(resquestUri, ciclistaDto);
+        var resposta = RespostaEsperada(ciclista, cartao).Result;
 
         Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
     }
