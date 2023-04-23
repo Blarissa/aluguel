@@ -6,11 +6,11 @@ using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Data.Dtos.Pais;
 using Xunit;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaEstrangeiroTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaEstrangeiroTeste(ITestOutputHelper output)
         : base(output)
     {
     }

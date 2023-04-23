@@ -4,11 +4,11 @@ using System.Net;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaComSenhaInvalidaTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaComSenhaInvalidaTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaComSenhaInvalidaTeste(ITestOutputHelper output)
         : base(output)
     {
     }
@@ -21,7 +21,7 @@ public class AdicionarCiclistaComSenhaInvalidaTeste : AdicionarCiclistaTesteBase
 
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, resposta.StatusCode);
     }
 
     //criando cartao

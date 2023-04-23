@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 using Xunit.Abstractions;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaTesteBase
 {

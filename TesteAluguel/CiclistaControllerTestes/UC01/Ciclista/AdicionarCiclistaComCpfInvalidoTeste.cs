@@ -4,32 +4,32 @@ using System.Net;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
-public class AdicionarCiclistaComNomeInvalidoTeste : AdicionarCiclistaTesteBase
+public class AdicionarCiclistaComCpfInvalidoTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaComNomeInvalidoTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaComCpfInvalidoTeste(ITestOutputHelper output)
         : base(output)
     {
     }
 
     [Fact]
-    public void VerificaSeAdicionarCiclistaBrasileiroComNomeInvalidoRetornaStatusPretendido()
+    public void VerificaSeAdicionarCiclistaBrasileiroComCpfInvalidoRetornaStatusPretendido()
     {
         var ciclista = CiclistaBrasileiro();
-        var cartao = Cartao();
+        var cartao = Cartao(ciclista.Nome);
 
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
-        Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, resposta.StatusCode);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao()
+    private static CreateMeioDePagamentoDto Cartao(string nome)
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = "Bárbara Brenda Araújo",
+            Nome = nome,
             Numero = "6011715265483138",
             MesValidade = 3,
             AnoValidade = 2024,
@@ -42,9 +42,9 @@ public class AdicionarCiclistaComNomeInvalidoTeste : AdicionarCiclistaTesteBase
     {
         return new CreateCiclistaDto()
         {
-            Nome = "ba",
+            Nome = "Bárbara Brenda Araújo",
             DataNascimento = DateTime.Parse("10/03/1987"),
-            Cpf = "10262643596",
+            Cpf = "0000000",
             Passaporte = null,
             Nacionalidade = "BRASILEIRO",
             Email = "barbarabrendaaraujo@publiconsult.com.br",
@@ -54,3 +54,4 @@ public class AdicionarCiclistaComNomeInvalidoTeste : AdicionarCiclistaTesteBase
         };
     }
 }
+

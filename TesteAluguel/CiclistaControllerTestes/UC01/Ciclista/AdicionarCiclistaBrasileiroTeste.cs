@@ -4,27 +4,27 @@ using Xunit.Abstractions;
 using System.Net;
 using Xunit;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaBrasileiroTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaBrasileiroTeste(ITestOutputHelper output)
         : base(output)
     {
     }
 
     [Fact]
-    public void VerificaSeAdicionarCiclistaBrasileiroCorretoRetornaStatusPretendidoPretendido()
+    public void VerificaSeAdicionarCiclistaBrasileiroCorretoRetornaStatusPretendido()
     {
-  
+
         var ciclista = CiclistaBrasileiroValido();
         var cartao = CartaoValido(ciclista.Nome);
-      
+
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
         Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
     }
-  
+
     //criando cartao
     private static CreateMeioDePagamentoDto CartaoValido(string nome)
     {
@@ -54,7 +54,6 @@ public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
             ConfirmaSenha = "Ft3cY5pEzK"
         };
     }
-    
 }
 
 

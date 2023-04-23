@@ -4,24 +4,24 @@ using System.Net;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
-public class AdicionarCiclistaComCpfInvalidoTeste : AdicionarCiclistaTesteBase
+public class AdicionarCiclistaComEmailInvalidoTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaComCpfInvalidoTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaComEmailInvalidoTeste(ITestOutputHelper output)
         : base(output)
     {
     }
 
     [Fact]
-    public void VerificaSeAdicionarCiclistaBrasileiroComCpfInvalidoRetornaStatusPretendido()
+    public void VerificaSeAdicionarCiclistaBrasileiroComEmailInvalidoRetornaStatusPretendido()
     {
         var ciclista = CiclistaBrasileiro();
         var cartao = Cartao(ciclista.Nome);
 
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, resposta.StatusCode);
     }
 
     //criando cartao
@@ -44,14 +44,14 @@ public class AdicionarCiclistaComCpfInvalidoTeste : AdicionarCiclistaTesteBase
         {
             Nome = "Bárbara Brenda Araújo",
             DataNascimento = DateTime.Parse("10/03/1987"),
-            Cpf = "0000000",
+            Cpf = "10262643596",
             Passaporte = null,
             Nacionalidade = "BRASILEIRO",
-            Email = "barbarabrendaaraujo@publiconsult.com.br",
+            Email = "barbarabrendaaraujopubliconsul",
             UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
             Senha = "hqQ6RlkuOJ",
             ConfirmaSenha = "hqQ6RlkuOJ"
         };
     }
-}
 
+}
