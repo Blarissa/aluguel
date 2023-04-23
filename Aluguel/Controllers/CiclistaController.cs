@@ -1,4 +1,5 @@
 ﻿using Aluguel.Commands.Ciclistas;
+using Aluguel.Commands.Results;
 using Aluguel.Data;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Handlers.Ciclistas;
@@ -6,6 +7,7 @@ using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Aluguel.Controllers
 {
@@ -40,9 +42,22 @@ namespace Aluguel.Controllers
             [FromBody]AdicionarCiclistaDto ciclistaDto,
             [FromServices]AdicionarCiclistaHandler handler)
         {
-            return Ok(handler.Handle(new AdicionarCiclistaCommand(
+            var comando = new AdicionarCiclistaCommand(
                 ciclistaDto.Ciclista,
-                ciclistaDto.MeioDePagamento)));
+                ciclistaDto.MeioDePagamento);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
+            {
+                case HttpStatusCode.Created:
+                    return CreatedAtAction(null,resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
+            }
         }
 
         /// <summary>

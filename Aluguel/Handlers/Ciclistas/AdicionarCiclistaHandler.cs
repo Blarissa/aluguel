@@ -24,7 +24,7 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
     public ICommandResult Handle(AdicionarCiclistaCommand command)
     {
         if (!command.Validar())
-            return new UnprocessableEntityCommandResult(command.Erros.ToArray());
+            return new UnprocessableEntityCommandResult(command.Erros);
 
         var ciclista = _mapper.Map<Ciclista>(command.Ciclista);
 
@@ -34,6 +34,6 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
 
         _repository.AdicionarCiclistaComCartao(ciclista, cartaoDeCredito);
 
-        return new OkCommandResult(command);
+        return new CreatedCommandResult(command);
     }
 }
