@@ -1,9 +1,12 @@
-﻿using Aluguel.Profiles;
+﻿using Aluguel.Data.Dtos.Cartao;
+using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Profiles;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http.Json;
 using Xunit.Abstractions;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaTesteBase
 {
@@ -32,5 +35,20 @@ public class AdicionarCiclistaTesteBase
 
             _mapper = mappingConfig.CreateMapper();
         }
+    }
+
+    public async Task<HttpResponseMessage> RespostaEsperada(CreateCiclistaDto ciclista, 
+        CreateMeioDePagamentoDto cartao)
+    {
+        string resquestUri = BaseUri + "/ciclista";        
+
+        var ciclistaDto = new AdicionarCiclistaDto()
+        {
+            Ciclista = ciclista,
+            MeioDePagamento = cartao
+        };
+
+        return await client
+            .PostAsJsonAsync(resquestUri, ciclistaDto);
     }
 }

@@ -1,41 +1,30 @@
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
-using AutoMapper;
-using System.Net.Http.Json;
 using Xunit.Abstractions;
 using System.Net;
-using Aluguel.Repositorios.Contracts;
-using Moq;
+using Xunit;
 
-namespace TesteAluguel;
+namespace TesteAluguel.CiclistaControllerTestes;
 
 public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
 {
-    public AdicionarCiclistaBrasileiroTeste(ITestOutputHelper output) 
+    public AdicionarCiclistaBrasileiroTeste(ITestOutputHelper output)
         : base(output)
     {
     }
 
     [Fact]
-    public async void VerificaSeAdicionarCiclistaBrasileiroCorretoRetornaStatusCreated()
+    public void VerificaSeAdicionarCiclistaBrasileiroCorretoRetornaStatusPretendido()
     {
-        string resquestUri = BaseUri + "/ciclista";
 
         var ciclista = CiclistaBrasileiroValido();
         var cartao = CartaoValido(ciclista.Nome);
 
-        var ciclistaDto = new AdicionarCiclistaDto()
-        {
-            Ciclista = ciclista,
-            MeioDePagamento = cartao
-        };
-
-        var resposta = await client
-            .PostAsJsonAsync(resquestUri, ciclistaDto);
+        var resposta = RespostaEsperada(ciclista, cartao).Result;
 
         Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
     }
-  
+
     //criando cartao
     private static CreateMeioDePagamentoDto CartaoValido(string nome)
     {
@@ -65,7 +54,6 @@ public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
             ConfirmaSenha = "Ft3cY5pEzK"
         };
     }
-    
 }
 
 
