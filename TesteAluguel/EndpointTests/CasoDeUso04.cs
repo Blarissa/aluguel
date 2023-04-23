@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using TesteAluguel.ApiFake;
 using TesteAluguel.ApiFakes.Equipamento;
 using TesteAluguel.RepositoriosFakes;
+using Xunit;
 
 namespace TesteAluguel.EndpointTests
 {
