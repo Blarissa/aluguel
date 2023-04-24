@@ -5,10 +5,11 @@ namespace Aluguel.Validacao
 {
     public class Valida : IValida
     {
-        public bool CartaoCredito(ReadCartaoDto cartao)
+        public bool CartaoCredito(CreateMeioDePagamentoDto cartao)
         {
             return ValidaFormato.CartaoFormato(cartao) &&
-                   ValidaRegras.DataRegras(cartao.MesValidade, cartao.AnoValidade);                   
+                   ValidaRegras.DataRegras(cartao.MesValidade, 
+                   cartao.AnoValidade);                   
         }
 
         public bool CPF(string cpf)

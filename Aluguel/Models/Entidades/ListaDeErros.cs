@@ -36,7 +36,10 @@ public class ListaDeErros
         Erros.Add("017a", "Ciclista está inativo ou bloqueado!");
         Erros.Add("018a", "Ciclista não pode pegar outra bicicleta!");
         Erros.Add("019a", "CPF já cadastrado!");
-
+        Erros.Add("020a", "Email já cadastrado!");
+        Erros.Add("021a", "Somente ciclista estrangeiro deve preencher o passaporte!");
+        Erros.Add("022a", "Somente ciclista brasileiro deve preencher o CPF!");
+        Erros.Add("023a", "Código país inválido!");
 
         //Erros relacionados a equipamento no formato 000e
         Erros.Add("001e", "Tranca deve está com status ocupada!");       
@@ -48,6 +51,8 @@ public class ListaDeErros
 
         //Erros relacionados a externo no formato 000x
         Erros.Add("001x", "Erro no pagamento ou pagamento não autorizado!");
+        Erros.Add("002x", "Cartão reprovado ou dados inválidos!");
+        Erros.Add("003x", "Erro no envio do email!");
     }
 
     public string RetornaErro(string codigo)

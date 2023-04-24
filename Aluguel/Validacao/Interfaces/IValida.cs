@@ -6,7 +6,7 @@ namespace Aluguel.Validacao
     public interface IValida
     {
         bool CPF(string cpf);
-        bool CartaoCredito(ReadCartaoDto cartao);
+        bool CartaoCredito(CreateMeioDePagamentoDto cartao);
         bool DataNascimento(string data);
         bool DataHora(string dataHora);
         bool Email(string email);
