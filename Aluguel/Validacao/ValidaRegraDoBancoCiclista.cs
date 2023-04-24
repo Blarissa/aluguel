@@ -8,15 +8,13 @@ namespace Aluguel.Validacao
         ICiclistaRepository _ciclistaRepository;
         IPaisRepository _paisRepository;
 
-        public ValidaRegraDoBancoCiclista(ICiclistaRepository ciclistaRepository)
+        public ValidaRegraDoBancoCiclista(ICiclistaRepository ciclistaRepository,
+            IPaisRepository paisRepository)
         {
             _ciclistaRepository = ciclistaRepository;
+            _paisRepository = paisRepository;
         }        
 
-        public ValidaRegraDoBancoCiclista(IPaisRepository paisRepository)
-        {
-            _paisRepository = paisRepository;
-        }
 
         //se existe algum ciclista com o cpf passado
         public bool CPFCiclista(string cpf)
@@ -24,6 +22,12 @@ namespace Aluguel.Validacao
             return _ciclistaRepository
                   .BuscarTodos()
                   .Any(c => c.Cpf == cpf);            
+        }
+
+        //se existe algum ciclista com o email passado
+        public bool EmailCiclista(string email)
+        {
+            return _ciclistaRepository.EmailExiste(email);
         }
 
         //se existe algum ciclista com o id passado

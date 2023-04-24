@@ -26,9 +26,9 @@
         }
 
         //se é uma data do futuro
-        public static bool DataRegras(string mes, string ano)
+        public static bool DataRegras(int mes, int ano)
         {            
-            var dt = new DateTime(int.Parse(ano), int.Parse(mes), 1);
+            var dt = new DateTime(ano, mes, 1);
 
             return dt > DateTime.Now;
         }
@@ -71,6 +71,5 @@
 
             return somaJ;
         }
-
     }
 }

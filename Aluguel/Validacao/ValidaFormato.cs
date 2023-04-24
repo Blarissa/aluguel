@@ -11,10 +11,9 @@ namespace Aluguel.Validacao
         //se números do cartão forem dígitos
         //se cvv for inteiro
         //se o nome tiver pelo menos 2 caracteres e no máximo 60
-        public static bool CartaoFormato(ReadCartaoDto cartao)
+        public static bool CartaoFormato(CreateMeioDePagamentoDto cartao)
         {
-            return NumeroCartaoFormato(cartao.Numero) &&
-                   IntFormato(cartao.CodigoSeguranca) &&
+            return NumeroCartaoFormato(cartao.Numero) &&                   
                    NomeFormato(cartao.Nome);
         }
 
@@ -112,7 +111,6 @@ namespace Aluguel.Validacao
             if(!NumeroPassaporte(passaporte.Numero) ||
                 !PaisFormato(passaporte.Pais.Codigo))
                 return false;
-
 
             return true;
         }        
