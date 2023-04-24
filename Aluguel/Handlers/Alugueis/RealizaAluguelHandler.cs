@@ -9,6 +9,7 @@ using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Data.Dtos.Servicos.Externo;
 using Aluguel.Models;
 using Aluguel.Models.Entidades;
+using Aluguel.Repositorios;
 using Aluguel.Repositorios.Contracts;
 using Aluguel.Servicos;
 using Aluguel.Validacao;
@@ -28,12 +29,14 @@ namespace Aluguel.Handlers.Alugueis
         private readonly IExternoService _externo;
         private readonly IValidaRegraDoBancoCiclista _validaCiclista;
         GenericCommandResult _commandResult;
+        private readonly IPaisRepository _repositoryPais;
         private readonly IValidaRegraEquipamento _validaEquipamento;
         private readonly IValidaRegraExterno _validaExterno;
 
         public RealizaAluguelHandler(IAluguelRepository repository, 
             IMapper mapper, IEquipamentoService equipamento,
-            IExternoService externo, ICiclistaRepository repositoryCiclista)
+            IExternoService externo, ICiclistaRepository repositoryCiclista,
+            IPaisRepository repositoryPais)
         { 
             _repository = repository;
             _repositoryCiclista = repositoryCiclista;
@@ -41,7 +44,8 @@ namespace Aluguel.Handlers.Alugueis
             _equipamento = equipamento;
             _externo = externo;
             _commandResult = new GenericCommandResult();
-            _validaCiclista = new ValidaRegraDoBancoCiclista(_repositoryCiclista);
+            _repositoryPais = repositoryPais;
+            _validaCiclista = new ValidaRegraDoBancoCiclista(_repositoryCiclista, _repositoryPais);
             _validaEquipamento = new ValidaRegraEquipamento(_equipamento);
             _validaExterno = new ValidaRegraExterno(_externo);
         }

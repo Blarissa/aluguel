@@ -51,9 +51,9 @@ namespace Aluguel.Controllers
             switch (resultado.Status)
             {
                 case HttpStatusCode.Created:
-                    return CreatedAtAction(null,resultado.Data);
+                    return CreatedAtAction(null, resultado.Data);
 
-                case HttpStatusCode.UnprocessableEntity:
+                case HttpStatusCode.UnprocessableEntity:                                            
                     return UnprocessableEntity(resultado.Data);
 
                 default: return Problem(statusCode: 500);
