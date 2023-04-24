@@ -4,6 +4,7 @@ public class Erro
 {    
     public string Codigo { get; set; }    
     public string Mensagem { get; set; }
+    
     private ListaDeErros Erros;
 
     public Erro(string codigo)
