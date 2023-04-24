@@ -27,7 +27,7 @@ public class AdicionarCiclistaComFotoInvalidaTeste : AdicionarCiclistaTesteBase
 
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
-        Assert.Equal(HttpStatusCode.MethodNotAllowed, resposta.StatusCode);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
     }
 
     //criando cartao
@@ -54,7 +54,7 @@ public class AdicionarCiclistaComFotoInvalidaTeste : AdicionarCiclistaTesteBase
             Passaporte = null,
             Nacionalidade = "BRASILEIRO",
             Email = "barbarabrendaaraujo@publiconsult.com.br",
-            UrlFotoDocumento = new Uri(""),
+            UrlFotoDocumento = null,
             Senha = "hqQ6RlkuOJ",
             ConfirmaSenha = "hqQ6RlkuOJ"
         };

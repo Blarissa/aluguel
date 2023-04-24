@@ -21,7 +21,7 @@ public class AdicionarCiclistaComCpfInvalidoTeste : AdicionarCiclistaTesteBase
 
         var resposta = RespostaEsperada(ciclista, cartao).Result;
 
-        Assert.Equal(HttpStatusCode.MethodNotAllowed, resposta.StatusCode);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
     }
 
     //criando cartao
