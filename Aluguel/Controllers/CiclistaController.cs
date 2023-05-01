@@ -7,6 +7,7 @@ using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace Aluguel.Controllers
@@ -39,12 +40,11 @@ namespace Aluguel.Controllers
         [ProducesResponseType(201, Type = typeof(ReadCiclistaDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult AdicionarCiclista(
-            [FromBody]AdicionarCiclistaDto ciclistaDto,
+            [FromBody, Required]AdicionarCiclistaDto ciclistaDto,
             [FromServices]AdicionarCiclistaHandler handler)
         {
             var comando = new AdicionarCiclistaCommand(
-                ciclistaDto.Ciclista,
-                ciclistaDto.MeioDePagamento);
+                ciclistaDto);
 
             var resultado = handler.Handle(comando);
 
