@@ -1,6 +1,8 @@
 ﻿using Aluguel.Data;
+using Aluguel.Data.Dtos.Pais;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
+using AutoMapper;
 
 namespace Aluguel.Repositorios
 {
@@ -11,6 +13,19 @@ namespace Aluguel.Repositorios
         public PaisRepository(AluguelContexto contexto)
         {
             this.contexto = contexto;
+        }
+
+        public bool PaisExiste(string codigo)
+        {
+            return contexto.Paises
+                .Any(p => p.Codigo.Equals(codigo.ToLower()));
+        }
+
+        public Pais? RecuperarPorCodigo(string codigo)
+        {
+            return contexto.Paises
+                .FirstOrDefault(
+                    p => p.Codigo.ToLower() == codigo);
         }
 
         public IList<Pais> RecuperarTodos()

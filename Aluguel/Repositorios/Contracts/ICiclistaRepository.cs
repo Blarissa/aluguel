@@ -16,6 +16,8 @@ public interface ICiclistaRepository
     Ciclista BuscarPorId(Guid id);
     
     IList<Ciclista> BuscarTodos();
+
+    bool PassaporteExiste(string numero);
     
     bool EmailExiste(string email);
             
