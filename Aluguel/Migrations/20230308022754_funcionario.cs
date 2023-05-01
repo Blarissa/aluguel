@@ -18,7 +18,7 @@ namespace Aluguel.Migrations
                     senha = table.Column<string>(type: "text", nullable: false),
                     cpf = table.Column<string>(type: "text", nullable: false),
                     idade = table.Column<int>(type: "integer", nullable: false),
-                    funcao = table.Column<int>(type: "e_funcao", nullable: false)
+                    funcao = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

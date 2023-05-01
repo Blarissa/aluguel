@@ -20,10 +20,10 @@ namespace Aluguel.Migrations
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+           // NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
+            //NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
+           // NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
+           // NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Aluguel.Models.Entidades.CartaoDeCredito", b =>
                 {
@@ -98,7 +98,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Nacionalidade")
-                        .HasColumnType("e_nacionalidade")
+                        .IsRequired()
                         .HasColumnName("nacionalidade");
 
                     b.Property<string>("Nome")
@@ -116,7 +116,6 @@ namespace Aluguel.Migrations
                         .HasColumnName("senha");
 
                     b.Property<int>("Status")
-                        .HasColumnType("e_status_ciclista")
                         .HasColumnName("status");
 
                     b.Property<string>("UrlFotoDocumento")
@@ -252,11 +251,11 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Funcao")
-                        .HasColumnType("e_funcao")
+                        .IsRequired()
                         .HasColumnName("funcao");
 
                     b.Property<int>("Idade")
-                        .HasColumnType("integer")
+                        .IsRequired()
                         .HasColumnName("idade");
 
                     b.Property<string>("Nome")
