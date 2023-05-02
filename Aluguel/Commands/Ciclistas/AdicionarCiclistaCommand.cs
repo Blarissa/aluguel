@@ -1,6 +1,6 @@
 ﻿using Aluguel.Commands.Contracts;
-using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Models;
 using Aluguel.Models.Entidades;
 using Aluguel.Validacao;
 
@@ -34,7 +34,7 @@ public class AdicionarCiclistaCommand : BaseValidacao, ICommand
             AdicionarErro(new Erro("013a"));
 
         //se o ciclista for brasileiro
-        else if (ciclistaDto.Ciclista.Equals("BRASILEIRO"))
+        else if (ciclistaDto.Ciclista.Nacionalidade.Equals(ENacionalidade.BRASILEIRO))
         {
             //se o cpf não for válido
             if (!validacao.CPF(ciclistaDto.Ciclista.Cpf))

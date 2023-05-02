@@ -33,6 +33,9 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
 
     public ICommandResult Handle(AdicionarCiclistaCommand command)
     {
+
+        Console.WriteLine(command.ciclistaDto.Ciclista);
+
         //validação dos dados passados
         if (!command.Validar())
             return new UnprocessableEntityCommandResult(command.Erros);
@@ -83,7 +86,7 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
         IValidaRegraDoBancoCiclista valida, IPaisRepository paisRepository)
     {
         //se o ciclista for brasileiro
-        if (command.ciclistaDto.Ciclista.Nacionalidade.Equals("BRASILEIRO"))
+        if (command.ciclistaDto.Ciclista.Nacionalidade.Equals(ENacionalidade.BRASILEIRO))
         {
             //se já existe o cpf
             if (valida.CPFCiclista(command.ciclistaDto.Ciclista.Cpf))            
@@ -95,13 +98,12 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
             var codigo = command.ciclistaDto.Ciclista.Passaporte.Pais;
 
             //passaporte inválido
-            if (!valida.Passaporte(numero))
+            if (valida.Passaporte(numero))
                 command.AdicionarErro(new Erro("023a"));
 
             //pais inválido
             else if (!valida.Pais(codigo))
                 command.AdicionarErro(new Erro("010a"));
-           
             //adicionando id do pais no passaporte
             else
                 command.ciclistaDto.Ciclista.Passaporte.PaisId = paisRepository
