@@ -1,8 +1,6 @@
 ﻿using Aluguel.Data;
-using Aluguel.Data.Dtos.Pais;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
-using AutoMapper;
 
 namespace Aluguel.Repositorios
 {

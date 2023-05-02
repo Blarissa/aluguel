@@ -3,5 +3,5 @@
 public enum ENacionalidade
 {
     BRASILEIRO,
-    ESTRANGEIRO
+    ESTRANGEIRO 
 }
