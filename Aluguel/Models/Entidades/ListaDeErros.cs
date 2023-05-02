@@ -39,7 +39,7 @@ public class ListaDeErros
         Erros.Add("020a", "Email já cadastrado!");
         Erros.Add("021a", "Somente ciclista estrangeiro deve preencher o passaporte!");
         Erros.Add("022a", "Somente ciclista brasileiro deve preencher o CPF!");
-        Erros.Add("023a", "Código país inválido!");
+        Erros.Add("023a", "Passaporte já casdatrado!");
 
         //Erros relacionados a equipamento no formato 000e
         Erros.Add("001e", "Tranca deve está com status ocupada!");       

@@ -9,16 +9,15 @@ public class Ciclista
     public DateTime DataNascimento { get; set; }
     public string Email { get; set; }
     public string Senha { get; set; }
-    public Uri UrlFotoDocumento { get; set; }
-    public EStatusCiclista Status { get; set; }
+    public Uri UrlFotoDocumento { get; set; }    
+    public EStatusCiclista Status { get; set; }   
     public ENacionalidade Nacionalidade { get; set; }
     public DateTime DataHoraCadastro { get; set; }
     public DateTime DataHoraConfirmacao { get; set; }
-
     public string? Cpf { get; set; }
     public Guid? PassaporteId { get; set; }
 
-    public virtual Passaporte Passaporte { get; set; }
+    public virtual Passaporte? Passaporte { get; set; }
     [JsonIgnore]
     public virtual IList<CartaoDeCredito> Cartoes { get; set; }
     [JsonIgnore]
