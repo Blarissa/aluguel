@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ public class AdicionarCiclistaComFotoInvalidaTeste : AdicionarCiclistaTesteBase
             DataNascimento = DateTime.Parse("10/03/1987"),
             Cpf = "10262643596",
             Passaporte = null,
-            Nacionalidade = "BRASILEIRO",
+            Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "barbarabrendaaraujo@publiconsult.com.br",
             UrlFotoDocumento = null,
             Senha = "hqQ6RlkuOJ",

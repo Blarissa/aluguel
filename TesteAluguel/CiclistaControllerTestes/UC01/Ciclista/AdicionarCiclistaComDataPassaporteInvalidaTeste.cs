@@ -1,7 +1,7 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Data.Dtos.Pais;
 using Aluguel.Data.Dtos.Passaporte;
+using Aluguel.Models;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;
@@ -45,7 +45,7 @@ public class AdicionarCiclistaComDataPassaporteInvalidaTeste : AdicionarCiclista
         var passaporte = new CreatePassaporteDto()
         {
             Numero = "II112243",
-            Pais = new ReadPaisDto("DE"),
+            Pais = "de",
             DataValidade = DateTime.Parse("01/04/2021")
         };
 
@@ -55,7 +55,7 @@ public class AdicionarCiclistaComDataPassaporteInvalidaTeste : AdicionarCiclista
             DataNascimento = DateTime.Parse("03/01/1965"),
             Cpf = null,
             Passaporte = passaporte,
-            Nacionalidade = "ESTRANGEIRO",
+            Nacionalidade = ENacionalidade.ESTRANGEIRO,
             Email = "sophiaelainepeixoto@yahoo.de",
             UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
             Senha = "1pdEIjynkU",
