@@ -1,6 +1,5 @@
 ﻿using Aluguel.Commands.Ciclistas;
 using Aluguel.Commands.Contracts;
-using Aluguel.Commands;
 using Aluguel.Handlers.Contracts;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
@@ -9,7 +8,8 @@ using Aluguel.Commands.Results;
 using Aluguel.Validacao;
 using Aluguel.Servicos;
 using Aluguel.Data.Dtos.Servicos.Externo;
-using System.Net;
+using Aluguel.Models;
+using Aluguel.Data.Dtos.Ciclista;
 
 namespace Aluguel.Handlers.Ciclistas;
 
@@ -32,92 +32,105 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
     }
 
     public ICommandResult Handle(AdicionarCiclistaCommand command)
-    {               
+    {
+
+        Console.WriteLine(command.ciclistaDto.Ciclista);
+
         //validação dos dados passados
         if (!command.Validar())
             return new UnprocessableEntityCommandResult(command.Erros);
 
         //se já existe o email
-        if (_valida.EmailCiclista(command.Ciclista.Email))
+        if (_valida.EmailCiclista(command.ciclistaDto.Ciclista.Email))
         {
             command.AdicionarErro(new Erro("020a"));
             return new UnprocessableEntityCommandResult(command.Erros);
         }
 
         //validação do documento
-        ValidaDocumento(command, _valida);
+        ValidaDocumento(command, _valida, _repositoryPais);
 
-        var ciclista = _mapper.Map<Ciclista>(command.Ciclista);
-        
         //validação do cartão
-        var resultado = ValidaCartaoExterno(command).Result;
+        //var resultado = ValidaCartaoExterno(command).Result;
 
-        //cartão reprovado ou dados inválidos
-        if (resultado.StatusCode.Equals(HttpStatusCode.UnprocessableEntity))
-        {
-            command.AdicionarErro(new Erro("002x"));
-            return new UnprocessableEntityCommandResult(command.Erros);
-        }
+        //validação do cartão precisa da API externo
+        //var resultado = ValidaCartaoExterno(command).Result;
+
+        ////cartão reprovado ou dados inválidos
+        //if (resultado.StatusCode.Equals(HttpStatusCode.UnprocessableEntity))
+        //{
+        //    command.AdicionarErro(new Erro("002x"));
+        //    return new UnprocessableEntityCommandResult(command.Erros);
+        //}
 
         //cartão aprovado
-        if (resultado.StatusCode.Equals(HttpStatusCode.OK))
+        //if (resultado.StatusCode.Equals(HttpStatusCode.OK))                
+
+        var ciclista = _mapper.Map<CreateCiclistaDto, Ciclista>(command.ciclistaDto.Ciclista);
+        var cartaoDeCredito = _mapper.Map<CartaoDeCredito>(command.ciclistaDto.MeioDePagamento);
+
+        cartaoDeCredito.Ciclista = ciclista;
+            
+        //adicionando ciclista
+        _repositoryCiclista.AdicionarCiclistaComCartao(ciclista, cartaoDeCredito);
+
+        //enviando email para o ciclista precisa da API externo
+        //var resultadoEmail = MandarEmail(command).Result;
+
+        //se o email foi enviado finaliza 
+        //if (resultadoEmail.StatusCode.Equals(HttpStatusCode.OK))
+        return new CreatedCommandResult(command.ciclistaDto);                    
+    }
+
+    private static void ValidaDocumento(AdicionarCiclistaCommand command, 
+        IValidaRegraDoBancoCiclista valida, IPaisRepository paisRepository)
+    {
+        //se o ciclista for brasileiro
+        if (command.ciclistaDto.Ciclista.Nacionalidade.Equals(ENacionalidade.BRASILEIRO))
         {
-            var cartaoDeCredito = _mapper.Map<CartaoDeCredito>(command.MeioDePagamento);
+            //se já existe o cpf
+            if (valida.CPFCiclista(command.ciclistaDto.Ciclista.Cpf))            
+                command.AdicionarErro(new Erro("019a"));            
+        }
+        else
+        {
+            var numero = command.ciclistaDto.Ciclista.Passaporte.Numero;
+            var codigo = command.ciclistaDto.Ciclista.Passaporte.Pais;
 
-            cartaoDeCredito.Ciclista = ciclista;
-            
-            //adicionando ciclista
-            _repositoryCiclista.AdicionarCiclistaComCartao(ciclista, cartaoDeCredito);
-            
-            var resultadoEmail = MandarEmail(command).Result;
+            //passaporte inválido
+            if (valida.Passaporte(numero))
+                command.AdicionarErro(new Erro("023a"));
 
-            //se o email foi enviado finaliza 
-            if (resultadoEmail.StatusCode.Equals(HttpStatusCode.OK))
-                return new CreatedCommandResult(command);            
-        }        
-        
-        return new GenericCommandResult();        
+            //pais inválido
+            else if (!valida.Pais(codigo))
+                command.AdicionarErro(new Erro("010a"));
+            //adicionando id do pais no passaporte
+            else
+                command.ciclistaDto.Ciclista.Passaporte.PaisId = paisRepository
+                .RecuperarPorCodigo(command.ciclistaDto.Ciclista.Passaporte.Pais.ToLower())
+                .Id;
+        }
     }
 
     private async Task<HttpResponseMessage> ValidaCartaoExterno(AdicionarCiclistaCommand command)
     {
-        var mes = command.MeioDePagamento.MesValidade;
-        var ano = command.MeioDePagamento.AnoValidade;
+        var mes = command.ciclistaDto.MeioDePagamento.MesValidade;
+        var ano = command.ciclistaDto.MeioDePagamento.AnoValidade;
 
         var cartao = new CreateValidaCartaoDto()
         {
-            NomeTitular = command.MeioDePagamento.Nome,
-            Numero = command.MeioDePagamento.Numero,
-            Cvv = command.MeioDePagamento.CodigoSeguranca,
+            NomeTitular = command.ciclistaDto.MeioDePagamento.Nome,
+            Numero = command.ciclistaDto.MeioDePagamento.Numero,
+            Cvv = command.ciclistaDto.MeioDePagamento.CodigoSeguranca,
             Validade = $"01/{mes}/{ano}"
         };
 
         return await _externo.ValidacaoCartao(cartao);        
     }
 
-    private static void ValidaDocumento(AdicionarCiclistaCommand command, 
-        IValidaRegraDoBancoCiclista valida)
-    {
-        //se o ciclista for brasileiro
-        if (command.Ciclista.Nacionalidade.Equals("BRASILEIRO"))
-        {
-            //se já existe o cpf
-            if (valida.CPFCiclista(command.Ciclista.Cpf))            
-                command.AdicionarErro(new Erro("019a"));            
-        }
-        else
-        {
-            var codigo = command.Ciclista.Passaporte.Pais.Codigo;
-
-            // o código do país é inválido
-            if (!valida.Passaporte(codigo))
-                command.AdicionarErro(new Erro("023a"));
-        }
-    }
-
     private async Task<HttpResponseMessage> MandarEmail(AdicionarCiclistaCommand command)
     {
-        var email = command.Ciclista.Email;
+        var email = command.ciclistaDto.Ciclista.Email;
         var mensagem = "Ciclista cadastrado, realize a confirmação de email!";
 
         // criando um email com os todos os dados do aluguel atual

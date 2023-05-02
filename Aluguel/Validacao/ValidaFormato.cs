@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Passaporte;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -60,11 +61,8 @@ namespace Aluguel.Validacao
         //se extensão do arquivo é válida
         public static bool FotoFormato(string foto)
         {
-            string[] extensoes = { ".png", ".jpg" , ".jpeg" };
-
-            var ext = Path.GetExtension(foto).ToLowerInvariant();
-
-            return !string.IsNullOrEmpty(ext) && extensoes.Contains(ext);
+            return !string.IsNullOrEmpty(foto) &&
+                new UrlAttribute().IsValid(foto);                 
         }
 
         //se for um EFuncao
@@ -108,11 +106,12 @@ namespace Aluguel.Validacao
         //se o código do pais tem 2 caracteres
         public static bool PassaporteFormato(CreatePassaporteDto passaporte)
         {            
-            if(!NumeroPassaporte(passaporte.Numero) ||
-                !PaisFormato(passaporte.Pais.Codigo))
-                return false;
+            if(passaporte != null &&
+                NumeroPassaporte(passaporte.Numero) &&
+                PaisFormato(passaporte.Pais))
+                return true;
 
-            return true;
+            return false;
         }        
 
         //se o código do pais tem 2 caracteres
@@ -126,7 +125,7 @@ namespace Aluguel.Validacao
         //se o número do passaporte é válido
         private static bool NumeroPassaporte(string numero)
         {
-            Regex re = new Regex(@"^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$");
+            Regex re = new Regex(@"[A-Za-z]{2}[0-9]{6}");
 
             if (re.IsMatch(numero))
                 return true;

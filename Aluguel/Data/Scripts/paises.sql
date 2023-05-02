@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 INSERT INTO paises (id,codigo, nome) VALUES
 (uuid_generate_v1(), 'af', 'Afeganistão'),
 (uuid_generate_v1(), 'za', 'África do Sul'),

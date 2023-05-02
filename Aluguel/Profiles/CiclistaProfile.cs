@@ -1,6 +1,5 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Data.Dtos.Pais;
 using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Models;
 using Aluguel.Models.Entidades;
@@ -12,17 +11,22 @@ namespace Aluguel.Profiles
     { 
         public CiclistaProfile()
         {
-            CreateMap<ReadPaisDto, Pais>();
-
-            CreateMap<Pais, ReadPaisDto>();
-
-            CreateMap<CreatePassaporteDto, Passaporte>();
-
-            CreateMap<CreatePassaporteDto, Passaporte>();
+            CreateMap<CreatePassaporteDto, Passaporte>()
+                .ForMember(dst => dst.Pais, src => src.Ignore());            
 
             CreateMap<Passaporte, CreatePassaporteDto>();
             
-            CreateMap<CreateCiclistaDto, Ciclista>();
+            CreateMap<CreateCiclistaDto, Ciclista>()
+                .ForMember(dst => dst.Cpf, src =>
+                {
+                    src.Condition(src => src.Cpf != null);
+                    src.MapFrom(src => src.Cpf);
+                })
+                .ForMember(dst => dst.Passaporte, src =>
+                {
+                    src.Condition(src => src.Passaporte != null);
+                    src.MapFrom(src => src.Passaporte);
+                });
 
             CreateMap<CreateMeioDePagamentoDto, CartaoDeCredito>();
 
