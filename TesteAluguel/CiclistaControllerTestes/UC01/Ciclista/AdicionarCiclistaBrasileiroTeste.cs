@@ -3,6 +3,7 @@ using Aluguel.Data.Dtos.Ciclista;
 using Xunit.Abstractions;
 using System.Net;
 using Xunit;
+using Aluguel.Models;
 
 namespace TesteAluguel.CiclistaControllerTestes;
 
@@ -47,7 +48,7 @@ public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
             DataNascimento = DateTime.Parse("19/03/1953"),
             Cpf = "56230950898",
             Passaporte = null,
-            Nacionalidade = "BRASILEIRO",
+            Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "renato-aparicio70@mega.com.br",
             UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
             Senha = "Ft3cY5pEzK",

@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Models;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;
@@ -46,7 +47,7 @@ public class AdicionarCiclistaComEmailInvalidoTeste : AdicionarCiclistaTesteBase
             DataNascimento = DateTime.Parse("10/03/1987"),
             Cpf = "10262643596",
             Passaporte = null,
-            Nacionalidade = "BRASILEIRO",
+            Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "barbarabrendaaraujopubliconsul",
             UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
             Senha = "hqQ6RlkuOJ",

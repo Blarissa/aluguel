@@ -5,6 +5,7 @@ using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Data.Dtos.Pais;
 using Xunit;
+using Aluguel.Models;
 
 namespace TesteAluguel.CiclistaControllerTestes;
 
@@ -34,7 +35,7 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
             Nome = nome,
             Numero = "5538492207925875",
             MesValidade = 7,
-            AnoValidade = 2024,
+            AnoValidade = 24,
             CodigoSeguranca = 591
         };
     }
@@ -46,7 +47,7 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
         {
             Numero = "CE002311",
             DataValidade = DateTime.Parse("25/06/2025"),
-            Pais = new ReadPaisDto("CA")
+            Pais = "CA"
         };
 
         return new CreateCiclistaDto()
@@ -54,8 +55,7 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
             Nome = "Marcos Vinicius Matheus Alves",
             DataNascimento = DateTime.Parse("27/02/1968"),
             Passaporte = passaporte,
-            Nacionalidade = "ESTRANGEIRO",
-            Cpf = null,
+            Nacionalidade = ENacionalidade.ESTRANGEIRO,
             Email = "marcos.vinicius.alves@whgames.com.br",
             UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
             Senha = "LRnyTwi2Kj",
