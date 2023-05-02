@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aluguel.Models.Entidades;
 
@@ -61,5 +62,10 @@ public class Ciclista
         var bicicletaId = emprestimo.EmprestimoAtivo() ? emprestimo?.BicicletaId : null;
 
         return bicicletaId;
+    }
+
+    public override string ToString()
+    {
+        return $"Nacionalidade: {Nacionalidade}\n";
     }
 }

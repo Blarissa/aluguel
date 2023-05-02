@@ -13,5 +13,6 @@ public class Passaporte
         Numero = passaporte.Numero;
         DataValidade = passaporte.DataValidade;
         PaisId = passaporte.PaisId;
+       // Pais.AtualizarDados(passaporte.Pais);
     }
 }
