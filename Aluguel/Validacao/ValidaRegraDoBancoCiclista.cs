@@ -15,7 +15,6 @@ namespace Aluguel.Validacao
             _paisRepository = paisRepository;
         }        
 
-
         //se existe algum ciclista com o cpf passado
         public bool CPFCiclista(string cpf)
         {
@@ -36,14 +35,20 @@ namespace Aluguel.Validacao
             return _ciclistaRepository
                    .BuscarTodos()
                    .Any(c => c.Id == idCiclista);            
-        }               
+        }
 
-        //se o código do pais existe
-        public bool Passaporte(string codigo)
+        //se o pais existir no banco é valido
+        public bool Pais(string codigo)
         {
             return _paisRepository
-                   .RecuperarTodos()
-                   .Any(p => p.Codigo == codigo);
+                .PaisExiste(codigo);
+        }
+
+        //se o passaporte não existir é válido
+        public bool Passaporte(string codigo)
+        {
+            return !_ciclistaRepository
+                .PassaporteExiste(codigo); 
         }
         
         //se o ciclista pode alugar uma bicicleta
@@ -61,6 +66,5 @@ namespace Aluguel.Validacao
                    .RetornaStatusCiclista(idCiclista)
                    .Equals(EStatusCiclista.ATIVO);
         }
-
     }
 }

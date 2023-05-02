@@ -14,7 +14,7 @@ namespace Aluguel.Validacao
         bool Idade(string idade);
         bool Nacionalidade(string nacionalidade);
         bool Nome(string nome);        
-        bool Passaporte(CreatePassaporteDto passaporte);
+        bool Passaporte(CreatePassaporteDto? passaporte);
         bool Senha(string senha, string confirmaSenha);              
         bool UrlFotoDocumento(string foto);
     }

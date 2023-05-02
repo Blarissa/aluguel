@@ -6,6 +6,7 @@
         bool EmailCiclista(string email);
         bool IdCiclista(Guid idCiclista);
         bool Passaporte(string codigo);
+        bool Pais(string codigo);
         bool Status(Guid idCiclista);
         bool PodeAlugar(Guid idCiclista);
     }
