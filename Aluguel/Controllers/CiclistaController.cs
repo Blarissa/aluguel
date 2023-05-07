@@ -3,6 +3,7 @@ using Aluguel.Commands.Results;
 using Aluguel.Data;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Handlers.Ciclistas;
+using Aluguel.Handlers.Contracts;
 using Aluguel.Models.Entidades;
 using Aluguel.Repositorios.Contracts;
 using AutoMapper;
@@ -37,11 +38,11 @@ namespace Aluguel.Controllers
         /// <response code="422">Dados inválidos</response>
 
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(ReadCiclistaDto))]
+        [ProducesResponseType(201, Type = typeof(AdicionarCiclistaDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult AdicionarCiclista(
             [FromBody, Required]AdicionarCiclistaDto ciclistaDto,
-            [FromServices]AdicionarCiclistaHandler handler)
+            [FromServices] IHandler<AdicionarCiclistaCommand> handler)
         {
             var comando = new AdicionarCiclistaCommand(
                 ciclistaDto);
@@ -50,7 +51,7 @@ namespace Aluguel.Controllers
 
             switch (resultado.Status)
             {
-                case HttpStatusCode.Created:
+                case HttpStatusCode.Created:                    
                     return CreatedAtAction(null, resultado.Data);
 
                 case HttpStatusCode.UnprocessableEntity:                                            

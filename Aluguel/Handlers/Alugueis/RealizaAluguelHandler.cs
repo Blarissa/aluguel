@@ -129,7 +129,7 @@ namespace Aluguel.Handlers.Alugueis
 
             // cartao usado no pagamento
             var cartao = _repositoryCiclista
-                .UltimoCataoAdicionado(idCiclista);
+                .UltimoCartaoAdicionado(idCiclista);
 
             var dataHoraRetirada = DateTime.Now;                       
 

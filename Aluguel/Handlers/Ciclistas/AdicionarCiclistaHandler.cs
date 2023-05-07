@@ -33,9 +33,6 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
 
     public ICommandResult Handle(AdicionarCiclistaCommand command)
     {
-
-        Console.WriteLine(command.ciclistaDto.Ciclista);
-
         //validação dos dados passados
         if (!command.Validar())
             return new UnprocessableEntityCommandResult(command.Erros);
@@ -78,7 +75,7 @@ public class AdicionarCiclistaHandler : IHandler<AdicionarCiclistaCommand>
         //var resultadoEmail = MandarEmail(command).Result;
 
         //se o email foi enviado finaliza 
-        //if (resultadoEmail.StatusCode.Equals(HttpStatusCode.OK))
+        //if (resultadoEmail.StatusCode.Equals(HttpStatusCode.OK))        
         return new CreatedCommandResult(command.ciclistaDto);                    
     }
 
