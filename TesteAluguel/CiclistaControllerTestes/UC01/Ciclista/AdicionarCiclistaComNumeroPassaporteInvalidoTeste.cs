@@ -2,6 +2,7 @@
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Data.Dtos.Passaporte;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,26 +16,43 @@ public class AdicionarCiclistaComNumeroPassaporteInvalidoTeste : AdicionarCiclis
     {
     }
 
-    [Fact]
+    [Fact(DisplayName = "CT14 - StatusCode")]
     public void VerificaSeAdicionarCiclistaEstrangeiroComNumeroPassaporteInvalidaRetornaStatusPretendido()
     {
-        var ciclista = CiclistaEstrangeiro();
-        var cartao = Cartao(ciclista.Nome);
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaEstrangeiro(),
+            Cartao());
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.UnprocessableEntity;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(esperado, atual);
+    }
+
+    [Fact(DisplayName = "CT14 - Response")]
+    public void VerificaSeAdicionarCiclistaEstrangeiroComNumeroPassaporteInvalidaRetornaResponsePretendido()
+    {
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaEstrangeiro(),
+            Cartao());
+
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        var esperado = new List<Erro>();
+        esperado.Add(new Erro("008a"));
+
+        Assert.Equivalent(esperado, atual);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao(string nome)
+    private static CreateMeioDePagamentoDto Cartao()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
+            Nome = "Sophia Elaine Pietra Silver",
             Numero = "379004508263881",
             MesValidade = 1,
-            AnoValidade = 2025,
+            AnoValidade = 25,
             CodigoSeguranca = 8589
         };
     }
@@ -57,7 +75,7 @@ public class AdicionarCiclistaComNumeroPassaporteInvalidoTeste : AdicionarCiclis
             Passaporte = passaporte,
             Nacionalidade = ENacionalidade.ESTRANGEIRO,
             Email = "sophiaelainepeixoto@yahoo.de",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co",
             Senha = "1pdEIjynkU",
             ConfirmaSenha = "1pdEIjynkU"
         };
