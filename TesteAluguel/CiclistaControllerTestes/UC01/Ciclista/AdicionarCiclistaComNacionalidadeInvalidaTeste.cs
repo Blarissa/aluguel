@@ -1,6 +1,7 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Data.Dtos.Passaporte;
+using Aluguel.Models.Entidades;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,26 +15,43 @@ public class AdicionarCiclistaComNacionalidadeInvalidaTeste : AdicionarCiclistaT
     {
     }
 
-    [Fact]
+    [Fact(DisplayName = "CT13 - StatusCode")]
     public void VerificaSeAdicionarCiclistaEstrangeiroComNacionalidadeInvalidaRetornaStatusPretendido()
     {
-        var ciclista = CiclistaEstrangeiro();
-        var cartao = Cartao(ciclista.Nome);
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaEstrangeiro(),
+            Cartao());
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.UnprocessableEntity;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(esperado, atual);
+    }
+
+    [Fact(DisplayName = "CT13 - Response")]
+    public void VerificaSeAdicionarCiclistaEstrangeiroComNacionalidadeInvalidaRetornaResponsePretendido()
+    {
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaEstrangeiro(),
+            Cartao());
+
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        var esperado = new List<Erro>();
+        esperado.Add(new Erro("021a"));
+
+        Assert.Equivalent(esperado, atual);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao(string nome)
+    private static CreateMeioDePagamentoDto Cartao()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
+            Nome = "Sophia Elaine Pietra Silver",
             Numero = "379004508263881",
             MesValidade = 1,
-            AnoValidade = 2025,
+            AnoValidade = 25,
             CodigoSeguranca = 8589
         };
     }
@@ -52,11 +70,10 @@ public class AdicionarCiclistaComNacionalidadeInvalidaTeste : AdicionarCiclistaT
         {
             Nome = "Sophia Elaine Pietra Silver",
             DataNascimento = DateTime.Parse("03/01/1965"),
-            Cpf = null,
             Passaporte = passaporte,
             Nacionalidade = 0,
             Email = "sophiaelainepeixoto@yahoo.de",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co/",
             Senha = "1pdEIjynkU",
             ConfirmaSenha = "1pdEIjynkU"
         };
