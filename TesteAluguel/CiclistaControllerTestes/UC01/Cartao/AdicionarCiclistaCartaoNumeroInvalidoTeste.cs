@@ -1,6 +1,7 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,26 +15,43 @@ public class AdicionarCiclistaCartaoNumeroInvalidoTeste : AdicionarCiclistaTeste
     {
     }
 
-    [Fact]
-    public void VerificaSeAdicionarCiclistaBrasileiroComNumeroCartaoInvalidoRetornaStatusPretendido()
+    [Fact(DisplayName = "CT12 - StatusCode")]
+    public void VerificaSeAdicionarCiclistaBrasileiroComCartaoNumeroInvalidoRetornaStatusPretendido()
     {
-        var ciclista = CiclistaBrasileiro();
-        var cartao = Cartao(ciclista.Nome);
+        var ciclistaDto = new AdicionarCiclistaDto(
+                    CiclistaBrasileiro(),
+                    Cartao());
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.UnprocessableEntity;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(esperado, atual);
+    }
+
+    [Fact(DisplayName = "CT12 - Response")]
+    public void VerificaSeAdicionarCiclistaBrasileiroComCartaoNumeroInvalidoRetornaResponsePretendido()
+    {
+        var ciclistaDto = new AdicionarCiclistaDto(
+                    CiclistaBrasileiro(),
+                    Cartao());
+
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        var esperado = new List<Erro>();
+        esperado.Add(new Erro("004a"));
+
+        Assert.Equivalent(esperado, atual);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao(string nome)
+    private static CreateMeioDePagamentoDto Cartao()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
-            Numero = "601171526548313",
+            Nome = "Bárbara Brenda Araújo",
+            Numero = "601171526548A313",
             MesValidade = 3,
-            AnoValidade = 2024,
+            AnoValidade = 24,
             CodigoSeguranca = 7493
         };
     }
@@ -49,7 +67,7 @@ public class AdicionarCiclistaCartaoNumeroInvalidoTeste : AdicionarCiclistaTeste
             Passaporte = null,
             Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "barbarabrendaaraujo@publiconsult.com.br",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co",
             Senha = "hqQ6RlkuOJ",
             ConfirmaSenha = "hqQ6RlkuOJ"
         };
