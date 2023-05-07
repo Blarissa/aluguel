@@ -11,14 +11,11 @@ public class AdicionarCiclistaCommand : BaseValidacao, ICommand
     public AdicionarCiclistaDto ciclistaDto { get; set; }
     IValida validacao;
 
-    public AdicionarCiclistaCommand() { }
-
     public AdicionarCiclistaCommand(AdicionarCiclistaDto ciclistaDto)
     {
         this.ciclistaDto = ciclistaDto;
         validacao = new Valida();
     }
-
 
     public bool Validar()
     {
@@ -75,7 +72,6 @@ public class AdicionarCiclistaCommand : BaseValidacao, ICommand
         if (!validacao.DataNascimento(ciclistaDto.Ciclista.DataNascimento.ToShortDateString()))
             AdicionarErro(new Erro("005a"));
         
-
         //se a foto for inválida
         if (!validacao.UrlFotoDocumento(ciclistaDto.Ciclista.UrlFotoDocumento.ToString()))
             AdicionarErro(new Erro("009a"));

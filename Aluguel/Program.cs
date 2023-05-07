@@ -15,6 +15,8 @@ using System.Reflection;
 using Aluguel.Handlers.Alugueis;
 using Aluguel.Commands.Contracts;
 using Aluguel.Commands;
+using Aluguel.Commands.Ciclistas;
+using Aluguel.Handlers.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +52,7 @@ builder.Services.AddTransient<RealizaAluguelHandler>();
 builder.Services.AddTransient<RealizaDevolucaoHandler>();
 
 //Definindo os handlers ciclista
-builder.Services.AddTransient<AdicionarCiclistaHandler>();
+builder.Services.AddTransient<IHandler<AdicionarCiclistaCommand>, AdicionarCiclistaHandler>();
 builder.Services.AddTransient<AtivarCiclistaHandler>();
 builder.Services.AddTransient<AtualizarCiclistaHandler>();
 builder.Services.AddTransient<PodeFazerEmprestimoHandler>();

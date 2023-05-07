@@ -19,6 +19,10 @@ namespace Aluguel.Data
         {            
         }
 
+        public AluguelContexto()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Bicicleta>();

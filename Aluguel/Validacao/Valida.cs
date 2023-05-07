@@ -65,9 +65,11 @@ namespace Aluguel.Validacao
             return ValidaFormato.NomeFormato(nome);
         }
         
+        //se o passaporte é válido
         public bool Passaporte(CreatePassaporteDto passaporte)
         {
-            return ValidaFormato.PassaporteFormato(passaporte);
+            return ValidaFormato.PassaporteFormato(passaporte) &&
+                   ValidaRegras.DataRegras(passaporte.DataValidade);
         }
         
         public bool Senha(string senha, string confirmaSenha)

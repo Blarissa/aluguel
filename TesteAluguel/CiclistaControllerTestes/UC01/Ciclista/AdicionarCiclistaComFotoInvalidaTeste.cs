@@ -1,5 +1,7 @@
 ﻿using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,27 +20,43 @@ public class AdicionarCiclistaComFotoInvalidaTeste : AdicionarCiclistaTesteBase
     {
     }
 
-    [Fact]
+    [Fact(DisplayName = "CT08 - StatusCode")]
     public void VerificaSeAdicionarCiclistaBrasileiroComFotoInvalidaRetornaStatusPretendido()
     {
+        var ciclistaDto = new AdicionarCiclistaDto(
+                    CiclistaBrasileiro(),
+                    Cartao());
 
-        var ciclista = CiclistaBrasileiro();
-        var cartao = Cartao(ciclista.Nome);
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.UnprocessableEntity;
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        Assert.Equal(esperado, atual);
+    }
+    
+    [Fact(DisplayName = "CT08 - Response")]
+    public void VerificaSeAdicionarCiclistaBrasileiroComFotoInvalidaRetornaResponsePretendido()
+    {
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaBrasileiro(),
+            Cartao());
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        var esperado = new List<Erro>();
+        esperado.Add(new Erro("009a"));
+
+        Assert.Equivalent(esperado, atual);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao(string nome)
+    private static CreateMeioDePagamentoDto Cartao()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
+            Nome = "Bárbara Brenda Araújo",
             Numero = "6011715265483138",
             MesValidade = 3,
-            AnoValidade = 2024,
+            AnoValidade = 24,
             CodigoSeguranca = 7493
         };
     }
@@ -52,9 +70,9 @@ public class AdicionarCiclistaComFotoInvalidaTeste : AdicionarCiclistaTesteBase
             DataNascimento = DateTime.Parse("10/03/1987"),
             Cpf = "10262643596",
             Passaporte = null,
-            Nacionalidade = "BRASILEIRO",
+            Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "barbarabrendaaraujo@publiconsult.com.br",
-            UrlFotoDocumento = null,
+            UrlFotoDocumento = "",
             Senha = "hqQ6RlkuOJ",
             ConfirmaSenha = "hqQ6RlkuOJ"
         };

@@ -90,8 +90,19 @@ public class CiclistaRepository : ICiclistaRepository
     }
 
     //último cartão de crédito adicionado de um ciclista, se existir
-    public CartaoDeCredito? UltimoCataoAdicionado(Guid idCiclista)
+    public CartaoDeCredito? UltimoCartaoAdicionado(Guid idCiclista)
     {
         return BuscarPorId(idCiclista).Cartoes.LastOrDefault();                         
+    }
+
+    public void DeletaCiclista(Ciclista ciclista)
+    {
+        _contexto.Ciclistas.Remove(ciclista);
+        _contexto.SaveChanges();
+    }
+
+    public Ciclista? UltimoCiclistaAdicionado()
+    {
+        return BuscarTodos().LastOrDefault();
     }
 }

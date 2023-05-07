@@ -3,6 +3,8 @@ using Aluguel.Data.Dtos.Ciclista;
 using System.Net;
 using Xunit.Abstractions;
 using Xunit;
+using Aluguel.Models;
+using Aluguel.Models.Entidades;
 
 namespace TesteAluguel.CiclistaControllerTestes;
 
@@ -13,26 +15,43 @@ public class AdicionarCiclistaComDataDeNascimentoInvalidaTeste : AdicionarCiclis
     {
     }
 
-    [Fact]
+    [Fact(DisplayName = "CT04 - StatusCode")]
     public void VerificaSeAdicionarCiclistaBrasileiroComDataDeNascimentoInvalidaRetornaStatusPretendido()
     {
-        var ciclista = CiclistaBrasileiro();
-        var cartao = Cartao(ciclista.Nome);
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaBrasileiro(),
+            Cartao());
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.UnprocessableEntity;
 
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, resposta.StatusCode);
+        Assert.Equal(esperado, atual);
+    }
+
+    [Fact(DisplayName = "CT04 - Response")]
+    public void VerificaSeAdicionarCiclistaBrasileiroComDataDeNascimentoInvalidaRetornaResponsePretendido()
+    {
+        var ciclistaDto = new AdicionarCiclistaDto(
+            CiclistaBrasileiro(),
+            Cartao());
+
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        var esperado = new List<Erro>();
+        esperado.Add(new Erro("005a"));
+
+        Assert.Equivalent(esperado, atual);
     }
 
     //criando cartao
-    private static CreateMeioDePagamentoDto Cartao(string nome)
+    private static CreateMeioDePagamentoDto Cartao()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
+            Nome = "Sophia Elaine Pietra Silver",
             Numero = "6011715265483138",
             MesValidade = 3,
-            AnoValidade = 2024,
+            AnoValidade = 24,
             CodigoSeguranca = 7493
         };
     }
@@ -43,12 +62,12 @@ public class AdicionarCiclistaComDataDeNascimentoInvalidaTeste : AdicionarCiclis
         return new CreateCiclistaDto()
         {
             Nome = "Bárbara Brenda Araújo",
-            DataNascimento = DateTime.Parse("10/12/2003"),
+            DataNascimento = DateTime.Parse("10/12/2005"),
             Cpf = "10262643596",
             Passaporte = null,
-            Nacionalidade = "BRASILEIRO",
+            Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "barbarabrendaaraujo@publiconsult.com.br",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co",
             Senha = "hqQ6RlkuOJ",
             ConfirmaSenha = "hqQ6RlkuOJ"
         };
