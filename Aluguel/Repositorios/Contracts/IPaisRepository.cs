@@ -7,5 +7,6 @@ namespace Aluguel.Repositorios.Contracts
         IList<Pais> RecuperarTodos();
         Pais? RecuperarPorCodigo(string codigo);
         bool PaisExiste(string codigo);
+        Pais? RecuperarPorId(Guid id);
     }
 }

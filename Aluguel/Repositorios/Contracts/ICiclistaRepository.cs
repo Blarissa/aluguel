@@ -8,13 +8,17 @@ public interface ICiclistaRepository
     void AdicionarCiclistaComCartao(Ciclista ciclista, CartaoDeCredito cartaoDeCredito);
     
     void AtualizarCiclista(Ciclista ciclista);
+
+    void DeletaCiclista(Ciclista ciclista);
     
     IList<Emprestimo> RetornaEmprestimosPorCiclista(Guid idCiclista);
 
     Emprestimo? RetornaEmprestimoAtivo(Guid idCiclista);
 
-    Ciclista BuscarPorId(Guid id);
+    Ciclista? BuscarPorId(Guid id);
     
+    Ciclista UltimoCiclistaAdicionado();
+
     IList<Ciclista> BuscarTodos();
 
     bool PassaporteExiste(string numero);
@@ -23,5 +27,5 @@ public interface ICiclistaRepository
             
     EStatusCiclista RetornaStatusCiclista(Guid idCiclista);
     
-    CartaoDeCredito? UltimoCataoAdicionado(Guid idCiclista);
+    CartaoDeCredito? UltimoCartaoAdicionado(Guid idCiclista);
 }

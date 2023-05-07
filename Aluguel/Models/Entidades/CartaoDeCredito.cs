@@ -10,7 +10,7 @@ public class CartaoDeCredito
     public int CodigoSeguranca { get; set; }
 
     public Guid CiclistaId { get; set; }
-
+     
     public virtual Ciclista Ciclista { get; set; }
     public virtual IList<Emprestimo> Emprestimos { get; set; }
     public virtual IList<Devolucao> Devolucoes { get; set; }

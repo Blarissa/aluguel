@@ -15,4 +15,9 @@ public class Passaporte
         PaisId = passaporte.PaisId;
        // Pais.AtualizarDados(passaporte.Pais);
     }
+
+    public override string ToString()
+    {
+        return $"pais: {Pais}";
+    }
 }

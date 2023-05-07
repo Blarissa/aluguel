@@ -30,5 +30,10 @@ namespace Aluguel.Repositorios
         {
             return contexto.Paises.ToList();
         }
+
+        public Pais? RecuperarPorId(Guid id)
+        {
+            return contexto.Paises.FirstOrDefault(p => p.Id == id);
+        }
     }
 }

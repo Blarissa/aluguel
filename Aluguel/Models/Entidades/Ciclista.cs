@@ -17,14 +17,17 @@ public class Ciclista
     public DateTime DataHoraConfirmacao { get; set; }
     public string? Cpf { get; set; }
     public Guid? PassaporteId { get; set; }
-
+     
     public virtual Passaporte? Passaporte { get; set; }
     [JsonIgnore]
     public virtual IList<CartaoDeCredito> Cartoes { get; set; }
     [JsonIgnore]
     public virtual IList<Emprestimo> Emprestimos { get; set; }
 
-
+    public override string ToString()
+    {
+        return $"Passaporte:{Passaporte}";
+    }
     public Ciclista()
     {
         Emprestimos = new List<Emprestimo>();
@@ -62,10 +65,5 @@ public class Ciclista
         var bicicletaId = emprestimo.EmprestimoAtivo() ? emprestimo?.BicicletaId : null;
 
         return bicicletaId;
-    }
-
-    public override string ToString()
-    {
-        return $"Nacionalidade: {Nacionalidade}\n";
     }
 }
