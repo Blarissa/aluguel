@@ -20,9 +20,15 @@
         //se é uma data do futuro
         public static bool DataRegras(int mes, int ano)
         {            
-            var dt = new DateTime(2000+ano, mes, 1);
+            var dt = new DateTime(2000 + ano, mes, 1);
 
             return dt > DateTime.Now;
+        }
+
+        //se é uma data do futuro
+        public static bool DataRegras(DateTime data)
+        {
+            return data > DateTime.Now;
         }
 
         //se a data de nascimento é de um adulto

@@ -9,13 +9,20 @@ namespace Aluguel.Validacao
 {
     public static class ValidaFormato
     {
-        //se números do cartão forem dígitos
-        //se cvv for inteiro
+        //se números do cartão forem dígitos        
         //se o nome tiver pelo menos 2 caracteres e no máximo 60
+        // se o código de segurança for válido
         public static bool CartaoFormato(CreateMeioDePagamentoDto cartao)
         {
-            return NumeroCartaoFormato(cartao.Numero) &&                   
+            return NumeroCartaoFormato(cartao.Numero) &&  
+                   CvvFormato(cartao.CodigoSeguranca) &&
                    NomeFormato(cartao.Nome);
+        }
+
+        // se o código de segurança for válido
+        private static bool CvvFormato(int codigoSeguranca)
+        {
+            return codigoSeguranca > 99;
         }
 
         //se for nulo ou vazio
@@ -61,8 +68,7 @@ namespace Aluguel.Validacao
         //se extensão do arquivo é válida
         public static bool FotoFormato(string foto)
         {
-            return !string.IsNullOrEmpty(foto) &&
-                new UrlAttribute().IsValid(foto);                 
+            return new UrlAttribute().IsValid(foto);
         }
 
         //se for um EFuncao
@@ -89,7 +95,7 @@ namespace Aluguel.Validacao
         //se o nome tiver pelo menos 2 caracteres e no máximo 60
         public static bool NomeFormato(string nome)
         {
-            return nome.Length >= 2 && 
+            return nome.Length > 2 && 
                    nome.Length <= 60;
         }
 
@@ -104,11 +110,12 @@ namespace Aluguel.Validacao
 
         //se o número do passaporte é válido
         //se o código do pais tem 2 caracteres
+        //se data de válidade está no formato válido
         public static bool PassaporteFormato(CreatePassaporteDto passaporte)
         {            
-            if(passaporte != null &&
-                NumeroPassaporte(passaporte.Numero) &&
-                PaisFormato(passaporte.Pais))
+            if(NumeroPassaporte(passaporte.Numero) &&
+                PaisFormato(passaporte.Pais) && 
+                DataFormato(passaporte.DataValidade.ToShortDateString()))
                 return true;
 
             return false;
@@ -132,7 +139,8 @@ namespace Aluguel.Validacao
 
             return false;
         }
-        
+
+        //se o contém somente dígitos
         private static bool NumeroCartaoFormato(string numeroCartao)
         {
             return numeroCartao.All(n => char.IsDigit(n));
