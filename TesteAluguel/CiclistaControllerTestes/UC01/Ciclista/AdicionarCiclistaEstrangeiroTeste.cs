@@ -3,9 +3,11 @@ using System.Net;
 using Xunit.Abstractions;
 using Aluguel.Data.Dtos.Cartao;
 using Aluguel.Data.Dtos.Passaporte;
-using Aluguel.Data.Dtos.Pais;
 using Xunit;
 using Aluguel.Models;
+using Aluguel.Repositorios.Contracts;
+using AutoMapper;
+using Aluguel.Models.Entidades;
 
 namespace TesteAluguel.CiclistaControllerTestes;
 
@@ -16,23 +18,55 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
     {
     }
 
-    [Fact]
+    [Fact(DisplayName = "CT02 - StatusCode")]
     public void VerificaSeAdicionarCiclistaEstrangeiroCorretoRetornaStatusPretendido()
     {
-        var ciclista = CiclistaEstrangeiroValido();
-        var cartao = CartaoValido(ciclista.Nome);
+        _context.Paises.Add(
+            new Pais() { 
+            Id = new Guid(),
+            Codigo = "ca", 
+            Nome = "Canadá"});
 
-        var resposta = RespostaEsperada(ciclista, cartao).Result;
+        _context.SaveChanges();
 
-        Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
+        var ciclistaDto = new AdicionarCiclistaDto(
+                   CiclistaEstrangeiroValido(),
+                   CartaoValido());
+
+        var atual = ResponseAtual(ciclistaDto).Status;
+        var esperado = HttpStatusCode.Created;
+
+        Assert.Equal(esperado, atual);
+    }
+
+    [Fact(DisplayName = "CT02 - Response")]
+    public void VerificaSeAdicionarCiclistaEstrangeiroCorretoRetornaResponsePretendido()
+    {
+        _context.Paises.Add(
+            new Pais()
+            {
+                Id = Guid.NewGuid(),
+                Codigo = "ca",
+                Nome = "Canadá"
+            });
+
+        _context.SaveChanges();
+
+        var ciclistaDto = new AdicionarCiclistaDto(
+                    CiclistaEstrangeiroValido(),
+                    CartaoValido());
+
+        var atual = ResponseAtual(ciclistaDto).Data;
+
+        Assert.Equivalent(ciclistaDto, atual);
     }
 
     //criando cartão
-    private CreateMeioDePagamentoDto CartaoValido(string nome)
+    private CreateMeioDePagamentoDto CartaoValido()
     {
         return new CreateMeioDePagamentoDto()
         {
-            Nome = nome,
+            Nome = "Marcos Vinicius Matheus Alves",
             Numero = "5538492207925875",
             MesValidade = 7,
             AnoValidade = 24,
@@ -57,9 +91,26 @@ public class AdicionarCiclistaEstrangeiroTeste : AdicionarCiclistaTesteBase
             Passaporte = passaporte,
             Nacionalidade = ENacionalidade.ESTRANGEIRO,
             Email = "marcos.vinicius.alves@whgames.com.br",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co",
             Senha = "LRnyTwi2Kj",
             ConfirmaSenha = "LRnyTwi2Kj"
         };
+    }
+
+    //Retorna o ciclista e o cartão adicionados por último
+    private static AdicionarCiclistaDto ResponseEsperado(ICiclistaRepository ciclista,
+        IPaisRepository pais, IMapper mapper)
+    {        
+        var ultimoCiclista = ciclista.UltimoCiclistaAdicionado();
+        var id = ultimoCiclista.Passaporte.PaisId;
+       
+        ultimoCiclista.Passaporte.Pais = pais.RecuperarPorId(id);
+
+        var ultimoCartao = ciclista.UltimoCartaoAdicionado(ultimoCiclista.Id);
+
+        return new AdicionarCiclistaDto(
+            mapper.Map<CreateCiclistaDto>(ultimoCiclista),
+            mapper.Map<CreateMeioDePagamentoDto>(ultimoCartao));
+
     }
 }
