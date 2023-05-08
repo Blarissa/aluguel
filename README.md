@@ -1,10 +1,10 @@
-# Sistema de Controle de Biciclet·rio
+# Sistema de Controle de Biciclet√°rio
 
-A equipe deve implementar uma API para o controle de bicicletas de uma empresa que faz o aluguel em totens disponibilizados na rua. A implementaÁ„o deve respeitar a especificaÁ„o de software e a modelagem Swagger [V· de bike](https://app.swaggerhub.com/apis/pasemes/sistema-de_controle_de_bicicletario/1).
+A equipe deve implementar uma API para o controle de bicicletas de uma empresa que faz o aluguel em totens disponibilizados na rua. A implementa√ß√£o deve respeitar a especifica√ß√£o de software e a modelagem Swagger.
 
-## MicrosserviÁo aluguel
+## Microsservi√ßo aluguel
 
-Respons·veis pelos endpoints abaixo, como informado no Swagger:
+Respons√°veis pelos endpoints abaixo, como informado no Swagger:
 
 - **/ciclista**
   - POST  - Cadastrar um ciclista.
@@ -17,27 +17,27 @@ Respons·veis pelos endpoints abaixo, como informado no Swagger:
   - POST - Ativar cadastro do ciclista.
 
 - **/ciclista/{idCiclista}/permiteAluguel**
-  - GET - Verifica se o ciclista pode alugar uma bicicleta, j· que sÛ pode alugar uma por vez.
+  - GET - Verifica se o ciclista pode alugar uma bicicleta, j√° que s√≥ pode alugar uma por vez.
 
 - **/ciclista/{idCiclista}/bicicletaAlugada**
-  - GET - Verifica se o ciclista pode alugar uma bicicleta, j· que sÛ pode alugar uma por vez.
+  - GET - Verifica se o ciclista pode alugar uma bicicleta, j√° que s√≥ pode alugar uma por vez.
 
 - **/ciclista/existeEmail/{email}**
-  - GET - Verifica se o e-mail j· foi utilizado por algum ciclista.
+  - GET - Verifica se o e-mail j√° foi utilizado por algum ciclista.
 
 - **/funcionario**
-  - GET - Recuperar funcion·rios cadastrados.
-  - POST - Cadastrar funcion·rio.
+  - GET - Recuperar funcion√°rios cadastrados.
+  - POST - Cadastrar funcion√°rio.
 
 - **/funcionario/{idFuncionario}**
-  - GET- Recupera funcion·rio.
-  - PUT - Editar funcion·rio.
-  - DELETE - Remover funcion·rio.
+  - GET- Recupera funcion√°rio.
+  - PUT - Editar funcion√°rio.
+  - DELETE - Remover funcion√°rio.
 
 - **/cartaoDeCredito/{idCiclista}**
-  - GET - Recupera dados de cart„o de crÈdito de um ciclista.
-  - PUT - Alterar dados de cart„o de crÈdito de um ciclista.
+  - GET - Recupera dados de cart√£o de cr√©dito de um ciclista.
+  - PUT - Alterar dados de cart√£o de cr√©dito de um ciclista.
 - **/aluguel**
   - POST - Realizar aluguel.
 - **/devolucao**
-  - POST - Realizar devoluÁ„o, sendo invocado de maneira autom·tica pelo hardware do totem ao encostar a bicicleta na tranca.
+  - POST - Realizar devolu√ß√£o, sendo invocado de maneira autom√°tica pelo hardware do totem ao encostar a bicicleta na tranca.
