@@ -65,7 +65,7 @@ public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
             Passaporte = null,
             Nacionalidade = ENacionalidade.BRASILEIRO,
             Email = "renato-aparicio70@mega.com.br",
-            UrlFotoDocumento = new Uri("https://www.SomeValidURI.co"),
+            UrlFotoDocumento = "https://www.SomeValidURI.co",
             Senha = "Ft3cY5pEzK",
             ConfirmaSenha = "Ft3cY5pEzK"
         };
@@ -76,7 +76,7 @@ public class AdicionarCiclistaBrasileiroTeste : AdicionarCiclistaTesteBase
         IMapper mapper)
     {
         var ultimoCiclista = ciclista.UltimoCiclistaAdicionado();
-        var ultimoCartao = ciclista.UltimoCataoAdicionado(ultimoCiclista.Id);
+        var ultimoCartao = ciclista.UltimoCartaoAdicionado(ultimoCiclista.Id);
 
         return new AdicionarCiclistaDto(
             mapper.Map<CreateCiclistaDto>(ultimoCiclista),

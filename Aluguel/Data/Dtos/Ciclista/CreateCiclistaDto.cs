@@ -11,7 +11,7 @@ namespace Aluguel.Data.Dtos.Ciclista
         public string? Cpf { get; set; }
         public CreatePassaporteDto? Passaporte { get; set; }
         public string Email { get; set; }  
-        public Uri UrlFotoDocumento { get; set; }          
+        public string UrlFotoDocumento { get; set; }          
         public string Senha { get; set; }
         public string ConfirmaSenha { get; set; }
     }
