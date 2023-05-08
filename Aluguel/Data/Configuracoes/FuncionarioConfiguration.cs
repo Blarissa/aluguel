@@ -1,4 +1,4 @@
-﻿using Aluguel.Models;
+﻿using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,8 +28,7 @@ namespace Aluguel.Data.Configuracoes
             builder.Property(f => f.Idade)
                 .IsRequired();
         
-            builder.Property(f => f.Funcao)                
-                .HasColumnType("e_funcao")
+            builder.Property(f => f.Funcao)  
                 .IsRequired();
         }
     }

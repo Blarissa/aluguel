@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validacao\Devolucao\**" />
+    <Content Remove="Validacao\Devolucao\**" />
+    <EmbeddedResource Remove="Validacao\Devolucao\**" />
+    <None Remove="Validacao\Devolucao\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
@@ -38,7 +45,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validacao\Devolucao\" />
+    <Folder Include="Commands\CartoesDeCredito\" />
+    <Folder Include="Commands\Alugueis\" />
+    <Folder Include="Commands\Devolucoes\" />
+    <Folder Include="Handlers\CartoesDeCredito\" />
+    <Folder Include="Handlers\Alugueis\" />
+    <Folder Include="Handlers\Devolucoes\" />
+    <Folder Include="Queries\Alugueis\" />
+    <Folder Include="Queries\CartoesDeCredito\" />
+    <Folder Include="Queries\Devolucoes\" />
   </ItemGroup>
 
 </Project>

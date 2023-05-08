@@ -20,13 +20,12 @@ namespace Aluguel.Migrations
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_cartao", new[] { "ativo", "desativado" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+           // NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_funcao", new[] { "administrativo", "reparador" });
+            //NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_nacionalidade", new[] { "brasileiro", "estrangeiro" });
+           // NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_status_ciclista", new[] { "pendente", "ativo", "bloqueado" });
+           // NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Aluguel.Models.CartaoDeCredito", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.CartaoDeCredito", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,10 +58,6 @@ namespace Aluguel.Migrations
                         .HasColumnType("text")
                         .HasColumnName("numero");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("e_status_cartao")
-                        .HasColumnName("status");
-
                     b.HasKey("Id")
                         .HasName("pk_cartoes_de_credito");
 
@@ -72,7 +67,7 @@ namespace Aluguel.Migrations
                     b.ToTable("cartoes_de_credito", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Ciclista", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Ciclista", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +98,7 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Nacionalidade")
-                        .HasColumnType("e_nacionalidade")
+                        .IsRequired()
                         .HasColumnName("nacionalidade");
 
                     b.Property<string>("Nome")
@@ -121,7 +116,6 @@ namespace Aluguel.Migrations
                         .HasColumnName("senha");
 
                     b.Property<int>("Status")
-                        .HasColumnType("e_status_ciclista")
                         .HasColumnName("status");
 
                     b.Property<string>("UrlFotoDocumento")
@@ -138,7 +132,7 @@ namespace Aluguel.Migrations
                     b.ToTable("ciclistas", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Devolucao", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Devolucao", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,7 +178,7 @@ namespace Aluguel.Migrations
                     b.ToTable("devolucoes", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Emprestimo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,7 +231,7 @@ namespace Aluguel.Migrations
                     b.ToTable("emprestimos", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Funcionario", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Funcionario", b =>
                 {
                     b.Property<int>("Matricula")
                         .ValueGeneratedOnAdd()
@@ -257,11 +251,11 @@ namespace Aluguel.Migrations
                         .HasColumnName("email");
 
                     b.Property<int>("Funcao")
-                        .HasColumnType("e_funcao")
+                        .IsRequired()
                         .HasColumnName("funcao");
 
                     b.Property<int>("Idade")
-                        .HasColumnType("integer")
+                        .IsRequired()
                         .HasColumnName("idade");
 
                     b.Property<string>("Nome")
@@ -280,7 +274,7 @@ namespace Aluguel.Migrations
                     b.ToTable("funcionarios", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Pais", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Pais", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -303,7 +297,7 @@ namespace Aluguel.Migrations
                     b.ToTable("paises", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Passaporte", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Passaporte", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,9 +327,9 @@ namespace Aluguel.Migrations
                     b.ToTable("passaportes", (string)null);
                 });
 
-            modelBuilder.Entity("Aluguel.Models.CartaoDeCredito", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.CartaoDeCredito", b =>
                 {
-                    b.HasOne("Aluguel.Models.Ciclista", "Ciclista")
+                    b.HasOne("Aluguel.Models.Entidades.Ciclista", "Ciclista")
                         .WithMany("Cartoes")
                         .HasForeignKey("CiclistaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -345,9 +339,9 @@ namespace Aluguel.Migrations
                     b.Navigation("Ciclista");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Ciclista", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Ciclista", b =>
                 {
-                    b.HasOne("Aluguel.Models.Passaporte", "Passaporte")
+                    b.HasOne("Aluguel.Models.Entidades.Passaporte", "Passaporte")
                         .WithMany()
                         .HasForeignKey("PassaporteId")
                         .HasConstraintName("fk_ciclistas_passaportes_passaporte_id");
@@ -355,18 +349,18 @@ namespace Aluguel.Migrations
                     b.Navigation("Passaporte");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Devolucao", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Devolucao", b =>
                 {
-                    b.HasOne("Aluguel.Models.CartaoDeCredito", "CartaoDeCredito")
+                    b.HasOne("Aluguel.Models.Entidades.CartaoDeCredito", "CartaoDeCredito")
                         .WithMany("Devolucoes")
                         .HasForeignKey("CartaoDeCreditoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_devolucoes_cartoes_de_credito_cartao_de_credito_id");
 
-                    b.HasOne("Aluguel.Models.Emprestimo", "Emprestimo")
+                    b.HasOne("Aluguel.Models.Entidades.Emprestimo", "Emprestimo")
                         .WithOne("Devolucao")
-                        .HasForeignKey("Aluguel.Models.Devolucao", "EmprestimoId")
+                        .HasForeignKey("Aluguel.Models.Entidades.Devolucao", "EmprestimoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_devolucoes_emprestimos_emprestimo_id1");
@@ -376,16 +370,16 @@ namespace Aluguel.Migrations
                     b.Navigation("Emprestimo");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Emprestimo", b =>
                 {
-                    b.HasOne("Aluguel.Models.CartaoDeCredito", "CartaoDeCredito")
+                    b.HasOne("Aluguel.Models.Entidades.CartaoDeCredito", "CartaoDeCredito")
                         .WithMany("Emprestimos")
                         .HasForeignKey("CartaoDeCreditoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_emprestimos_cartoes_de_credito_cartao_de_credito_id");
 
-                    b.HasOne("Aluguel.Models.Ciclista", "Ciclista")
+                    b.HasOne("Aluguel.Models.Entidades.Ciclista", "Ciclista")
                         .WithMany("Emprestimos")
                         .HasForeignKey("CiclistaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -397,11 +391,11 @@ namespace Aluguel.Migrations
                     b.Navigation("Ciclista");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Passaporte", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Passaporte", b =>
                 {
-                    b.HasOne("Aluguel.Models.Pais", "Pais")
+                    b.HasOne("Aluguel.Models.Entidades.Pais", "Pais")
                         .WithOne()
-                        .HasForeignKey("Aluguel.Models.Passaporte", "PaisId")
+                        .HasForeignKey("Aluguel.Models.Entidades.Passaporte", "PaisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_passaportes_paises_pais_id");
@@ -409,21 +403,21 @@ namespace Aluguel.Migrations
                     b.Navigation("Pais");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.CartaoDeCredito", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.CartaoDeCredito", b =>
                 {
                     b.Navigation("Devolucoes");
 
                     b.Navigation("Emprestimos");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Ciclista", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Ciclista", b =>
                 {
                     b.Navigation("Cartoes");
 
                     b.Navigation("Emprestimos");
                 });
 
-            modelBuilder.Entity("Aluguel.Models.Emprestimo", b =>
+            modelBuilder.Entity("Aluguel.Models.Entidades.Emprestimo", b =>
                 {
                     b.Navigation("Devolucao");
                 });

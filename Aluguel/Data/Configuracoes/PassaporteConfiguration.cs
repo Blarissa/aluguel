@@ -1,4 +1,5 @@
 ﻿using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,9 @@ namespace Aluguel.Data.Configuracoes
     {
         public void Configure(EntityTypeBuilder<Passaporte> builder)
         {
-            builder.Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
+
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Numero)
@@ -19,8 +22,8 @@ namespace Aluguel.Data.Configuracoes
                 .HasColumnType("date");
 
             builder.HasOne(p => p.Pais)
-                .WithOne()
-                .HasForeignKey<Passaporte>(p => p.PaisId);
+                .WithMany()
+                .HasForeignKey(p => p.PaisId);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Aluguel.Data.Configuracoes;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Data
@@ -18,6 +19,10 @@ namespace Aluguel.Data
         {            
         }
 
+        public AluguelContexto()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Bicicleta>();
@@ -25,7 +30,6 @@ namespace Aluguel.Data
 
             modelBuilder.HasPostgresEnum<EFuncao>();
             modelBuilder.HasPostgresEnum<ENacionalidade>();
-            modelBuilder.HasPostgresEnum<EStatusCartao>();
             modelBuilder.HasPostgresEnum<EStatusCiclista>();
 
             modelBuilder.ApplyConfiguration(new EmprestimoConfiguration());

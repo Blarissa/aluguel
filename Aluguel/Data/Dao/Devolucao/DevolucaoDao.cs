@@ -1,4 +1,4 @@
-﻿using Aluguel.Models;
+﻿using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aluguel.Data.Dao.Devolucao

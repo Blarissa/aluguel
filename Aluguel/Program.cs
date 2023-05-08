@@ -1,10 +1,23 @@
 using Aluguel.Data;
-using Aluguel.Models;
-using Microsoft.AspNetCore.Mvc;
+using Aluguel.Data.Dao;
+using Aluguel.Handlers.Devolucoes;
+using Aluguel.Handlers.Funcionarios;
+using Aluguel.Repositorios;
+using Aluguel.Repositorios.Contracts;
+using Aluguel.Servicos;
+using Aluguel.Servicos.Bicicleta;
+using Aluguel.Servicos.Externo;
+using Aluguel.Validacao;
+using Aluguel.Handlers.Ciclistas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-    
+using Aluguel.Handlers.Alugueis;
+using Aluguel.Commands.Contracts;
+using Aluguel.Commands;
+using Aluguel.Commands.Ciclistas;
+using Aluguel.Handlers.Contracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("AluguelConnection");
@@ -12,17 +25,57 @@ var connectionString = builder.Configuration.GetConnectionString("AluguelConnect
 builder.Services.AddDbContext<AluguelContexto>(
     options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
+//Sincronizacoes de Servicos
+builder.Services.AddTransient<IExternoService, ExternoApi>();
+builder.Services.AddTransient<IEquipamentoService, EquipamentoApi>();
+
+builder.Services.AddTransient<ICommandResult, GenericCommandResult>();
+
+//Sincronizacoes de Repositorio
+builder.Services.AddTransient<IDevolucaoRepository, DevolucaoRepository>();
+builder.Services.AddTransient<IAluguelRepository, AluguelRepository>();
+builder.Services.AddTransient<IFuncionarioRepository,FuncionarioRepository>();
+builder.Services.AddTransient<IPaisRepository, PaisRepository>();
+builder.Services.AddTransient<ICiclistaRepository, CiclistaRepository>();
+
+//Definindo os handlers funcionário
+builder.Services.AddTransient<AdicionaFuncionarioHandler>();
+builder.Services.AddTransient<AlteraFuncionarioHandler>();
+builder.Services.AddTransient<DeletaFuncionarioHandler>();
+builder.Services.AddTransient<RecuperaFuncionarioPorMatriculaHandler>();
+builder.Services.AddTransient<RecuperaTodosFuncionariosHandler>();
+
+//Definindo os handlers aluguel
+builder.Services.AddTransient<RealizaAluguelHandler>();
+
+//Definindo os handlers devolucao
+builder.Services.AddTransient<RealizaDevolucaoHandler>();
+
+//Definindo os handlers ciclista
+builder.Services.AddTransient<IHandler<AdicionarCiclistaCommand>, AdicionarCiclistaHandler>();
+builder.Services.AddTransient<AtivarCiclistaHandler>();
+builder.Services.AddTransient<AtualizarCiclistaHandler>();
+builder.Services.AddTransient<PodeFazerEmprestimoHandler>();
+builder.Services.AddTransient<VerificarSeEmailExisteHandler>();
+builder.Services.AddTransient<BuscarBicicletaAlugadaHandler>();
+
+//validações
+builder.Services.AddTransient<IValida, Valida>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllers()
-    .AddNewtonsoftJson()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        options.InvalidModelStateResponseFactory = context =>
-            new UnprocessableEntityObjectResult(context.ModelState);                        
-    });
+    .AddNewtonsoftJson();
+
+//builder.Services.AddControllers()
+//    .AddNewtonsoftJson()
+//    .ConfigureApiBehaviorOptions(options =>
+//    {
+//        options.InvalidModelStateResponseFactory = context =>
+//            new UnprocessableEntityObjectResult(context.ModelState);                        
+//    });
 
 builder.Services.AddEndpointsApiExplorer();
 

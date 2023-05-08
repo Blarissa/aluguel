@@ -1,5 +1,7 @@
-﻿using Aluguel.Data.Dtos.Ciclista;
-using Aluguel.Models;
+﻿using Aluguel.Data.Dtos.Cartao;
+using Aluguel.Data.Dtos.Ciclista;
+using Aluguel.Data.Dtos.Passaporte;
+using Aluguel.Models.Entidades;
 using AutoMapper;
 
 namespace Aluguel.Profiles
@@ -8,23 +10,47 @@ namespace Aluguel.Profiles
     { 
         public CiclistaProfile()
         {
-            CreateMap<PaisDto, Pais>();
+            CreateMap<CreatePassaporteDto, Passaporte>()
+                .ForMember(dst => dst.Pais, src => src.Ignore());
 
-            CreateMap<Pais, PaisDto>();
-
-            CreateMap<CreatePassaporteDto, Passaporte>();
+            CreateMap<Passaporte, CreatePassaporteDto>()
+                .ForMember(dst => dst.Pais, opt => {
+                    opt.MapFrom(src => src.Pais.Codigo.ToLower());
+                });
             
-            CreateMap<PassaporteDto, Passaporte>();
-
-            CreateMap<Passaporte, PassaporteDto>();
-            
-            CreateMap<CreateCiclistaDto, Ciclista>();
+            CreateMap<CreateCiclistaDto, Ciclista>()
+                .ForMember(dst => dst.Cpf, opt =>
+                {
+                    opt.Condition(src => src.Cpf != null);
+                    opt.MapFrom(src => src.Cpf);
+                })
+                .ForMember(dst => dst.Passaporte, opt =>
+                {
+                    opt.Condition(src => src.Passaporte != null);
+                    opt.MapFrom(src => src.Passaporte);
+                });
 
             CreateMap<CreateMeioDePagamentoDto, CartaoDeCredito>();
 
-            CreateMap<CiclistaDto, Ciclista>();
+            CreateMap<ReadCiclistaDto, Ciclista>();
 
-            CreateMap<Ciclista, CiclistaDto>();
+            CreateMap<Ciclista, CreateCiclistaDto>()                
+                .ForMember(dst => dst.Cpf, opt =>
+                {
+                    opt.Condition(src => src.Cpf != null);
+                    opt.MapFrom(src => src.Cpf);
+                })
+                .ForMember(dst => dst.Passaporte, opt =>
+                {
+                    opt.Condition(src => src.Passaporte != null);
+                    opt.MapFrom(src => src.Passaporte);                        
+                })
+                .ForMember(dst => dst.ConfirmaSenha, opt => 
+                           opt.MapFrom(src => src.Senha)); 
+
+            CreateMap<CartaoDeCredito, CreateMeioDePagamentoDto>();                
+
+            CreateMap<Ciclista, ReadCiclistaDto>();
         }
     }
 }

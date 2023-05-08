@@ -1,11 +1,12 @@
 ﻿using Aluguel.Data.Dtos.Servicos.Equipamento;
 using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Aluguel.Servicos.Bicicleta
 {
-    public class EquipamentoApi
+    public class EquipamentoApi : IEquipamentoService
     {
         private readonly HttpClient client;
         private readonly string baseUriServico;
@@ -15,7 +16,7 @@ namespace Aluguel.Servicos.Bicicleta
             client = apiClient.CreateClient();
 
             //baseUriServico = Environment.GetEnvironmentVariable("BASE_URI_SERVICO") ?? "";
-            baseUriServico = "https://residencia-nebula.ed.dev.br/aluguel-grupo2";
+            baseUriServico = "https://0286b47b-aaf6-4a23-a85b-76249f810e33.mock.pstmn.io";
             if(baseUriServico == "") throw new Exception("Variavel de ambiente não encontrada");
         }
 
@@ -23,28 +24,43 @@ namespace Aluguel.Servicos.Bicicleta
         {
             var resposta = await client.GetAsync(baseUriServico+$"/bicicleta/{idBicicleta}");
 
-
-
-            //GetBicicletaPorIdDto? valorTraduzido = JsonConvert.DeserializeObject<GetBicicletaPorIdDto>(await resposta.Content.ReadAsStringAsync());
-
-
-            //if(valorTraduzido == null)
-            //    return new GetBicicletaPorIdDto();
-
             return resposta;
+        }
+
+        public async Task<HttpResponseMessage> BuscarBicicletaPorTranca(Guid idTranca)
+        {
+            return await client
+                .GetAsync(baseUriServico + 
+                $"/tranca/{idTranca}/bicicleta");
         }
 
         public async Task<HttpResponseMessage> BuscarTrancaPorId(Guid idTranca)
         {
             var resposta = await client.GetAsync(baseUriServico+$"/tranca/{idTranca}");
 
-            //GetTrancaPorIdDto? valorTraduzido = JsonConvert.DeserializeObject<GetTrancaPorIdDto>(await resposta.Content.ReadAsStringAsync());
-
-            //if(valorTraduzido == null)
-            //    return new GetTrancaPorIdDto();
-
             return resposta;
         }
 
+        public async Task<HttpResponseMessage> AlterarStatusBicicleta(Guid idBicicleta, EStatusBicicleta acao)
+        {
+            return await client
+                .GetAsync(baseUriServico + 
+                $"/bicicleta/{idBicicleta}/status/{acao}");         
+        }
+
+        public async Task<HttpResponseMessage> DestrancarTranca(Guid idTranca)
+        {
+            return await client
+                .GetAsync(baseUriServico +
+                $"/tranca/{idTranca}/destrancar");
+
+        }
+
+        public async Task<HttpResponseMessage> BuscarTotens()
+        {
+            return await client
+                .GetAsync(baseUriServico + 
+                $"/totem");
+        }
     }
 }

@@ -22,14 +22,6 @@ public class UpdateFuncionarioDto
     [ModelBinder(Name = Erros.NomeCod)]
     [MinLength(5, ErrorMessage = Erros.NomeMsg)]
     public string Nome { get; set; }
-
-    [Required]
-    [ModelBinder(Name = Erros.IdadeCod)]
-    [Range(18, 100, ErrorMessage = Erros.IdadeMsg)]
-    public int Idade { get; set; }
-
-    [Required]
-    [ModelBinder(Name = Erros.FuncaoCod)]
-    [EnumDataType(typeof(EFuncao), ErrorMessage = Erros.FuncaoMsg)]
+    public string Idade { get; set; }
     public string Funcao { get; set; }
 }

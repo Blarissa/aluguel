@@ -11,7 +11,7 @@ namespace Aluguel.Mock.Equipamento
         [HttpGet("{idBicicleta}")]
         public IActionResult MockBicicletaPorId(Guid idBicicleta)
         {
-            var retorno = new GetBicicletaPorIdDto() { 
+            var retorno = new ReadBicicletaDto() { 
                 Id = Guid.NewGuid(),
                 Ano = "2020",
                 Marca = "CALOI", 

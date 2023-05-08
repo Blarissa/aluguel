@@ -1,21 +1,24 @@
-﻿using Aluguel.Data;
-using Aluguel.Data.Dao;
+﻿using Aluguel.Commands;
+using Aluguel.Commands.Funcionarios;
 using Aluguel.Data.Dtos;
-using Aluguel.Models;
-using AutoMapper;
+using Aluguel.Handlers.Funcionarios;
+using Aluguel.Models.Entidades;
+using Aluguel.Queries.Funcionarios;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Aluguel.Controllers
 {   
-    [ApiController]
+    [Tags("Aluguel")]    
+    [Route("[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("[controller]")]
-    [Tags("Aluguel")]    
+    [ApiController]
     public class FuncionarioController : ControllerBase
     {
         private AluguelContexto contexto;
@@ -38,16 +41,7 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]        
         public IActionResult RecuperaFuncionarios()
         {
-            try
-            {
-                var funcionarios = mapper.Map<List<ReadFuncionarioDto>>
-                    (funcionarioDao.RecuperarTodos());
-
-                return Ok(funcionarios);
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(handler.Handle().Data);            
         }
 
 
@@ -64,19 +58,22 @@ namespace Aluguel.Controllers
         [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
-            try
+            var comando = new RecuperaFuncionarioPorMatriculaQuery(idFuncionario);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
             {
-                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
 
-                if (funcionario == null)
-                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
 
-                var funcionarioDto = mapper.Map<ReadFuncionarioDto>(funcionario);
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
 
-                return Ok(funcionarioDto);
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+                default: return Problem(statusCode: 500);
             }
         }
 
@@ -92,16 +89,19 @@ namespace Aluguel.Controllers
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         public IActionResult AdicionaFuncionario([FromBody, Required] CreateFuncionarioDto funcionarioDto)
         {
-            try
-            {
-                var funcionario = mapper.Map<Funcionario>(funcionarioDto);
+            var comando = new AdicionaFuncionarioCommand(funcionarioDto);
 
-                funcionarioDao.Adicionar(funcionario);
-           
-                return Ok(funcionario);
-            }catch(Exception ex)
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
             {
-                return BadRequest(ex.Message);
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
             }
         }
 
@@ -116,25 +116,27 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult AtualizaFuncionario(int idFuncionario, 
-            [FromBody, Required] UpdateFuncionarioDto funcionarioDto)
-        {               
-            try
+        public IActionResult AtualizaFuncionario(int idFuncionario,
+            [FromBody, Required] UpdateFuncionarioDto funcionarioDto,
+            [FromServices] AlteraFuncionarioHandler handler)
+        {
+            var comando = new AlteraFuncionarioCommand(idFuncionario,funcionarioDto);
+
+            var resultado = handler.Handle(comando);
+
+            switch (resultado.Status)
             {
-                var funcionario = funcionarioDao
-                .RecuperarPorId(idFuncionario);
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
 
-                if (funcionario == null)
-                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
 
-                mapper.Map(funcionarioDto, funcionario);
-                contexto.SaveChanges();
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
 
-                return Ok(funcionario);
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }            
+                default: return Problem(statusCode: 500);
+            }
         }
 
         /// <summary>
@@ -150,19 +152,21 @@ namespace Aluguel.Controllers
         [ProducesResponseType(404, Type = typeof(Erro))]
         public IActionResult DeletaFuncionario(int idFuncionario)
         {
-            try
-            {
-                var funcionario = funcionarioDao.RecuperarPorId(idFuncionario);
+            var comando = new DeletaFuncionarioCommand(idFuncionario);
+            var resultado = handler.Handle(comando);
 
-                if (funcionario == null)
-                    return NotFound(new Erro("000a", "Funcionário não encontrado"));
-
-                funcionarioDao.Deletar(funcionario);
-                
-                return Ok(funcionario);            
-            }catch(Exception ex)
+            switch (resultado.Status)
             {
-                return BadRequest(ex.Message);
+                case HttpStatusCode.OK:
+                    return Ok(resultado.Data);
+
+                case HttpStatusCode.NotFound:
+                    return NotFound(resultado.Data);
+
+                case HttpStatusCode.UnprocessableEntity:
+                    return UnprocessableEntity(resultado.Data);
+
+                default: return Problem(statusCode: 500);
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Aluguel.Models;
+using Aluguel.Models.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel;
 
 namespace Aluguel.Data
 {
@@ -19,17 +21,22 @@ namespace Aluguel.Data
 
             builder.Property(c => c.UrlFotoDocumento).IsRequired();
 
-            builder.Property(c => c.Status)
-                .HasColumnType("e_status_ciclista")
+            builder.Property(c => c.Status)                
                 .IsRequired();
 
-            builder.Property(c => c.Nacionalidade)
-                .HasColumnType("e_nacionalidade")
+            builder.Property(c => c.Nacionalidade)                
                 .IsRequired();
 
             builder.Property(c => c.DataHoraCadastro).HasColumnType("Timestamp without Time Zone").HasDefaultValueSql("now()");
 
             builder.Property(c => c.DataHoraConfirmacao).IsRequired().HasColumnType("Timestamp without Time Zone");
+
+            builder.HasOne(c => c.Passaporte)
+                .WithOne()
+                .HasForeignKey<Ciclista>(c => c.PassaporteId)
+                .IsRequired(false);
+
+            builder.Property(c => c.Cpf).IsRequired(false);
 
             //Relacao com cartoes de credito
             builder.HasMany(c => c.Cartoes).WithOne(cc => cc.Ciclista).HasForeignKey(cc => cc.CiclistaId);
