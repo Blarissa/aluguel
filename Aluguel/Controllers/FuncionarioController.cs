@@ -21,17 +21,29 @@ namespace Aluguel.Controllers
     [ApiController]
     public class FuncionarioController : ControllerBase
     {
+        private AluguelContexto contexto;
+        private IDaoComInt<Funcionario> funcionarioDao;
+        private IMapper mapper;
+
+        public FuncionarioController(AluguelContexto contexto, IMapper mapper)
+        {
+            this.contexto = contexto;
+            funcionarioDao = new FuncionarioDao(contexto);
+            this.mapper = mapper;            
+        }
+
         /// <summary>
         /// Recupera funcionários cadastrados
         /// </summary>      
         /// <response code="200">200 OK</response>
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]
-        public IActionResult RecuperaFuncionarios([FromServices] RecuperaTodosFuncionariosHandler handler)
+        [ProducesResponseType(200, Type = typeof(List<ReadFuncionarioDto>))]        
+        public IActionResult RecuperaFuncionarios()
         {
             return Ok(handler.Handle().Data);            
         }
+
 
         /// <summary>
         /// Recupera funcionário
@@ -44,8 +56,7 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult RecuperaFuncionarioPorId(int idFuncionario, 
-            [FromServices] RecuperaFuncionarioPorMatriculaHandler handler)
+        public IActionResult RecuperaFuncionarioPorId(int idFuncionario)
         {
             var comando = new RecuperaFuncionarioPorMatriculaQuery(idFuncionario);
 
@@ -66,6 +77,7 @@ namespace Aluguel.Controllers
             }
         }
 
+
         /// <summary>
         /// Cadastrar funcionário
         /// </summary>
@@ -75,9 +87,7 @@ namespace Aluguel.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(ReadFuncionarioDto))]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
-        public IActionResult AdicionaFuncionario(
-            [FromBody, Required] CreateFuncionarioDto funcionarioDto,
-            [FromServices] AdicionaFuncionarioHandler handler)
+        public IActionResult AdicionaFuncionario([FromBody, Required] CreateFuncionarioDto funcionarioDto)
         {
             var comando = new AdicionaFuncionarioCommand(funcionarioDto);
 
@@ -140,8 +150,7 @@ namespace Aluguel.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(422, Type = typeof(List<Erro>))]
         [ProducesResponseType(404, Type = typeof(Erro))]
-        public IActionResult DeletaFuncionario(int idFuncionario,
-            [FromServices] DeletaFuncionarioHandler handler)
+        public IActionResult DeletaFuncionario(int idFuncionario)
         {
             var comando = new DeletaFuncionarioCommand(idFuncionario);
             var resultado = handler.Handle(comando);
